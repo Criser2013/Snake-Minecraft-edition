@@ -29,7 +29,7 @@ function moveSnake(snake, dir) {
 const dx = 20;
 const dy = 20;
 
-/**
+/***
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
