@@ -3,23 +3,39 @@ let flecha1 = null;
 let flecha2 = null;
 let flecha3 = null;
 let flecha4 = null;
-function setup () {
-    createCanvas(400,400);
-    background(255,0,0);
-    Mundo = {menu:1,boton:2};
+/*
+Contrato: preload variable -> image
+image = Carga una imagen.
+variable = variable local (let)
+Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
+la carga de los elementos en pantalla.
+Prototipo: preload () {}
+Ejemplos: preload (flecha1,loadImage("images/m1.png")) -> flecha1 = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (flecha2,loadImage("images/m2.png")) -> flecha2 = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
+function preload () {
     flecha1 = loadImage("images/flec_izquierda.png");
     flecha2 = loadImage("images/flec_arriba.png");
     flecha3 = loadImage("images/flec_abajo.png");
     flecha4 = loadImage("images/flec_derecha.png");
 }
+function setup () {
+    createCanvas(400,400);
+    background(255,0,0);
+    Mundo = {menu:1,boton:2};
+}
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
 }
 function drawGame (Mundo) {
+    //Dibuja la posición inicial del 1º menú.
     if (Mundo.menu==1&&Mundo.boton==2) {
+        //Dibuja un rectangulo por fuera del botón que se encuentra preseleccionado por defecto (botón 2 ó boton de "siguiente") para indicar que es el que está seleccionado.
         rect(203,357,69,25);
+        //Dibuja los botones.
         rect(135,360,50,20);
         rect(205,360,65,20);
+        //Muestra los textos de intrucciones en pantalla.
         textFont('Arial',24);
         text("Instrucciones fundamentales",50,30);
         textFont('Arial',20);
@@ -29,13 +45,16 @@ function drawGame (Mundo) {
         text("Para moverte debes pulsar las teclas:",1,80);
         text("Importante:\nSi presionas la tecla contraria a la direccion en la que \nse mueve la serpiente LA SERPIENTE NO CAMBIARA DE\nDIRECCION",1,190);
         text("La apariencia de la serpiente puede ser elegida despues de\nseleccionar la dificultad, si se desea cambiar luego de perder\nen el juego, en la pantalla de puntuacion aparecera un boton\npara cambiar la apariencia la dificultad del juego no se cambia.",1,290);
+        //Muestra los textos de los botones en pantalla.
         text("Volver",140,375);
-        text("Siguiente",207.5,375)
+        text("Siguiente",207.5,375);
+        //Muestra las imagenes en pantalla.
         image(flecha1,20,100,75,75);
         image(flecha2,115,100,75,75);
         image(flecha3,210,100,75,75);
         image(flecha4,305,100,75,75);
     }
+    //Dibuja el menú 1 sin tener preseleccionado un botón.
     else if (Mundo.menu==1) {
         rect(135,360,50,20);
         rect(205,360,65,20);
@@ -55,6 +74,7 @@ function drawGame (Mundo) {
         image(flecha3,210,100,75,75);
         image(flecha4,305,100,75,75);
     }
+    //Dibuja el menú 2 y selecciona por defecto el "botón 2".
     else if (Mundo.menu==2&&Mundo.boton==2) {
         rect(203,357,69,25);        
         rect(135,360,50,20);
@@ -68,6 +88,7 @@ function drawGame (Mundo) {
         text("Volver",140,375);
         text("Siguiente",207.5,375);    
     }
+    //Dibuja el menú 2 sin tener preseleccionado un botón.
     else if (Mundo.menu==2) {
         rect(135,360,50,20);
         rect(205,360,65,20);
@@ -80,6 +101,7 @@ function drawGame (Mundo) {
         text("Volver",140,375);
         text("Siguiente",207.5,375);
     }
+    //Dibuja el menú 3 sin tener preseleccionado un botón.
     else if (Mundo.menu==3) {
         rect(177.5,360,50,20);
         textFont("Arial",20);
@@ -99,6 +121,7 @@ function onMouseEvent (Mundo, event) {
     return update(Mundo,{});
 }
 function onKeyEvent (Mundo, keyCode) {
+    //Estas condiciones son las encargadas de indicarle al programa en qué botón se encuentra seleccionado, a la vez que hacen posible el desplazamiento entre botones.
     if ((keyCode==RIGHT_ARROW&&Mundo.boton==1)&&Mundo.menu!==3) {
         setup();
         rect(203,357,69,25);
@@ -119,9 +142,11 @@ function onKeyEvent (Mundo, keyCode) {
         rect(203,357,69,25);
         return update(Mundo,{boton:Mundo.boton+1});
     }
+    //Abre el menú de selección de dificultad en el juego.
     else if ((keyCode==ENTER&&Mundo.boton==1)&&Mundo.menu==1) {
-        window.open("menu.html","_self");
+        window.open("menu_principal.html","_self");
     }
+    //Estas condiciones abren los archivos de permitir el movimiento entre los menús que hacen parte de las intrucciones (preseleccionan un botón dentro del siguiente menú por defecto).
     else if ((keyCode==ENTER&&Mundo.boton==2)&&Mundo.menu==1) {
         setup();
         rect(203,357,69,25);
