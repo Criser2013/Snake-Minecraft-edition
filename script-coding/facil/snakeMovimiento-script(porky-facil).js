@@ -39,6 +39,16 @@ let Mundo = {}
 let derp = null;
 let obstaculo = null;
 ////////////////////////
+/*
+Contrato: preload variable -> image
+image = Carga una imagen.
+variable = variable local (let)
+Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
+la carga de los elementos en pantalla.
+Prototipo: preload () {}
+Ejemplos: preload (derp,loadImage("images/m1.png")) -> derp = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (obstaculo,loadImage("images/m2.png")) -> obstavulo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
 function preload () {
   derp = loadImage("images/cerdo.png");
   obstaculoS = loadImage("images/creeper.png");
