@@ -54,56 +54,99 @@ function setup() {
   frameRate(5);
   createCanvas(400, 400);
   background(15, 200, 50);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-1))+1, y:Math.ceil(Math.random()*(20-1))+1},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(20-1))+1,y:Math.ceil(Math.random()*(20-1))+1,estado:false},contador:0}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
-  background(10, 200, 50);
-  //Esta linea llama a la función drawFood para dibujar la comida.
-  drawFood(Mundo.food);
-  //Esta linea llama a la función drawScore para dibujar el puntaje.
-  drawScore(Mundo.score);
-  //Estas linea llama a la función drawCheat para dibujar las trampas.
-  drawCheat(Mundo.trampas);
-  fill(240, 240, 240);
-  //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
-  forEach(Mundo.snake, s => {
-    rect(s.x * dx, s.y * dy, dx, dy);
-  });
-  //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
-  stroke (0);
-  fill(13,181,13);
-  rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-  fill (0);
-  stroke (0);
-  rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-  rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-  fill(1);
-  rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-  rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-  rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    if (Mundo.score>=10&&Mundo.trampas.estado==false) {
+      background(10, 200, 50);
+      drawFood(Mundo.food);
+      drawScore(Mundo.score);
+      drawCheat(Mundo.trampas);
+      drawObstaclesm(Mundo.obstaculos.movil);
+      drawObstaclesS(Mundo.obstaculos.estatico);
+      fill(240, 240, 240);
+      forEach(Mundo.snake, s => {
+      rect(s.x * dx, s.y * dy, dx, dy);});
+      stroke (0);
+      fill(13,181,13);
+      rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
+      fill (0);
+      stroke (0);
+      rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
+      rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
+      fill(1);
+      rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
+      rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+      rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    }
+    else {
+      background(10, 200, 50);
+      //Esta linea llama a la función drawFood para dibujar la comida.
+      drawFood(Mundo.food);
+      //Esta linea llama a la función drawScore para dibujar el puntaje.
+      drawScore(Mundo.score);
+      //Estas linea llama a la función drawCheat para dibujar las trampas.
+      drawCheat(Mundo.trampas);
+      fill(240, 240, 240);
+      //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
+      forEach(Mundo.snake, s => {
+      rect(s.x * dx, s.y * dy, dx, dy);});
+      //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
+      stroke (0);
+      fill(13,181,13);
+      rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
+      fill (0);
+      stroke (0);
+      rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
+      rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
+      fill(1);
+      rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
+      rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+      rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    }
+  }
+  else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
+    background(10, 200, 50);
+    drawFood(Mundo.food);
+    drawScore(Mundo.score);
+    drawObstaclesm(Mundo.obstaculos.movil);
+    drawObstaclesS(Mundo.obstaculos.estatico);
+    fill(240, 240, 240);
+    forEach(Mundo.snake, s => {
+    rect(s.x * dx, s.y * dy, dx, dy);});
+    stroke (0);
+    fill(13,181,13);
+    rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
+    fill (0);
+    stroke (0);
+    rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
+    rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
+    fill(1);
+    rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
+    rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
   }
   else {
-  background(10, 200, 50);
-  drawFood(Mundo.food);
-  drawScore(Mundo.score);
-  fill(240, 240, 240);
-  forEach(Mundo.snake, s => {
-    rect(s.x * dx, s.y * dy, dx, dy);
-  });
-  stroke (0);
-  fill(13,181,13);
-  rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-  fill (0);
-  stroke (0);
-  rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-  rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-  fill(1);
-  rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-  rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-  rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-}
+    background(10, 200, 50);
+    drawFood(Mundo.food);
+    drawScore(Mundo.score);
+    fill(240, 240, 240);
+    forEach(Mundo.snake, s => {
+    rect(s.x * dx, s.y * dy, dx, dy);});
+    stroke (0);
+    fill(13,181,13);
+    rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
+    fill (0);
+    stroke (0);
+    rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
+    rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
+    fill(1);
+    rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
+    rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+  }
 }
 /*
 Contrato: drawFood coordenadas -> food
@@ -117,6 +160,14 @@ Ejemplos: drawFood (3,4) -> ellipse (3,4,20,20)
 function drawFood(food) {
   fill (200,20,10);
   ellipse((food.x*dx)-10,(food.y*dy)-10,dx,dy);
+}
+function drawObstaclesm (obstaculo) {
+  fill(1);
+  ellipse((obstaculo.x*dx)-10,(obstaculo.y*dy)-10,dx,dy);
+}
+function drawObstaclesS (obstaculo) {
+  fill(128,128,128);
+  rect(obstaculo.x*dx,obstaculo.y*dy,dx,dy);
 }
 /*
 Contrato: drawScore number -> string
@@ -138,11 +189,337 @@ Ejemplos: cheatposx,cheatposy () -> {x:4,y:7}
           cheatposx,cheatposy () -> {x:1,y;1}
 */
 function cheatposx () {
-  return Math.ceil(Math.random() * (20 - 1)) + 1;
+  if ((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
+    return Math.ceil(Math.random() * (((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-4))+(first(Mundo.snake).x)-4);
+  }
+  else if (first(Mundo.snake).x==2) {
+    const x2 = Math.ceil(Math.random() * (4+1)-1);
+    if (x2==-0) {
+      return 0
+    }
+    else {
+      return x2
+    }
+  }
+  else if (first(Mundo.snake).x==1) {
+    const x1 = Math.ceil(Math.random() * (2+1)-1);
+    if (x1==-0) {
+      return 0
+    }
+    else {
+      return x1
+    }
+  }
+  else if (first(Mundo.snake).x==0) {
+    const x0 = Math.ceil(Math.random() * (3+1)-1);
+    if (x0==-0) {
+      return 0
+    }
+    else {
+      return x0
+    }
+  }
+  else if (first(Mundo.snake).x==17) {
+    return Math.ceil(Math.random() * (19-15)+15);
+  }
+  else if (first(Mundo.snake).x==18) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if (first(Mundo.snake).x==19) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
 };
 function cheatposy () {
-  return Math.ceil(Math.random() * (20 - 1)) + 1;
+  if ((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
+    return Math.ceil(Math.random() * (((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
+  }
+  else if (first(Mundo.snake).y==2) {
+    const y2 = Math.ceil(Math.random() * (4+1)-1);
+    if (y2==-0) {
+      return 0
+    }
+    else {
+      return y2
+    }
+  }
+  else if (first(Mundo.snake).y==1) {
+    const y1 = Math.ceil(Math.random() * (2+1)-1);
+    if (y1==-0) {
+      return 0
+    }
+    else {
+      return y1
+    }
+  }
+  else if (first(Mundo.snake).y==0) {
+    const y0 = Math.ceil(Math.random() * (3+1)-1);
+    if (y0==-0) {
+      return 0
+    }
+    else {
+      return y0
+    }
+  }
+  else if (first(Mundo.snake).y==17) {
+    return Math.ceil(Math.random() * (19-15)+15);
+  }
+  else if (first(Mundo.snake).y==18) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if (first(Mundo.snake).y==19) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
 };
+function obsposx () {
+  if (Mundo.dir.x==1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
+    return Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-1))+first(Mundo.snake).x-1);
+  }
+  else if (Mundo.dir.x==-1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
+    return Math.ceil(Math.random()*((first(Mundo.snake).x)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
+  }
+  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==1)) {
+    const obsx2 = Math.ceil(Math.random()*(5-1)+1);
+    if (Math.sign(obsx2)==-0) {
+      return obsx2*-1
+    }
+    else {
+      return obsx2
+    }
+  }
+  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==-1)) {
+    const obsxl2 = Math.ceil(Math.random()*(2+1)-1);
+    if (Math.sign(obsxl2)==-0) {
+      return obsxl2*-1
+    }
+    else {
+      return obsxl2
+    }
+  }
+  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==1)) {
+    const obsx1 = Math.ceil(Math.random() * (4-0)+0);
+    if (Math.sign(obsx1)==-0) {
+      return obsx1*-1
+    }
+    else {
+      return obsx1
+    }
+  }
+  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==-1)) {
+    const obsxl1 = Math.ceil(Math.random() * (1+1)-1);
+    if (Math.sign(obsxl1)==-0) {
+      return obsxl1*-1
+    }
+    else {
+      return obsxl1
+    }
+  }
+  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==1)) {
+    const obsx0 = Math.ceil(Math.random() * (3+1)-1);
+    if (obsx0==-0) {
+      return 0
+    }
+    else {
+      return obsx0
+    }
+  }
+  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==-1)) {
+    const obsxl0 = Math.ceil(Math.random() * (2+1)-1);
+    if (obsxl0==-0) {
+      return 0
+    }
+    else {
+      return obsxl0
+    }
+  }
+  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==1)) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==-1)) {
+    return Math.ceil(Math.random() * (17-13)+13);
+  }
+  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==1)) {
+    return Math.ceil(Math.random() * (19-17)+17);
+  }
+  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==-1)) {
+    return Math.ceil(Math.random() * (18-15)+15);
+  }
+  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==1)) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==-1)) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if (Mundo.dir.x==0&&((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3))) {
+    const x0i = Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
+      if (x0i==-0) {
+        return 0
+      }
+      else {
+        return x0i
+      }
+  }
+  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==0)) {
+    return Math.ceil(Math.random()*(19-16)+16);
+  }
+  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==0)) {
+    return Math.ceil(Math.random() * (19-14)+14);
+  }
+  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==0)) {
+    return Math.ceil(Math.random() * (19-13)+13);
+  }
+  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==0)) {
+    const x0 = Math.ceil(Math.random()*(3+1)-1);
+      if (x0==-0) {
+        return 0;
+      }
+      else {
+        return x0;
+      }
+  }
+  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==0)) {
+    const x01 = Math.ceil(Math.random() * (4+1)-1)
+      if (x01==-0) {
+        return 0
+      }
+      else {
+        return x01
+      }
+  }
+  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==0)) {
+    const x02 = Math.ceil(Math.random() * (5+1)-1);
+    if (x02==-0) {
+      return 0
+    }
+    else {
+      return x02
+    }
+  }
+}
+function obsposy () {
+  if (Mundo.dir.y==1&&(first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
+    return Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-1))+first(Mundo.snake).y-1);
+  }
+  else if (Mundo.dir.y==-1&&(first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
+    return Math.ceil(Math.random()*((first(Mundo.snake).y)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
+  }
+  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==1)) {
+    const obsy2 = Math.ceil(Math.random()*(4-2)+2);
+    if (Math.sign(obsy2)==-0) {
+      return obsy2*-1
+    }
+    else {
+      return obsy2
+    }
+  }
+  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==-1)) {
+    const obsyl2 = Math.ceil(Math.random()*(1+1)-1);
+    if (Math.sign(obsyl2)==-0) {
+      return obsyl2*-1
+    }
+    else {
+      return obsyl2
+    }
+  }
+  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==1)) {
+    const obsy1 = Math.ceil(Math.random() * (4-1)+1);
+    if (Math.sign(obsy1)==-0) {
+      return obsy1*-1
+    }
+    else {
+      return obsy1
+    }
+  }
+  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==-1)) {
+    const obsyl1 = Math.ceil(Math.random()*(2+1)-1);
+    if (Math.sign(obsyl1)==-0) {
+      return obsyl1*-1
+    }
+    else {
+      return obsyl1
+    }
+  }
+  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==1)) {
+    const obsy0 = Math.ceil(Math.random() * (4-1)+1);
+    if (obsy0==-0) {
+      return 0
+    }
+    else {
+      return obsy0
+    }
+  }
+  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==-1)) {
+    const obsyl0 = Math.ceil(Math.random() * (3-1)+1);
+    if (obsyl0==-0) {
+      return 0
+    }
+    else {
+      return obsyl0
+    }
+  }
+  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==1)) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==-1)) {
+    return Math.ceil(Math.random() * (17-13)+13);
+  }
+  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==1)) {
+    return Math.ceil(Math.random() * (19-17)+17);
+  }
+  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==-1)) {
+    return Math.ceil(Math.random() * (18-15)+15);
+  }
+  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==1)) {
+    return Math.ceil(Math.random()*(19-16)+16);
+  }
+  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==-1)) {
+    return Math.ceil(Math.random()*(19-16)+16);
+  }
+  else if (Mundo.dir.y==0&&((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3))) {
+    const y0i = Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
+      if (y0i==-0) {
+        return 0
+      }
+      else {
+        return y0i
+      }
+  }
+  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==0)) {
+    return Math.ceil(Math.random()*(19-16)+16);
+  }
+  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==0)) {
+    return Math.ceil(Math.random() * (19-15)+15);
+  }
+  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==0)) {
+    return Math.ceil(Math.random() * (19-14)+14);
+  }
+  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==0)) {
+    const y0 = Math.ceil(Math.random()*(3+1)-1);
+      if (y0==-0) {
+        return 0;
+      }
+      else {
+        return y0;
+      }
+  }
+  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==0)) {
+    const y01 = Math.ceil(Math.random() * (4+1)-1)
+      if (y01==-0) {
+        return 0
+      }
+      else {
+        return y01
+      }
+  }
+  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==0)) {
+    const y02 = Math.ceil(Math.random() * (5+1)-1);
+    if (y02==-0) {
+      return 0
+    }
+    else {
+      return y02
+    }
+  }
+}
 /*
 Contrato: drawCheat coordenadas -> cheat
 coordenadas = puntos en los ejes "X" y "Y" generados al azar en el intervalo 1 - 20 por la variable "Mundo".
@@ -191,10 +568,10 @@ function traslacion (lista) {
   if (isEmpty(rest(lista))) {
     return []
   }
-  else if (first(lista).x==20) {
+  else if (first(lista).x>=20) {
     return cons({x:0,y:first(lista).y},rest(lista));
   }
-  else if (first(lista).x==-1) {
+  else if (first(lista).x<=-1) {
     return cons({x:20,y:first(lista).y},rest(lista));
   }
   else {
@@ -213,7 +590,25 @@ Ejemplos: colisionparedes ({snake:[{x:1,y:19},{x:2,y:18},{x:1,y:17}],dir:{x:0,y:
           colisionparedes ({snake:[{x:1,y:1},{x:1,y:2},{x:1,y:3}],dir:{x:0,y:-1}) -> false
 */
 function colisionparedes () {
-  if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+  if ((((first(Mundo.snake).y==0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y==19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+    return true
+  }
+  else if (((((first(Mundo.snake).x+1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==1))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))||(((first(Mundo.snake).x-1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==-1)))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))&&Mundo.score>=10) {
+    return true
+  }
+  else if (((((first(Mundo.snake).y+1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==1))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))||(((first(Mundo.snake).y-1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==-1)))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))&&Mundo.score>=10) {
+    return true
+  }
+  else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
+    return false
+  }
+  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y))&&(Mundo.contador>=0&&Mundo.contador<=15)) {
+    return false
+  } 
+  else if ((first(Mundo.snake).x+1==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
+    return true
+  }
+  else if ((((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0)&&(Mundo.dir.x!==1)))&&Mundo.score>=10) {
     return true
   }
   else if (Mundo.colision==true) {
@@ -329,10 +724,10 @@ function onTic(Mundo){
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},contador:0})
   }
   //Estas condiciones determinan si la cabeza del snake se encuentra en los límites laterales del mapa, para asi realizar el cambio de posición.
-  else if (first(Mundo.snake).x==20) {
+  else if (first(Mundo.snake).x>=20) {
     return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
   }
-  else if (first(Mundo.snake).x==-1) {
+  else if (first(Mundo.snake).x<=-1) {
     return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
   }
    //Estas 2 condiciones determinan si hubo colisión entre la cabeza del snake y la comida.
@@ -347,7 +742,7 @@ function onTic(Mundo){
    //Esta condicion spawnea una nueva trampa cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador==40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},obstaculos:{movil:{x:obsposx(),y:obsposy()},estatico:{x:cheatposx(),y:cheatposy()}},contador:0})
   }
   //Aumenta la velocidad del juego en función del puntaje.
   else if (Mundo.score>=10&&Mundo.score<20&&(Mundo.trampas.estado==false&&Mundo.contador==0)) {
