@@ -12,7 +12,7 @@ Ejemplos: foodposx,foodposy () -> {x:4,y:7}
 */
 function foodposx () {
   return Math.ceil(Math.random() * (19 + 1)) - 1;
-};
+};//
 function foodposy () {
   return Math.ceil(Math.random() * (19 + 1)) - 1;
 };
