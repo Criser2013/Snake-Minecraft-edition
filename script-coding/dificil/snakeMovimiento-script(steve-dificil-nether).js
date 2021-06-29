@@ -44,7 +44,6 @@ let obstaculoS3 = null;
 let comida = null;
 let powerup = null;
 let trampa = null;
-let mapa = null;
 ////////////////////////
 /*
 Contrato: preload variable -> image
@@ -65,7 +64,6 @@ function preload () {
   comida = loadImage("images/manzana.png");
   powerup = loadImage("images/manzana_dorada.png");
   trampa = loadImage("images/ojo_araña.png");
-  mapa = loadImage("images/nether.png");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -83,14 +81,14 @@ const dy = 20;
 function setup() {
   frameRate(5);
   createCanvas(400, 400);
-  background(mapa);
+  background(15, 200, 50);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
     if (Mundo.score>=10&&Mundo.trampas.estado==false) {
-      background(mapa);
+      background(10, 200, 50);
       //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
       //Esta linea llama a la función drawScore para dibujar el puntaje.
@@ -110,7 +108,7 @@ function drawGame(Mundo){
       rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
     }
     else {
-      background(mapa);
+      background(10, 200, 50);
       drawFood(Mundo.food);
       drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
@@ -123,7 +121,7 @@ function drawGame(Mundo){
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
-    background(mapa);
+    background(10, 200, 50);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
@@ -136,7 +134,7 @@ function drawGame(Mundo){
     rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
   }
   else {
-    background(mapa);
+    background(10, 200, 50);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     fill(70,59,164);
