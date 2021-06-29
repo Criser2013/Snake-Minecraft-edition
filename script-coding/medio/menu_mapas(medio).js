@@ -2,10 +2,11 @@ let Mundo = {}
 let mapa1 = null;
 let mapa2 = null;
 let mapa3 = null;
-/*
 function preload () {
-
-}*/
+    mapa1 = loadImage("images/overworld_menu.png");
+    mapa2 = loadImage("images/nether_menu.png");
+    mapa3 = loadImage("images/end_menu.png");
+}
 function setup () {
     createCanvas(400,400);
     Mundo = {boton:2}
@@ -35,10 +36,9 @@ function drawGame () {
         text("Seleccionar",293,295);
         text("Volver",15,45);
         //Estas 3 lineas son las encargadas de mostrar las imagenes ya cargadas con la función "preload ()" en pantalla.
-        /*
         image(mapa1,20,140,100,100);
         image(mapa2,150,140,100,100);
-        image(mapa3,280,140,100,100);*/
+        image(mapa3,280,140,100,100);
     }
     else if (Mundo.boton==3) {
         rect(157.5,277.5,85,25);
@@ -59,10 +59,9 @@ function drawGame () {
         text("Seleccionar",163,295);
         text("Seleccionar",293,295);
         text("Volver",15,45);
-        /*
         image(mapa1,20,140,100,100);
         image(mapa2,150,140,100,100);
-        image(mapa3,280,140,100,100);*/
+        image(mapa3,280,140,100,100);
     }
     else if (Mundo.boton==4) {
         rect(287.5,277.5,85,25);
@@ -83,10 +82,9 @@ function drawGame () {
         text("Seleccionar",163,295);
         text("Seleccionar",293,295);
         text("Volver",15,45);
-        /*
         image(mapa1,20,140,100,100);
         image(mapa2,150,140,100,100);
-        image(mapa3,280,140,100,100);*/
+        image(mapa3,280,140,100,100);
     }
     else if (Mundo.boton==1) {
         rect(7.5,27.5,55,25);
@@ -107,10 +105,9 @@ function drawGame () {
         text("Seleccionar",163,295);
         text("Seleccionar",293,295);
         text("Volver",15,45);
-        /*
         image(mapa1,20,140,100,100);
         image(mapa2,150,140,100,100);
-        image(mapa3,280,140,100,100);*/
+        image(mapa3,280,140,100,100);
     }
 }
 function onMouseEvent (Mundo,event) {
