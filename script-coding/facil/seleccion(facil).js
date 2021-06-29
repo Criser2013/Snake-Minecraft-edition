@@ -143,7 +143,7 @@ function onKeyEvent (Mundo,keyCode) {
         window.open("snakeMovimiento(porky-facil).html","_self")
     }
     else if (keyCode==ENTER&&Mundo.boton==4) {
-        window.open("snakeMovimiento(porky-facil).html","_self")
+        window.open("snakeMovimiento(alex-facil).html","_self")
     }
     //Estas funciones son las que permiten el movimiento de la selección de botones en pantalla (notese que se llama a la función "setup ()" en cada una, de ahí la razón de la función "preload ()").
     else if (keyCode==LEFT_ARROW&&Mundo.boton!==1) {

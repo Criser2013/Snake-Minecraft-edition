@@ -39,6 +39,10 @@ let Mundo = {}
 let derp = null;
 let obstaculo = null;
 ////////////////////////
+function preload () {
+  derp = loadImage("images/cabeza_alex.png");
+  obstaculoS = loadImage("images/creeper.png");
+}
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
  */
@@ -56,9 +60,7 @@ function setup() {
   frameRate(5);
   createCanvas(400, 400);
   background(15, 200, 50);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}}}
-  derp = loadImage("images/cabeza_alex.png");
-  obstaculoS = loadImage("images/creeper.png");
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}},boton:1}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
@@ -102,7 +104,6 @@ function drawGame(Mundo){
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
-
   }
   else {
     background(10, 200, 50);
