@@ -37,7 +37,10 @@ function update(data, attribute) {
 //////////////////////// Mundo inicial
 let Mundo = {}
 let derp = null;
-let obstaculo = null;
+let obstaculoS = null;
+let obstaculoS1 = null;
+let obstaculoS2 = null;
+let obstaculoS3 = null;
 ////////////////////////
 /*
 Contrato: preload variable -> image
@@ -52,6 +55,9 @@ Ejemplos: preload (derp,loadImage("images/m1.png")) -> derp = loadImage("images/
 function preload () {
   derp = loadImage("images/cabeza_steve.png");
   obstaculoS = loadImage("images/creeper.png");
+  obstaculoS1 = loadImage("images/cabeza_zombie.png");
+  obstaculoS2 = loadImage("images/cabeza_araña.png");
+  obstaculoS3 = loadImage("images/cabeza_esqueleto.png");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -151,7 +157,7 @@ Contrato: drawObstaclesm, drawObstaclesS coordenadas -> obstaculo
 coordenadas = puntos en los ejes "X" y "Y" generados al azar en el intervalo 1 - 20 por la variable "Mundo"
 obstaculo = coordenadas en los ejes "X" y "Y", junto a las dimensiones de un circulo para dibujar los obstaculos que spawnean en el juego.
 Proposito: Dibujar los obstaculos que aparecen a partir de los 10 puntos. DrawObstaclesm se encarga de dibujar los obstaculos moviles y drawObstaclesS
-se encarga de dibujar los obstaculos estaticos.
+se encarga de dibujar los obstaculos estaticos. En drawObstaclesS la imagen que tiene cada obstaculo cambia en función del puntaje actual del jugador.
 Prototipo: drawObstaclesm, drawObstaclesS (obstaculo) {}
 Ejemplos: drawObstaclesm, drawObstaclesS (3,4), (5,4) -> ellipse (3,4,20,20), rect(5,4,20,20)
           drawObstaclesm, drawObstaclesS (10,19), (10,12) -> ellipse (10,19,20,20), rect(10,12,20,20)
@@ -161,7 +167,18 @@ function drawObstaclesm (obstaculo) {
   ellipse((obstaculo.x*dx)-10,(obstaculo.y*dy)-10,dx,dy);
 }
 function drawObstaclesS (obstaculo) {
-  image(obstaculoS,obstaculo.x*dx,obstaculo.y*dy,dx,dy)
+  if (Mundo.score>=10&&Mundo.score<20) {
+    image(obstaculoS2,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+  }
+  else if (Mundo.score>=20&&Mundo.score<30) {
+    image(obstaculoS3,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+  }
+  else if (Mundo.score>=30&&Mundo.score<50) {
+    image(obstaculoS1,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+  }
+  else if (Mundo.score>=50) {
+    image(obstaculoS,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+  }
 }
 /*
 Contrato: drawScore number -> string
