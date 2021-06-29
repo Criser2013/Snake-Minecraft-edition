@@ -465,11 +465,21 @@ function traslacion (lista) {
   if (isEmpty(rest(lista))) {
     return []
   }
-  else if (first(lista).x>=20) {
-    return cons({x:0,y:first(lista).y},rest(lista));
+  else if (first(lista).x>=19) {
+    if (Mundo.dir.x==1) {
+      return cons({x:-1,y:first(lista).y},rest(lista));
+    }
+    else {
+      return cons({x:0,y:first(lista).y},rest(lista));
+    }
   }
-  else if (first(lista).x<=-1) {
-    return cons({x:20,y:first(lista).y},rest(lista));
+  else if (first(lista).x<=0) {
+    if (Mundo.dir.x==-1) {
+      return cons({x:20,y:first(lista).y},rest(lista));
+    }
+    else {
+      return cons({x:19,y:first(lista).y},rest(lista));
+    }
   }
   else {
     return cons(first(lista),traslacion(rest(lista)));
