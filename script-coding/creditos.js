@@ -9,7 +9,7 @@ function drawGame (Mundo) {
     rect(175,360,50,20);
     //Escribe los textos en pantalla.
     textFont("Arial",24);
-    text("Creditos",157,30);
+    text("Créditos",157,30);
     textFont("Arial",18);
     text("Beta-testers",154,60);
     text("Ideas",178,185);
