@@ -156,11 +156,11 @@ function onKeyEvent (Mundo,keyCode) {
     }
     else if (keyCode==LEFT_ARROW&&Mundo.boton==1) {
         setup()
-        return update(Mundo,{boton:Mundo.boton+3})
+        return update(Mundo,{boton:4});
     }
     else if (keyCode==RIGHT_ARROW&&Mundo.boton==4) {
         setup()
-        return update(Mundo,{boton:Mundo.boton-3})
+        return update(Mundo,{boton:1})
     }
     else {
         return update(Mundo,{})
