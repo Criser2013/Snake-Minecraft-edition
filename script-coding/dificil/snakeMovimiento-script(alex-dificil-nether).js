@@ -37,6 +37,7 @@ function update(data, attribute) {
 //////////////////////// Mundo inicial
 let Mundo = {}
 let derp = null;
+let mapa = null;
 let obstaculoS = null;
 let obstaculoS1 = null;
 let obstaculoS2 = null;
@@ -64,6 +65,7 @@ function preload () {
   comida = loadImage("images/manzana.png");
   powerup = loadImage("images/manzana_dorada.png");
   trampa = loadImage("images/ojo_araña.png");
+  mapa = loadImage("images/nether.png");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -79,16 +81,17 @@ const dy = 20;
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
+  //const test = image(mapa,0,0,400,400)
   frameRate(10);
   createCanvas(400, 400);
-  background(15, 200, 50);
+  background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
     if (Mundo.score>=10&&Mundo.trampas.estado==false) {
-      background(10, 200, 50);
+      background(mapa);
       //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
       //Esta linea llama a la función drawScore para dibujar el puntaje.
@@ -108,7 +111,7 @@ function drawGame(Mundo){
       rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
     }
     else {
-      background(10, 200, 50);
+      background(mapa);
       drawFood(Mundo.food);
       drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
@@ -121,7 +124,7 @@ function drawGame(Mundo){
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
-    background(10, 200, 50);
+    background(mapa);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
@@ -135,7 +138,7 @@ function drawGame(Mundo){
 
   }
   else {
-    background(10, 200, 50);
+    background(mapa);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     fill(121,86,58);
@@ -549,7 +552,7 @@ function onTic(Mundo){
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:-1}),dir:{x:0,y:-1}})
   }
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
-  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.food.x)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
+  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
     return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,trampas:{estado:true},contador:Mundo.contador+1})
   }
