@@ -23,7 +23,7 @@ function drawGame (Mundo) {
         text("Juego terminado.",110,60);
         textFont("Arial",18);
         text("Empieza una nueva partida, manteniendo",35,122.5);
-        text("la misma dificultad y personaje",75,142.5);
+        text("la misma dificultad, mapa y personaje",47.5,142.5);
         text("seleccionados previamente.",87.5,162.5);
         textFont("Arial",14);
         text("Jugar de nuevo",150,235);
@@ -44,7 +44,7 @@ function drawGame (Mundo) {
         textFont("Arial",18);
         text("Vuelve al menú de selección de personajes",27.5,122.5);
         text("y empieza una nueva partida manteniendo",32.5,142.5);
-        text("la dificultad.",157.5,162.5);
+        text("la dificultad y el mapa seleccionado.",60,162.5);
         textFont("Arial",14);
         text("Jugar de nuevo",150,235);
         text("Seleccionar otro personaje",115,275);

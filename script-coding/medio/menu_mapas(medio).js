@@ -2,6 +2,16 @@ let Mundo = {}
 let mapa1 = null;
 let mapa2 = null;
 let mapa3 = null;
+/*
+Contrato: preload variable -> image
+image = Carga una imagen.
+variable = variable local (let)
+Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
+la carga de estos elementos en pantalla.
+Prototipo: preload () {}
+Ejemplos: preload (flecha1,loadImage("images/m1.png")) -> flecha1 = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (flecha2,loadImage("images/m2.png")) -> flecha2 = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
 function preload () {
     mapa1 = loadImage("images/overworld_menu.png");
     mapa2 = loadImage("images/nether_menu.png");
