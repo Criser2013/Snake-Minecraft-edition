@@ -10,36 +10,42 @@ function drawGame (Mundo) {
     //Dibuja el menú, las diferentes condiciones solo dibujan un rectangulo alrededor del botón seleccionado.
     if (Mundo.boton==1) {
         //Dibuja el rectangulo que indica que el botón seleccionado es el 1º.
-        rect(149.5,147,101,26);
+        rect(149.5,197,101,26);
         //Dibuja los botones.
-        rect(152.5,150,95,20);
-        rect(152.5,190,95,20);
-        rect(152.5,230,95,20);
+        rect(152.5,200,95,20);
+        rect(152.5,240,95,20);
+        rect(152.5,280,95,20);
         //Dibuja los textos de los botones en pantalla.
         textFont("Arial",14);
-        text("¡Jugar!",177,165);
-        text("¿Cómo jugar?",155,205);
-        text("Créditos",173,245);
+        text("¡Jugar!",177,215);
+        text("¿Cómo jugar?",155,255);
+        text("Créditos",173,295);
+        textFont("Arial",46);
+        text("Snake:'Anaconda'",15,120);
     }
     else if (Mundo.boton==2) {
-        rect(149.5,187,101,26);
-        rect(152.5,150,95,20);
-        rect(152.5,190,95,20);
-        rect(152.5,230,95,20);
+        rect(149.5,237,101,26);
+        rect(152.5,200,95,20);
+        rect(152.5,240,95,20);
+        rect(152.5,280,95,20);
         textFont("Arial",14);
-        text("¡Jugar!",177,165);
-        text("¿Cómo jugar?",155,205);
-        text("Créditos",173,245);        
+        text("¡Jugar!",177,215);
+        text("¿Cómo jugar?",155,255);
+        text("Créditos",173,295);
+        textFont("Arial",46);
+        text("Snake:'Anaconda'",15,120);
     }
     else if (Mundo.boton==3) {
-        rect(149.5,227,101,26);
-        rect(152.5,150,95,20);
-        rect(152.5,190,95,20);
-        rect(152.5,230,95,20);
+        rect(149.5,277,101,26);
+        rect(152.5,200,95,20);
+        rect(152.5,240,95,20);
+        rect(152.5,280,95,20);
         textFont("Arial",14);
-        text("¡Jugar!",177,165);
-        text("¿Cómo jugar?",155,205);
-        text("Créditos",173,245);
+        text("¡Jugar!",177,215);
+        text("¿Cómo jugar?",155,255);
+        text("Créditos",173,295);
+        textFont("Arial",46);
+        text("Snake:'Anaconda'",15,120);
     }
 }
 function onTic (Mundo) {
