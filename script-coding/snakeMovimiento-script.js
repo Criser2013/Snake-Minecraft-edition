@@ -42,9 +42,8 @@ function setup() {
   frameRate(5);
   createCanvas(400, 400);
   background(15, 200, 50);
-  Mundo = {snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: {x: 1, y: 0}, food: {x:Math.ceil(Math.random()*(20-1))+1, y:Math.ceil(Math.random()*(20-1))+1},score:0,colision:false}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-1))+1, y:Math.ceil(Math.random()*(20-1))+1},score:0,colision:false}
 }
-
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar
 function drawGame(Mundo){
   background(10, 200, 50);
@@ -112,12 +111,22 @@ function colisionp (lista) {
     return false
   }
 }
+function mousePressed () {
+  if (((mouseButton===LEFT)&&((mouseX>=145&&mouseX<=255)&&(mouseY>=220&&mouseY<=240)))&&Mundo.colision==true) {
+    setup()
+  }
+}
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
   if (colisionp(Mundo.snake)==true) {
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-    return update(Mundo,{colision:true})
+        textFont("Arial",16);
+        text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
+        fill(255);
+        rect(145,220,110,20);
+        fill(1);
+        textFont("Arial",14);
+        text("Jugar de nuevo",150,235);
+        return update(Mundo,{colision:true});
   }
   else if (((first(Mundo.snake).x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1)&&colision(Mundo.snake)==false) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:1,y:0}),dir:{x:1,y:0}});
@@ -143,18 +152,38 @@ function onTic(Mundo){
   else if (first(Mundo.snake).x==-1) {
     return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
   }
+  else if (Mundo.score>=10&&Mundo.score<20) {
+    frameRate(7.5);
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
+  }
+  else if (Mundo.score>=20&&Mundo.score<30) {
+    frameRate(10);
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
+  }
+  else if (Mundo.score>=30&&Mundo.score<40) {
+    frameRate(12.5);
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
+  }
+  else if (Mundo.score>=50) {
+    frameRate(15);
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
+  }
   else {
     if (colision(Mundo.snake)==true) {
-        textFont("Arial",16);
-        text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-        return update(Mundo,{});
+      textFont("Arial",16);
+      text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
+      fill(255);
+      rect(145,220,110,20);
+      fill(1);
+      textFont("Arial",14);
+      text("Jugar de nuevo",150,235);
+      return update(Mundo,{colision:true});
     }
     else {
         return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)})
     }
   }
 }
-
 //Implemente esta función si quiere que su programa reaccione a eventos del mouse
 function onMouseEvent (Mundo, event) {
    return update(Mundo,{});
