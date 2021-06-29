@@ -54,21 +54,27 @@ function setup() {
   frameRate(5);
   createCanvas(400, 400);
   background(15, 200, 50);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}}}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
     if (Mundo.score>=10&&Mundo.trampas.estado==false) {
       background(10, 200, 50);
+      //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
+      //Esta linea llama a la función drawScore para dibujar el puntaje.
       drawScore(Mundo.score);
+      //Estas lineas llama a la función drawCheat para dibujar las trampas.
       drawCheat(Mundo.trampas);
+      //Estas lineas llaman a las funciones drawObstacles(s&M) para dibujar los obstaculos.
       drawObstaclesm(Mundo.obstaculos.movil);
       drawObstaclesS(Mundo.obstaculos.estatico);
       fill(240, 240, 240);
+      //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
+      //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
       stroke (0);
       fill(13,181,13);
       rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
@@ -83,17 +89,12 @@ function drawGame(Mundo){
     }
     else {
       background(10, 200, 50);
-      //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
-      //Esta linea llama a la función drawScore para dibujar el puntaje.
       drawScore(Mundo.score);
-      //Estas linea llama a la función drawCheat para dibujar las trampas.
       drawCheat(Mundo.trampas);
       fill(240, 240, 240);
-      //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
-      //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
       stroke (0);
       fill(13,181,13);
       rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
@@ -161,6 +162,16 @@ function drawFood(food) {
   fill (200,20,10);
   ellipse((food.x*dx)-10,(food.y*dy)-10,dx,dy);
 }
+/*
+Contrato: drawObstaclesm, drawObstaclesS coordenadas -> obstaculo
+coordenadas = puntos en los ejes "X" y "Y" generados al azar en el intervalo 1 - 20 por la variable "Mundo"
+obstaculo = coordenadas en los ejes "X" y "Y", junto a las dimensiones de un circulo para dibujar los obstaculos que spawnean en el juego.
+Proposito: Dibujar los obstaculos que aparecen a partir de los 10 puntos. DrawObstaclesm se encarga de dibujar los obstaculos moviles y drawObstaclesS
+se encarga de dibujar los obstaculos estaticos.
+Prototipo: drawObstaclesm, drawObstaclesS (obstaculo) {}
+Ejemplos: drawObstaclesm, drawObstaclesS (3,4), (5,4) -> ellipse (3,4,20,20), rect(5,4,20,20)
+          drawObstaclesm, drawObstaclesS (10,19), (10,12) -> ellipse (10,19,20,20), rect(10,12,20,20)
+*/
 function drawObstaclesm (obstaculo) {
   fill(1);
   ellipse((obstaculo.x*dx)-10,(obstaculo.y*dy)-10,dx,dy);
@@ -183,42 +194,33 @@ function drawScore (score) {
 }
 /*
 Contrato: cheatposx,cheatposy () -> number
-Proposito: Determina la posición en "X" (posx) y "Y" (posy) de la las trampas de forma aleatoria dentro del mapa.
+Proposito: Determina la posición en "X" (posx) y "Y" (posy) de la las trampas dependiendo de las coordenadas en las que se encuentre la cabeza del snake.
+No depende de la dirección para spawnear. Spawnea en un rango de mas o menos 3 - 4 casillas de las que se encuentra la cabeza, aplicando condiciones especiales
+al llegar a las ultimas 3 casillas de los limites del mapa (se puede dar el caso de que spawnee en la misma posición de la cabeza).
 Prototipo: cheatposx,cheatposy () {}
-Ejemplos: cheatposx,cheatposy () -> {x:4,y:7}
-          cheatposx,cheatposy () -> {x:1,y;1}
+Ejemplos: cheatposx,cheatposy (6,5) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}]} -> 6,5 (Valores posibles en "X": 0 - 7, valores posibles en "Y": 0 - 4)
+          cheatposx,cheatposy (2,5) {snake:[{x:2,y:1},{x:11,y:1},{x:10,y:1}]} -> 2,5 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
+          cheatposx,cheatposy (1,4) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}]} -> 1,4 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
+          cheatposx,cheatposy (3,2) {snake:[{x:0,y:1},{x:2,y:1},{x:3,y:1}]} -> 3,2 (Valores posibles en "X": 0 - 3, valores posibles en "Y": 0 - 4)
 */
 function cheatposx () {
+  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16.
   if ((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
     return Math.ceil(Math.random() * (((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-4))+(first(Mundo.snake).x)-4);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2, el rango es diferente al resto.
   else if (first(Mundo.snake).x==2) {
-    const x2 = Math.ceil(Math.random() * (4+1)-1);
-    if (x2==-0) {
-      return 0
-    }
-    else {
-      return x2
-    }
+    return Math.ceil(Math.random() * (4-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1, el rango es diferente al resto.
   else if (first(Mundo.snake).x==1) {
-    const x1 = Math.ceil(Math.random() * (2+1)-1);
-    if (x1==-0) {
-      return 0
-    }
-    else {
-      return x1
-    }
+    return Math.ceil(Math.random() * (2-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0, el rango es diferente al resto.
   else if (first(Mundo.snake).x==0) {
-    const x0 = Math.ceil(Math.random() * (3+1)-1);
-    if (x0==-0) {
-      return 0
-    }
-    else {
-      return x0
-    }
+    return Math.ceil(Math.random() * (3-0)+0);
   }
+  //Condiciones dadas si la cabeza se encuentra en las ultimas 3 casillas del mapa (la diferencia es que varían en las posiciones en las que puede spawnear).
   else if (first(Mundo.snake).x==17) {
     return Math.ceil(Math.random() * (19-15)+15);
   }
@@ -228,37 +230,26 @@ function cheatposx () {
   else if (first(Mundo.snake).x==19) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
+  //Condiciones dadas cuando se realiza el traslado de la cabeza en uno de los laterales del mapa.
+  else if (first(Mundo.snake).x>19) {
+    return Math.ceil(Math.random() * (2-0)+0);
+  }
+  else if (first(Mundo.snake).x<0) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
 };
 function cheatposy () {
   if ((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
-    return Math.ceil(Math.random() * (((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
+    return Math.ceil(Math.random() * (((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-3))+first(Mundo.snake).y-3);
   }
   else if (first(Mundo.snake).y==2) {
-    const y2 = Math.ceil(Math.random() * (4+1)-1);
-    if (y2==-0) {
-      return 0
-    }
-    else {
-      return y2
-    }
+    return Math.ceil(Math.random() * (4-0)+0);
   }
   else if (first(Mundo.snake).y==1) {
-    const y1 = Math.ceil(Math.random() * (2+1)-1);
-    if (y1==-0) {
-      return 0
-    }
-    else {
-      return y1
-    }
+    return Math.ceil(Math.random() * (2-0)+0);
   }
   else if (first(Mundo.snake).y==0) {
-    const y0 = Math.ceil(Math.random() * (3+1)-1);
-    if (y0==-0) {
-      return 0
-    }
-    else {
-      return y0
-    }
+    return Math.ceil(Math.random() * (3-0)+0);
   }
   else if (first(Mundo.snake).y==17) {
     return Math.ceil(Math.random() * (19-15)+15);
@@ -270,67 +261,53 @@ function cheatposy () {
     return Math.ceil(Math.random() * (19-16)+16);
   }
 };
+/*
+Contrato: obsposx,obsposy () -> number
+Proposito: Determina la posición en "X" (posx) y "Y" (posy) del los obstaculos al llegar a una puntuación mayor o igual a 10 puntos, spawnea una
+trampa movil en un rango de 3 - 4 espacios de la cabeza de la serpiente (tanto en "X" como en "Y"), incluyendo la posición en donde está la cabeza
+de la serpiente, depende la dirección para elegir la coordenada. En los límites del mapa se aplican condiciones distintas (3 posiciones en los laterales).
+Prototipo: obsposx,obsposy () {}
+Ejemplos: obsposx,obsposy (4,5) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}],dir:{x:1,y:0}} -> 4,5 (Valores posibles en "X": 4 - 7, valores posibles en "Y": 0 - 4)
+          obsposx,obsposy (10,5) {snake:[{x:12,y:1},{x:11,y:1},{x:10,y:1}],dir:{x:-1,y:0}} -> 10,5 (Valores posibles en "X": 9 - 12, valores posibles en "Y": 0 - 4)
+          obsposx,obsposy (0,4) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:-1,y:0}} -> 0,4 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
+          obsposx,obsposy (1,2) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:1,y:0}} -> 1,2 (Valores posibles en "X": 1 - 5, valores posibles en "Y": 0 - 4)
+          obsposx,obsposy (0,0) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:-1,y:0}} -> 0,0 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
+          obsposx,obsposy (3,2) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:1,y:0}} -> 3,2 (Valores posibles en "X": 0 - 4, valores posibles en "Y": 0 - 4)
+*/
 function obsposx () {
+  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la derecha. 
   if (Mundo.dir.x==1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
     return Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-1))+first(Mundo.snake).x-1);
   }
+  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la izquierda. 
   else if (Mundo.dir.x==-1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
-    return Math.ceil(Math.random()*((first(Mundo.snake).x)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
+    return Math.ceil(Math.random()*((first(Mundo.snake).x+1)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==1)) {
-    const obsx2 = Math.ceil(Math.random()*(5-1)+1);
-    if (Math.sign(obsx2)==-0) {
-      return obsx2*-1
-    }
-    else {
-      return obsx2
-    }
+    return Math.ceil(Math.random()*(5+0)-0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==-1)) {
-    const obsxl2 = Math.ceil(Math.random()*(2+1)-1);
-    if (Math.sign(obsxl2)==-0) {
-      return obsxl2*-1
-    }
-    else {
-      return obsxl2
-    }
+    return Math.ceil(Math.random()*(2-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==1)) {
-    const obsx1 = Math.ceil(Math.random() * (4-0)+0);
-    if (Math.sign(obsx1)==-0) {
-      return obsx1*-1
-    }
-    else {
-      return obsx1
-    }
+    return Math.ceil(Math.random() * (4-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==-1)) {
-    const obsxl1 = Math.ceil(Math.random() * (1+1)-1);
-    if (Math.sign(obsxl1)==-0) {
-      return obsxl1*-1
-    }
-    else {
-      return obsxl1
-    }
+    return Math.ceil(Math.random() * (1-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==1)) {
-    const obsx0 = Math.ceil(Math.random() * (3+1)-1);
-    if (obsx0==-0) {
-      return 0
-    }
-    else {
-      return obsx0
-    }
+    return Math.ceil(Math.random() * (3-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==-1)) {
-    const obsxl0 = Math.ceil(Math.random() * (2+1)-1);
-    if (obsxl0==-0) {
-      return 0
-    }
-    else {
-      return obsxl0
-    }
+    return Math.ceil(Math.random() * (2-0)+0);
   }
+  //Condiciones dadas si la cabeza del snake se encuentra en las posiciones X:17 - 19, cambian los intervalos en función de la dirección de movimiento.
   else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==1)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
@@ -349,14 +326,9 @@ function obsposx () {
   else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==-1)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
+  //Condiciones dadas cuando la dirección en "X"=0, son las mismas condiciones que las anteriores solo que cambiando los intervalos :c
   else if (Mundo.dir.x==0&&((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3))) {
-    const x0i = Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
-      if (x0i==-0) {
-        return 0
-      }
-      else {
-        return x0i
-      }
+    return Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-3))+first(Mundo.snake).x-3);
   }
   else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==0)) {
     return Math.ceil(Math.random()*(19-16)+16);
@@ -368,31 +340,19 @@ function obsposx () {
     return Math.ceil(Math.random() * (19-13)+13);
   }
   else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==0)) {
-    const x0 = Math.ceil(Math.random()*(3+1)-1);
-      if (x0==-0) {
-        return 0;
-      }
-      else {
-        return x0;
-      }
+    return Math.ceil(Math.random()*(3-0)+0);
   }
   else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==0)) {
-    const x01 = Math.ceil(Math.random() * (4+1)-1)
-      if (x01==-0) {
-        return 0
-      }
-      else {
-        return x01
-      }
+    return Math.ceil(Math.random() * (4-0)+0)
   }
   else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==0)) {
-    const x02 = Math.ceil(Math.random() * (5+1)-1);
-    if (x02==-0) {
-      return 0
-    }
-    else {
-      return x02
-    }
+    return Math.ceil(Math.random() * (5-0)+0);
+  }
+  else if ((first(Mundo.snake).x)<0) {
+    return Math.ceil(Math.random() * (19-16)+16);
+  }
+  else if ((first(Mundo.snake).x)>19) {
+    return Math.ceil(Math.random() * (2-0)+0);
   }
 }
 function obsposy () {
@@ -403,58 +363,22 @@ function obsposy () {
     return Math.ceil(Math.random()*((first(Mundo.snake).y)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
   }
   else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==1)) {
-    const obsy2 = Math.ceil(Math.random()*(4-2)+2);
-    if (Math.sign(obsy2)==-0) {
-      return obsy2*-1
-    }
-    else {
-      return obsy2
-    }
+    return Math.ceil(Math.random()*(4-2)+2);
   }
   else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==-1)) {
-    const obsyl2 = Math.ceil(Math.random()*(1+1)-1);
-    if (Math.sign(obsyl2)==-0) {
-      return obsyl2*-1
-    }
-    else {
-      return obsyl2
-    }
+    return Math.ceil(Math.random()*(2-0)+0);
   }
   else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==1)) {
-    const obsy1 = Math.ceil(Math.random() * (4-1)+1);
-    if (Math.sign(obsy1)==-0) {
-      return obsy1*-1
-    }
-    else {
-      return obsy1
-    }
+    return Math.ceil(Math.random() * (4-0)+0);
   }
   else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==-1)) {
-    const obsyl1 = Math.ceil(Math.random()*(2+1)-1);
-    if (Math.sign(obsyl1)==-0) {
-      return obsyl1*-1
-    }
-    else {
-      return obsyl1
-    }
+    return Math.ceil(Math.random()*(2-0)+0);
   }
   else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==1)) {
-    const obsy0 = Math.ceil(Math.random() * (4-1)+1);
-    if (obsy0==-0) {
-      return 0
-    }
-    else {
-      return obsy0
-    }
+    return Math.ceil(Math.random() * (4-0)+0);
   }
   else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==-1)) {
-    const obsyl0 = Math.ceil(Math.random() * (3-1)+1);
-    if (obsyl0==-0) {
-      return 0
-    }
-    else {
-      return obsyl0
-    }
+    return Math.ceil(Math.random() * (3-0)+0);
   }
   else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==1)) {
     return Math.ceil(Math.random() * (19-16)+16);
@@ -475,13 +399,7 @@ function obsposy () {
     return Math.ceil(Math.random()*(19-16)+16);
   }
   else if (Mundo.dir.y==0&&((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3))) {
-    const y0i = Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
-      if (y0i==-0) {
-        return 0
-      }
-      else {
-        return y0i
-      }
+    return Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-3))+first(Mundo.snake).y-3);
   }
   else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==0)) {
     return Math.ceil(Math.random()*(19-16)+16);
@@ -493,31 +411,13 @@ function obsposy () {
     return Math.ceil(Math.random() * (19-14)+14);
   }
   else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==0)) {
-    const y0 = Math.ceil(Math.random()*(3+1)-1);
-      if (y0==-0) {
-        return 0;
-      }
-      else {
-        return y0;
-      }
+    return Math.ceil(Math.random()*(3-0)+0);
   }
   else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==0)) {
-    const y01 = Math.ceil(Math.random() * (4+1)-1)
-      if (y01==-0) {
-        return 0
-      }
-      else {
-        return y01
-      }
+    return Math.ceil(Math.random() * (4-0)+0)
   }
   else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==0)) {
-    const y02 = Math.ceil(Math.random() * (5+1)-1);
-    if (y02==-0) {
-      return 0
-    }
-    else {
-      return y02
-    }
+    return Math.ceil(Math.random() * (5-0)+0);
   }
 }
 /*
@@ -602,10 +502,7 @@ function colisionparedes () {
   else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
     return false
   }
-  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y))&&(Mundo.contador>=0&&Mundo.contador<=15)) {
-    return false
-  } 
-  else if ((first(Mundo.snake).x+1==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
+  else if ((first(Mundo.snake).x+1==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y)&&Mundo.score>=10&&(Mundo.contador>2)) {
     return true
   }
   else if ((((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0)&&(Mundo.dir.x!==1)))&&Mundo.score>=10) {
@@ -709,8 +606,8 @@ function onTic(Mundo){
   else if (((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y+1==Mundo.food.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0))) {
     return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1})
   }
-   //Estas 2 condiciones determinan si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
-  else if (((first(Mundo.snake).x+1==Mundo.trampas.x)&&(first(Mundo.snake).y+1==Mundo.trampas.y))&&Mundo.score>=5) {
+   //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
+   else if (((first(Mundo.snake).x+1==Mundo.trampas.x)&&(first(Mundo.snake).y+1==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:Mundo.contador+1})
   }
@@ -739,7 +636,7 @@ function onTic(Mundo){
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
-   //Esta condicion spawnea una nueva trampa cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
+   //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador==40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},obstaculos:{movil:{x:obsposx(),y:obsposy()},estatico:{x:cheatposx(),y:cheatposy()}},contador:0})
