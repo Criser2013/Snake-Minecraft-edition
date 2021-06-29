@@ -4,61 +4,60 @@ function setup () {
     Mundo = {boton:2}
 }
 function drawGame (Mundo) {
-    //Dibuja el menú cuando el "botón 1" se encuentra seleccionado.
+    //Dibuja el menú, solo con variaciones dependiendo de que botón se encuentra seleccionado.
     if (Mundo.boton==2) {
         //Dibuja un rectangulo por fuera del botón 1 cuando este se encuentra seleccionado (para indicar que es la selección actual).
-        rect(197,157,106,21);
+        rect(147,157,106,21);
         //Dibuja los botones de la dificultad.
         rect(10,30,50,20);
-        rect(200,160,100,15)
-        rect(200,200,100,15)
-        rect(200,240,100,15)
+        rect(150,160,100,15);
+        rect(150,200,100,15);
+        rect(150,240,100,15);
         //Muestra en pantalla los textos que se encuentran en el menú.
-        textFont("Arial",14)
-        text("Selecciona la dificultad:",175,120)
-        text("Facil",235,172)
-        text("Medio",230,212)
-        text("Dificil",232.5,252)
+        textFont("Arial",14);
+        text("Selecciona la dificultad:",130,120);
+        text("Fácil",185,172);
+        text("Medio",180,212);
+        text("Difícil",182.5,252);
         text("Volver",15,45);
     }
-    //Dibuja el menú cuando el "botón 2" se encuentra seleccionado.
     else if (Mundo.boton==3) {
         rect(10,30,50,20);
-        rect(197,197,106,21)
-        rect(200,160,100,15)
-        rect(200,200,100,15)
-        rect(200,240,100,15)
-        textFont("Arial",14)
-        text("Selecciona la dificultad:",175,120)
-        text("Facil",235,172)
-        text("Medio",230,212)
-        text("Dificil",232.5,252)
+        rect(147,197,106,21);
+        rect(150,160,100,15);
+        rect(150,200,100,15);
+        rect(150,240,100,15);
+        textFont("Arial",14);
+        text("Selecciona la dificultad:",130,120);
+        text("Fácil",185,172);
+        text("Medio",180,212);
+        text("Difícil",182.5,252);
         text("Volver",15,45);
     }
     else if (Mundo.boton==4) {
         rect(10,30,50,20);
-        rect(197,237,106,21)
-        rect(200,160,100,15)
-        rect(200,200,100,15)
-        rect(200,240,100,15)
-        textFont("Arial",14)
-        text("Selecciona la dificultad:",175,120)
-        text("Facil",235,172)
-        text("Medio",230,212)
-        text("Dificil",232.5,252)
+        rect(147,237,106,21);
+        rect(150,160,100,15);
+        rect(150,200,100,15);
+        rect(150,240,100,15);
+        textFont("Arial",14);
+        text("Selecciona la dificultad:",130,120);
+        text("Fácil",185,172);
+        text("Medio",180,212);
+        text("Difícil",182.5,252);
         text("Volver",15,45);
     }
     else if (Mundo.boton==1) {
-        rect(7,27,56,26)
+        rect(7,27,56,26);
         rect(10,30,50,20);
-        rect(200,160,100,15)
-        rect(200,200,100,15)
-        rect(200,240,100,15)
-        textFont("Arial",14)
-        text("Selecciona la dificultad:",175,120)
-        text("Facil",235,172)
-        text("Medio",230,212)
-        text("Dificil",232.5,252)
+        rect(150,160,100,15);
+        rect(150,200,100,15);
+        rect(150,240,100,15);
+        textFont("Arial",14);
+        text("Selecciona la dificultad:",130,120);
+        text("Fácil",185,172);
+        text("Medio",180,212);
+        text("Difícil",182.5,252);
         text("Volver",15,45);
     }
 }
@@ -93,7 +92,7 @@ function onKeyEvent (Mundo,keyCode) {
     }
     else if (keyCode==DOWN_ARROW&&Mundo.boton==4) {
         setup();
-        return update(Mundo,{boton:Mundo.boton-3});
+        return update(Mundo,{boton:1});
     }
     else if (keyCode==UP_ARROW&&Mundo.boton!==1) {
         setup();
@@ -101,7 +100,7 @@ function onKeyEvent (Mundo,keyCode) {
     }
     else if (keyCode==UP_ARROW&&Mundo.boton==1) {
         setup();
-        return update(Mundo,{boton:Mundo.boton+3});
+        return update(Mundo,{boton:4});
     }
     else {
         return update(Mundo,{})
