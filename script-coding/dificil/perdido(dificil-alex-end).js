@@ -15,44 +15,69 @@ function drawGame (Mundo) {
         //Estas 3 líneas dibujan los botones.
         rect(145,220,110,20);
         rect(110,260,177,20);
-        rect(140,300,120,20);
+        rect(125,300,147,20);
+        rect(140,340,120,20);
         fill(1);
         //Esta parte dibuja los textos en pantalla.
         textFont("Arial",24);
         text("Juego terminado.",110,60);
         textFont("Arial",18);
         text("Empieza una nueva partida, manteniendo",35,122.5);
-        text("la misma dificultad y personaje",75,142.5);
+        text("la misma dificultad, mapa y personaje",47.5,142.5);
         text("seleccionados previamente.",87.5,162.5);
         textFont("Arial",14);
         text("Jugar de nuevo",150,235);
         text("Seleccionar otro personaje",115,275);
-        text("Cambiar dificultad",142.5,315);
+        text("Seleccionar otro mapa",127.5,315);
+        text("Cambiar dificultad",142.5,355);
     }
     else if (Mundo.boton==2) {
         fill(255);
         rect(107,257,183,26);
         rect(145,220,110,20);
         rect(110,260,177,20);
-        rect(140,300,120,20);
+        rect(125,300,147,20);
+        rect(140,340,120,20);
         fill(1);
         textFont("Arial",24);
         text("Juego terminado.",110,60);
         textFont("Arial",18);
         text("Vuelve al menú de selección de personajes",27.5,122.5);
         text("y empieza una nueva partida manteniendo",32.5,142.5);
-        text("la dificultad.",157.5,162.5);
+        text("la dificultad y el mapa seleccionado.",60,162.5);
         textFont("Arial",14);
         text("Jugar de nuevo",150,235);
         text("Seleccionar otro personaje",115,275);
-        text("Cambiar dificultad",142.5,315)
+        text("Seleccionar otro mapa",127.5,315);
+        text("Cambiar dificultad",142.5,355)
     }
     else if (Mundo.boton==3) {
         fill(255);
-        rect(137,297,126,26);
+        rect(122,297,153,26);
         rect(145,220,110,20);
         rect(110,260,177,20);
-        rect(140,300,120,20);
+        rect(125,300,147,20);
+        rect(140,340,120,20);
+        fill(1);
+        textFont("Arial",24);
+        text("Juego terminado.",110,60);
+        textFont("Arial",18);
+        text("Cambia el mapa del juego, la dificultad no se",20,137.5);
+        text("verá afectada, deberás seleccionar",57.5,157.5);
+        text("nuevamente tu personaje.",97.5,177.5);
+        textFont("Arial",14);
+        text("Jugar de nuevo",150,235);
+        text("Seleccionar otro personaje",115,275);
+        text("Seleccionar otro mapa",127.5,315);
+        text("Cambiar dificultad",142.5,355)
+    }
+    else if (Mundo.boton==4) {
+        fill(255);
+        rect(137,337,126,26);
+        rect(145,220,110,20);
+        rect(110,260,177,20);
+        rect(125,300,147,20);
+        rect(140,340,120,20);
         fill(1);
         textFont("Arial",24);
         text("Juego terminado.",110,60);
@@ -62,7 +87,8 @@ function drawGame (Mundo) {
         textFont("Arial",14);
         text("Jugar de nuevo",150,235);
         text("Seleccionar otro personaje",115,275);
-        text("Cambiar dificultad",142.5,315)
+        text("Seleccionar otro mapa",127.5,315);
+        text("Cambiar dificultad",142.5,355)
     }
 }
 function onMouseEvent (Mundo,event) {
@@ -77,8 +103,12 @@ function onKeyEvent (Mundo,keyCode) {
     else if (Mundo.boton==2&&keyCode==ENTER) {
         window.open("seleccion(dificil-end).html","_self");
     }
-    //Abre el menú de selección de dificultad.
+    //Abre el menú de selección de mapas.
     else if (Mundo.boton==3&&keyCode==ENTER) {
+        window.open("menu_mapas(dificil).html","_self");
+    }
+    //Abre el menú de selección de dificultad.
+    else if (Mundo.boton==4&&keyCode==ENTER) {
         window.open("menu.html","_self");
     }
     //Permite el movimiento entre botones con el teclado en dirección superior, a excepción del primer botón.
@@ -89,15 +119,15 @@ function onKeyEvent (Mundo,keyCode) {
     //Si se presiona la tecla "arriba" del teclado y se encuentra seleccionado el 1º botón, esta condición realiza el traslado hacia el último botón (3º).
     else if (Mundo.boton==1&&keyCode==UP_ARROW) {
         setup();
-        return update(Mundo,{boton:3});
+        return update(Mundo,{boton:4});
     }
     //Permite el movimiento entre botones con el teclado en dirección inferior, a excepción del último botón.
-    else if (Mundo.boton!==3&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton!==4&&keyCode==DOWN_ARROW) {
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
     //Si se presiona la tecla "abajo" del teclado y se encuentra seleccionado el 3º botón, esta condición realiza el traslado hacia el primer botón (1º).
-    else if (Mundo.boton==3&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton==4&&keyCode==DOWN_ARROW) {
         setup();
         return update(Mundo,{boton:1});
     }
