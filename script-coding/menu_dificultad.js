@@ -77,13 +77,13 @@ function onKeyEvent (Mundo,keyCode) {
     }
     //Estas 3 condiciones abren los archivos de selección de eprsonaje correspondientes a la dificultad seleccionada.
     else if (keyCode==ENTER&&Mundo.boton==2) {
-        window.open("seleccion(facil).html","_self");
+        window.open("menu_mapas(facil).html","_self");
     }
     else if (keyCode==ENTER&&Mundo.boton==3) {
-        window.open("seleccion(medio).html","_self");
+        window.open("menu_mapas(medio).html","_self");
     }
     else if (keyCode==ENTER&&Mundo.boton==4) {
-        window.open("seleccion(dificil).html","_self");
+        window.open("menu_mapas(dificil).html","_self");
     }
     //Estas condiciones permiten realizar el desplazamiento entre los diferentes botones, si se encuentra en los extremos realiza la selección en el botón del extremo contrario.
     else if (keyCode==DOWN_ARROW&&Mundo.boton!==4) {
