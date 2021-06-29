@@ -36,6 +36,8 @@ function update(data, attribute) {
 }
 //////////////////////// Mundo inicial
 let Mundo = {}
+let steve = null;
+let creeper = null;
 ////////////////////////
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -55,6 +57,8 @@ function setup() {
   createCanvas(400, 400);
   background(15, 200, 50);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(20-0))+0,y:Math.ceil(Math.random()*(20-0))+0}}}
+  steve = loadImage("images/cabeza_steve.png");
+  creeper = loadImage("images/cabeza_creeper.png");
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
@@ -75,17 +79,7 @@ function drawGame(Mundo){
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
       //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
-      stroke (0);
-      fill(13,181,13);
-      rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-      fill (0);
-      stroke (0);
-      rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-      rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-      fill(1);
-      rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-      rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-      rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+      image(steve,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
     }
     else {
       background(10, 200, 50);
@@ -95,17 +89,7 @@ function drawGame(Mundo){
       fill(240, 240, 240);
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
-      stroke (0);
-      fill(13,181,13);
-      rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-      fill (0);
-      stroke (0);
-      rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-      rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-      fill(1);
-      rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-      rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-      rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+      image(steve,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
@@ -117,17 +101,8 @@ function drawGame(Mundo){
     fill(240, 240, 240);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
-    stroke (0);
-    fill(13,181,13);
-    rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-    fill (0);
-    stroke (0);
-    rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-    rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-    fill(1);
-    rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-    rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-    rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    image(steve,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+
   }
   else {
     background(10, 200, 50);
@@ -136,17 +111,7 @@ function drawGame(Mundo){
     fill(240, 240, 240);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
-    stroke (0);
-    fill(13,181,13);
-    rect(first(Mundo.snake).x*dx,first(Mundo.snake).y*dy,dx,dy);
-    fill (0);
-    stroke (0);
-    rect((first(Mundo.snake).x*dx)+3.2,(first(Mundo.snake).y*dy)+4,5,5);
-    rect((first(Mundo.snake).x*dx)+12,(first(Mundo.snake).y*dy)+4,5,5);
-    fill(1);
-    rect((first(Mundo.snake).x*dx)+8.2,(first(Mundo.snake).y*dy)+8,3.4,6);
-    rect((first(Mundo.snake).x*dx)+6.2,(first(Mundo.snake).y*dy)+11.12,1.7,6);
-    rect((first(Mundo.snake).x*dx)+11.6,(first(Mundo.snake).y*dy)+11.12,1.7,6);
+    image(steve,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
   }
 }
 /*
@@ -177,8 +142,7 @@ function drawObstaclesm (obstaculo) {
   ellipse((obstaculo.x*dx)-10,(obstaculo.y*dy)-10,dx,dy);
 }
 function drawObstaclesS (obstaculo) {
-  fill(128,128,128);
-  rect(obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+  image(creeper,obstaculo.x*dx,obstaculo.y*dy,dx,dy)
 }
 /*
 Contrato: drawScore number -> string
@@ -348,6 +312,7 @@ function obsposx () {
   else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==0)) {
     return Math.ceil(Math.random() * (5-0)+0);
   }
+  //Condiciones dadas cuando se realiza el traslado de un lateral del mapa a otro.
   else if ((first(Mundo.snake).x)<0) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
@@ -493,6 +458,7 @@ function colisionparedes () {
   if ((((first(Mundo.snake).y==0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y==19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
     return true
   }
+  //Estas 3 condiciones determinan si hubo colisión con una de las trampas estaticas que spawnean de forma aleatoria a partir de los 10 puntos.
   else if (((((first(Mundo.snake).x+1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==1))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))||(((first(Mundo.snake).x-1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==-1)))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))&&Mundo.score>=10) {
     return true
   }
@@ -502,7 +468,8 @@ function colisionparedes () {
   else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
     return false
   }
-  else if ((first(Mundo.snake).x+1==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y)&&Mundo.score>=10&&(Mundo.contador>2)) {
+  //Estas 2 condiciones determinan si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
+  else if ((first(Mundo.snake).x+1==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y)&&Mundo.score>=10&&(Mundo.contador>1)) {
     return true
   }
   else if ((((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y+1==Mundo.obstaculos.movil.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0)&&(Mundo.dir.x!==1)))&&Mundo.score>=10) {
