@@ -1,20 +1,26 @@
 //Vamos a usar http://processingjs.org/
 // o https://p5js.org/reference/
-
 // Importamos las librerias
 let { append, cons, first, isEmpty, isList, length, rest, map, forEach }  = functionalLight;
-
+debugger;
 const x1 = function posx () {
-  return Math.ceil(Math.random() * (19 - 2)) + 2;
+  return Math.ceil(Math.random() * (20 - 1)) + 1;
 };
 const y1 = function posy () {
-  return Math.ceil(Math.random() * (19 - 2)) + 2;
+  return Math.ceil(Math.random() * (20 - 1)) + 1;
 };
+const crecimiento = function plus (lista) {
+  if (isEmpty(rest(lista))) {
+    return cons(first(lista),cons({x:first(lista).x-1,y:first(lista).y},[]))
+  }
+  else {
+    return cons(first(lista),plus(rest(lista)))
+  }
+}
 // Actualiza los atributos del objeto y retorna una copia profunda
 function update(data, attribute) {
   return Object.assign({}, data, attribute);
 }
-
 //////////////////////// Mundo inicial
 let Mundo = {}
 ////////////////////////
@@ -29,14 +35,14 @@ function moveSnake(snake, dir) {
 const dx = 20;
 const dy = 20;
 
-/***
+/**
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
   frameRate(5);
   createCanvas(400, 400);
   background(15, 200, 50);
-  Mundo = {snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: {x: 1, y: 0}, food: {x: 10, y: 10 },score:0,contador:0};
+  Mundo = {snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: {x: 1, y: 0}, food: {x:Math.ceil(Math.random()*(20-1))+1, y:Math.ceil(Math.random()*(20-1))+1},score:0,colision:false}
 }
 
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar
@@ -69,26 +75,83 @@ function drawScore (score) {
   fill(1);
   text("Score: "+score,10,380);
 }
-// Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
-function onTic(Mundo){
-  if (first(Mundo.snake).x==0||first(Mundo.snake).x==19) {
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-    return Mundo
+function colision (lista) {
+  const kbeza = first(Mundo.snake)
+  if (isEmpty(rest(lista))) {
+    return false;
   }
-  else if (first(Mundo.snake).y==0||first(Mundo.snake).y==19) {
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-    return Mundo
-  }
-  else if ((first(Mundo.snake).x+1==Mundo.food.x)&&(first(Mundo.snake).y+1==Mundo.food.y)) {
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),food:{x:x1(),y:y1()},score:Mundo.score+1})
-  }
-  else if (((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y+1==Mundo.food.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0))) {
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),food:{x:x1(),y:y1()},score:Mundo.score+1})
+  else if ((first(rest(lista)).x==kbeza.x)&&(first(rest(lista)).y==kbeza.y)) {
+    return true;
   }
   else {
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)})
+    return colision(rest(lista));
+  }
+}
+function traslacion (lista) {
+  if (isEmpty(rest(lista))) {
+    return []
+  }
+  else if (first(lista).x==20) {
+    return cons({x:0,y:first(lista).y},rest(lista));
+  }
+  else if (first(lista).x==-1) {
+    return cons({x:20,y:first(lista).y},rest(lista));
+  }
+  else {
+    return cons(first(lista),traslacion(rest(lista)));
+  }
+}
+function colisionp (lista) {
+  if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+    return true
+  }
+  else if (Mundo.colision==true) {
+    return true
+  }
+  else {
+    return false
+  }
+}
+// Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
+function onTic(Mundo){
+  if (colisionp(Mundo.snake)==true) {
+    textFont("Arial",16);
+    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
+    return update(Mundo,{colision:true})
+  }
+  else if (((first(Mundo.snake).x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1)&&colision(Mundo.snake)==false) {
+    return update(Mundo,{snake: moveSnake(Mundo.snake,{x:1,y:0}),dir:{x:1,y:0}});
+  }
+  else if (((first(Mundo.snake).x<first(rest(Mundo.snake)).x)&&Mundo.dir.x==1)&&colision(Mundo.snake)==false) {
+    return update(Mundo,{snake: moveSnake(Mundo.snake,{x:-1,y:0}),dir:{x:-1,y:0}})
+  }
+  else if (((first(Mundo.snake).y>first(rest(Mundo.snake)).y)&&Mundo.dir.y==-1)&&colision(Mundo.snake)==false) {
+    return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:1}),dir:{x:0,y:1}})
+  }
+  else if (((first(Mundo.snake).y<first(rest(Mundo.snake)).y)&&Mundo.dir.y==1)&&colision(Mundo.snake)==false) {
+    return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:-1}),dir:{x:0,y:-1}})
+  }
+  else if ((first(Mundo.snake).x+1==Mundo.food.x)&&(first(Mundo.snake).y+1==Mundo.food.y)) {
+    return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:x1(),y:y1()},score:Mundo.score+1})
+  }
+  else if (((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y+1==Mundo.food.y))&&((Mundo.dir.y!==1)&&(Mundo.dir.x!==0))) {
+    return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:x1(),y:y1()},score:Mundo.score+1})
+  }
+  else if (first(Mundo.snake).x==20) {
+    return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
+  }
+  else if (first(Mundo.snake).x==-1) {
+    return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
+  }
+  else {
+    if (colision(Mundo.snake)==true) {
+        textFont("Arial",16);
+        text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
+        return update(Mundo,{});
+    }
+    else {
+        return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)})
+    }
   }
 }
 
@@ -101,20 +164,19 @@ function onMouseEvent (Mundo, event) {
 */
 function onKeyEvent (Mundo, keyCode) {
   // Cambiamos la dirección de la serpiente. Noten que no movemos la serpiente. Solo la dirección
-  switch (keyCode) {
-    case UP_ARROW:
+  if (keyCode==UP_ARROW&&Mundo.dir.y!==1){
       return update(Mundo, {dir: {y: -1, x: 0}});
-      break;
-    case DOWN_ARROW:
+  }
+  else if (keyCode==DOWN_ARROW&&Mundo.dir.y!==-1) {
       return update(Mundo, {dir: {y: 1, x: 0}});
-      break;
-    case LEFT_ARROW:
+  }
+  else if (keyCode==LEFT_ARROW&&Mundo.dir.x!==1) {
       return update(Mundo, {dir: {y: 0, x: -1}});
-      break;
-    case RIGHT_ARROW:
+  }
+  else if (keyCode==RIGHT_ARROW&&Mundo.dir.x!==-1) {
       return update(Mundo, {dir: {y: 0, x: 1}});
-      break;
-    default:
+  }
+  else {
       console.log(keyCode);
       return update(Mundo, {});
   }
