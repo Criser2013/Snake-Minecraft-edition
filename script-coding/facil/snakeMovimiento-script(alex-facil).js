@@ -527,57 +527,22 @@ function fpscheat () {
     return 15
   }
 }
-/*
-Contrato: mousePressed () -> setup ()
-Proposito: Determina si se clicqueó (botón izquierdo del mouse) el botón de "Jugar de nuevo" cuando se detecta una colision, utiliza la posición
-en "X" y "Y" del mouse para determianr si se clicqueó el botón, dibujado por la función "onTic".
-Prototipo: mousePressed ()
-Ejemplos: mousePressed (mousebButton=LEFT,mouseX=146,mouseY=221) -> setup ().
-          mousePressed (mousebButton=RIGHT,mouseX=146,mouseY=221) -> No realiza ninguna acción.
-          mousePressed (mousebButton=LEFT,mouseX=256,mouseY=241) -> No realiza ninguna acción.
-          mousePressed (mousebButton=LEFT,mouseX=190,mouseY=231) -> setup ().
-*/
-function mousePressed () {
-  if (((mouseButton===LEFT)&&((mouseX>=145&&mouseX<=255)&&(mouseY>=220&&mouseY<=240)))&&Mundo.colision==true) {
-    setup()
-  }
-  else if (((mouseButton===LEFT)&&((mouseX>=110&&mouseX<=287)&&(mouseY>=260&&mouseY<=280)))&&Mundo.colision==true) {
-    window.open("seleccion(facil).html","_self")
-  }
-  else if (((mouseButton===LEFT)&&((mouseX>=140&&mouseX<=260)&&(mouseY>=300&mouseY<=320)))&&Mundo.colision==true) {
-    window.open("menu.html","_self")
-  }
-}
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
-  //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para dibujar el botón de reinicio y mostrar el puntaje alcanzado.
+  //Si la funcion colisionparedes determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true) {
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-    fill(255);
-    rect(145,220,110,20);
-    rect(110,260,177,20);
-    rect(140,300,120,20);
     fill(1);
-    textFont("Arial",14);
-    text("Jugar de nuevo",150,235);
-    text("Seleccionar otro personaje",115,275);
-    text("Cambiar dificultad",142.5,315)
+    textFont("Arial",16);
+    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
+    text("Presiona cualquier tecla para continuar.",70,240);
     return update(Mundo,{colision:true});
   }
   //Realiza lo mismo que la condición anterior, solo que ahora es con la colisión de la cabeza del snake con alguna parte de su cuerpo.
   else if (colisionCabeza(Mundo.snake)==true) {
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,200);
-    fill(255);
-    rect(145,220,110,20);
-    rect(110,260,177,20);
-    rect(140,300,120,20);
     fill(1);
-    textFont("Arial",14);
-    text("Jugar de nuevo",150,235);
-    text("Seleccionar otro personaje",115,275);
-    text("Cambiar dificultad",142.5,315)
+    textFont("Arial",16);
+    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
+    text("Presiona cualquier tecla para continuar.",70,240);
     return update(Mundo,{colision:true});
   }
   /* Esta condición actualiza la dirección en "X" del en el Mundo, si la serpiente se mueve hacia la derecha y se presiona la tecla para mover a la 
@@ -680,17 +645,20 @@ function onMouseEvent (Mundo, event) {
 */
 function onKeyEvent (Mundo, keyCode) {
   // Cambiamos la dirección de la serpiente. Noten que no movemos la serpiente. Solo la dirección
-  if (keyCode==UP_ARROW&&Mundo.dir.y!==1){
+  if ((keyCode==UP_ARROW&&Mundo.dir.y!==1)&&Mundo.colision==false){
       return update(Mundo, {dir: {y: -1, x: 0}});
   }
-  else if (keyCode==DOWN_ARROW&&Mundo.dir.y!==-1) {
+  else if ((keyCode==DOWN_ARROW&&Mundo.dir.y!==-1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 1, x: 0}});
   }
-  else if (keyCode==LEFT_ARROW&&Mundo.dir.x!==1) {
+  else if ((keyCode==LEFT_ARROW&&Mundo.dir.x!==1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 0, x: -1}});
   }
-  else if (keyCode==RIGHT_ARROW&&Mundo.dir.x!==-1) {
+  else if ((keyCode==RIGHT_ARROW&&Mundo.dir.x!==-1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 0, x: 1}});
+  }
+  else if (Mundo.colision==true) {
+    window.open("perdido(alex-facil).html","_self")
   }
   else {
       console.log(keyCode);
