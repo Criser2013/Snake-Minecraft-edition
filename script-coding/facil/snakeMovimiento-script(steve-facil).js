@@ -485,17 +485,37 @@ function traslacion (lista) {
   if (isEmpty(rest(lista))) {
     return []
   }
-  else if (first(lista).x>=20) {
-    return cons({x:0,y:first(lista).y},rest(lista));
+  else if (first(lista).x>=19) {
+    if (Mundo.dir.x==1) {
+      return cons({x:-1,y:first(lista).y},rest(lista));
+    }
+    else {
+      return cons({x:0,y:first(lista).y},rest(lista));
+    }
   }
-  else if (first(lista).x<=-1) {
-    return cons({x:20,y:first(lista).y},rest(lista));
+  else if (first(lista).x<=0) {
+    if (Mundo.dir.x==-1) {
+      return cons({x:20,y:first(lista).y},rest(lista));
+    }
+    else {
+      return cons({x:19,y:first(lista).y},rest(lista));
+    }
   }
-  else if (first(lista).y<=-1) {
-    return cons({x:first(lista).x,y:20},rest(lista));
+  else if (first(lista).y<=0) {
+    if (Mundo.dir.y==-1) {
+      return cons({x:first(lista).x,y:20},rest(lista));
+    }
+    else {
+      return cons({x:first(lista).x,y:19},rest(lista));
+    }
   }
-  else if (first(lista).y>=20) {
-    return cons({x:first(lista).x,y:0},rest(lista));
+  else if (first(lista).y>=19) {
+    if (Mundo.dir.y==1) {
+      return cons({x:first(lista).x,y:-1},rest(lista));
+    }
+    else {
+      return cons({x:first(lista).x,y:0},rest(lista));
+    }
   }
   else {
     return cons(first(lista),traslacion(rest(lista)));
