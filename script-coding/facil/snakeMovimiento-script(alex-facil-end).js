@@ -15,7 +15,7 @@ function foodposx () {
 };
 function foodposy () {
   return Math.ceil(Math.random() * (19 + 1)) - 1;
-};
+};//
 /*
 Contrato: plus lista -> lista
 Proposito: Crea una nueva parte del cuerpo del snake cada que la cabeza del snake colisiona con la comida, apoyandose de una de las condiciones de la función "onTic".
