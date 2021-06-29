@@ -86,22 +86,26 @@ function drawGame(Mundo){
       //Estas lineas llaman a las funciones drawObstacles(s&M) para dibujar los obstaculos.
       drawObstaclesm(Mundo.obstaculos.movil);
       drawObstaclesS(Mundo.obstaculos.estatico);
-      fill(240, 240, 240);
+      fill(70,59,164);
       //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
       //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+      fill(0,168,168);
+      rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
     }
     else {
       background(10, 200, 50);
       drawFood(Mundo.food);
       drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
-      fill(240, 240, 240);
+      fill(70,59,164);
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+      fill(0,168,168);
+      rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
@@ -110,20 +114,23 @@ function drawGame(Mundo){
     drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
     drawObstaclesS(Mundo.obstaculos.estatico);
-    fill(240, 240, 240);
+    fill(70,59,164);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
-
+    fill(0,168,168);
+    rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
   }
   else {
     background(10, 200, 50);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
-    fill(240, 240, 240);
+    fill(70,59,164);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
+    fill(0,168,168);
+    rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
   }
 }
 /*

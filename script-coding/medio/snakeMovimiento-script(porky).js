@@ -86,7 +86,7 @@ function drawGame(Mundo){
       //Estas lineas llaman a las funciones drawObstacles(s&M) para dibujar los obstaculos.
       drawObstaclesm(Mundo.obstaculos.movil);
       drawObstaclesS(Mundo.obstaculos.estatico);
-      fill(240, 240, 240);
+      fill(255,166,194);
       //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
@@ -98,7 +98,7 @@ function drawGame(Mundo){
       drawFood(Mundo.food);
       drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
-      fill(240, 240, 240);
+      fill(255,166,194);
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
@@ -110,7 +110,7 @@ function drawGame(Mundo){
     drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
     drawObstaclesS(Mundo.obstaculos.estatico);
-    fill(240, 240, 240);
+    fill(255,166,194);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
@@ -120,7 +120,7 @@ function drawGame(Mundo){
     background(10, 200, 50);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
-    fill(240, 240, 240);
+    fill(255,166,194);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
