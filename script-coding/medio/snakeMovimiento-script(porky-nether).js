@@ -83,7 +83,7 @@ const dy = 20;
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
-  frameRate(7.5);
+  frameRate(10);
   createCanvas(400, 400);
   background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
@@ -530,35 +530,35 @@ Contrato: fpscheat () -> number
 Proposito: Determina la velocidad de refresco de los fotogramas en función del puntaje (actua como funcion auxiliar de la función "onTic" dentro de
 los condicionales dedicados al spawn de las trampas y sus efectos).
 Prototipo: fpscheat () {}
-Ejemplos: fpscheat (0) -> 5
-          fpscheat (10) -> 7.5
-          fpscheat (20) -> 10
-          fpscheat (30) -> 12.5
-          fpscheat (50) -> 15
-          fpscheat (69) -> 15
+Ejemplos: fpscheat (0) -> 10
+          fpscheat (10) -> 12.5
+          fpscheat (20) -> 15
+          fpscheat (30) -> 17.5
+          fpscheat (50) -> 20
+          fpscheat (69) -> 20
 */
 function fpscheat () {
   if (Mundo.score>=0&&Mundo.score<10) {
-    return 7.5
-  }
-  else if (Mundo.score>=10&&Mundo.score<20) {
     return 10
   }
-  else if (Mundo.score>=20&&Mundo.score<30) {
+  else if (Mundo.score>=10&&Mundo.score<20) {
     return 12.5
   }
-  else if (Mundo.score>=30&&Mundo.score<50) {
+  else if (Mundo.score>=20&&Mundo.score<30) {
     return 15
   }
-  else if (Mundo.score>=50) {
+  else if (Mundo.score>=30&&Mundo.score<50) {
     return 17.5
+  }
+  else if (Mundo.score>=50) {
+    return 20
   }
 }
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
   //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true) {
-    srtoke(1);
+    stroke(1);
     fill(255);
     textFont(fuente,16);
     text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
