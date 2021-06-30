@@ -137,8 +137,8 @@ function drawGame (Mundo) {
             text("Mapas.",170,155);
             text("Elementos dentro del juego.",67.5,285);
             textFont(fuente,14);
-            text("El juego posee 3 niveles de dificultad (fácil, medio",22.5,60);
-            text("y díficil, varían en la velocidad de movimiento y si",27.5,80);
+            text("El juego posee 3 niveles de dificultad, fácil, medio",22.5,60);
+            text("y difícil, varían en la velocidad de movimiento y si",27.5,80);
             text("los límites laterales y superiores son",67.5,100);
             text("Puedes seleccionar entre 3 mapas distintos.",45,185);
             text("traspasables.",150,120);
@@ -165,8 +165,8 @@ function drawGame (Mundo) {
             text("Mapas.",170,155);
             text("Elementos dentro del juego.",67.5,285);
             textFont(fuente,14);
-            text("El juego posee 3 niveles de dificultad (fácil, medio",22.5,60);
-            text("y díficil, varían en la velocidad de movimiento y si",27.5,80);
+            text("El juego posee 3 niveles de dificultad, fácil, medio",22.5,60);
+            text("y difícil, varían en la velocidad de movimiento y si",27.5,80);
             text("los límites laterales y superiores son",67.5,100);
             text("Puedes seleccionar entre 3 mapas distintos.",45,185);
             text("traspasables.",150,120);
@@ -196,7 +196,7 @@ function drawGame (Mundo) {
         text("Objetos perjudiciales:",70,230);
         textFont(fuente,14);
         text("Aumentan tu veloci-",215,70);
-        text("dad detienen la reaparición de enemigos,",70,90);
+        text("dad, detienen la reaparición de enemigos,",70,90);
         text("aparece a partir de los 5 puntos.",80,110);
         text("Aparecen a partir de los 10",150,140);
         text("puntos, muy cerca de la cabeza de tu",70,160);
