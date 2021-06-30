@@ -36,7 +36,6 @@ function drawGame (Mundo) {
         rect(95,260,209,20);
         rect(95,300,209,20);
         rect(95,340,209,20);
-        noStroke();
         fill(255);
         //Esta parte dibuja los textos en pantalla.
         textFont(fuente,24);
@@ -59,7 +58,6 @@ function drawGame (Mundo) {
         rect(95,220,209,20);
         rect(95,300,209,20);
         rect(95,340,209,20);
-        noStroke();
         fill(255);
         textFont(fuente,24);
         text("Juego terminado.",100,60);
@@ -81,7 +79,6 @@ function drawGame (Mundo) {
         rect(95,220,209,20);
         rect(95,260,209,20);
         rect(95,340,209,20);
-        noStroke();
         fill(255);
         textFont(fuente,24);
         text("Juego terminado.",100,60);
@@ -103,7 +100,6 @@ function drawGame (Mundo) {
         rect(95,220,209,20);
         rect(95,260,209,20);
         rect(95,300,209,20);
-        noStroke();
         fill(255);
         textFont(fuente,24);
         text("Juego terminado.",100,60);
