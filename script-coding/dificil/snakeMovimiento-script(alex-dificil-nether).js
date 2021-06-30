@@ -84,7 +84,7 @@ const dy = 20;
  */
 function setup() {
   //const test = image(mapa,0,0,400,400)
-  frameRate(10);
+  frameRate(12.5);
   createCanvas(400, 400);
   background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
@@ -495,28 +495,28 @@ Contrato: fpscheat () -> number
 Proposito: Determina la velocidad de refresco de los fotogramas en función del puntaje (actua como funcion auxiliar de la función "onTic" dentro de
 los condicionales dedicados al spawn de las trampas y sus efectos).
 Prototipo: fpscheat () {}
-Ejemplos: fpscheat (0) -> 5
-          fpscheat (10) -> 7.5
-          fpscheat (20) -> 10
-          fpscheat (30) -> 12.5
-          fpscheat (50) -> 15
-          fpscheat (69) -> 15
+Ejemplos: fpscheat (0) -> 12.5
+          fpscheat (10) -> 15
+          fpscheat (20) -> 17.5
+          fpscheat (30) -> 20
+          fpscheat (50) -> 22.5
+          fpscheat (69) -> 22.5
 */
 function fpscheat () {
   if (Mundo.score>=0&&Mundo.score<10) {
-    return 10
-  }
-  else if (Mundo.score>=10&&Mundo.score<20) {
     return 12.5
   }
-  else if (Mundo.score>=20&&Mundo.score<30) {
+  else if (Mundo.score>=10&&Mundo.score<20) {
     return 15
   }
-  else if (Mundo.score>=30&&Mundo.score<50) {
+  else if (Mundo.score>=20&&Mundo.score<30) {
     return 17.5
   }
-  else if (Mundo.score>=50) {
+  else if (Mundo.score>=30&&Mundo.score<50) {
     return 20
+  }
+  else if (Mundo.score>=50) {
+    return 22.5
   }
 }
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
