@@ -706,16 +706,16 @@ function onMouseEvent (Mundo, event) {
 */
 function onKeyEvent (Mundo, keyCode) {
   // Cambiamos la dirección de la serpiente. Noten que no movemos la serpiente. Solo la dirección
-  if ((keyCode==UP_ARROW&&Mundo.dir.y!==1)&&Mundo.colision==false){
+  if (((keyCode==UP_ARROW||keyCode==87)&&Mundo.dir.y!==1)&&Mundo.colision==false){
       return update(Mundo, {dir: {y: -1, x: 0}});
   }
-  else if ((keyCode==DOWN_ARROW&&Mundo.dir.y!==-1)&&Mundo.colision==false) {
+  else if (((keyCode==DOWN_ARROW||keyCode==83)&&Mundo.dir.y!==-1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 1, x: 0}});
   }
-  else if ((keyCode==LEFT_ARROW&&Mundo.dir.x!==1)&&Mundo.colision==false) {
+  else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.dir.x!==1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 0, x: -1}});
   }
-  else if ((keyCode==RIGHT_ARROW&&Mundo.dir.x!==-1)&&Mundo.colision==false) {
+  else if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.dir.x!==-1)&&Mundo.colision==false) {
       return update(Mundo, {dir: {y: 0, x: 1}});
   }
   else if (Mundo.colision==true) {
