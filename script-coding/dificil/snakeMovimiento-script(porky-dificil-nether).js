@@ -471,7 +471,7 @@ function colisionparedes () {
     return false
   }
   //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10&&(Mundo.contador>1)) {
+  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador>1)))&&(Mundo.trampas.estado==false||Mundo.trampas.estado==true)) {
     return true
   }
   else if (Mundo.colision==true) {
