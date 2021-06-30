@@ -34,8 +34,9 @@ function drawGame (Mundo) {
         rect(150,240,100,15);
         //Muestra en pantalla los textos que se encuentran en el menú.
         fill(255);
+        textFont(fuente,18);
+        text("Selecciona la dificultad:",95,120);
         textFont(fuente,14);
-        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
         text("Medio",182.5,212);
         text("Difícil",182,252);
@@ -50,8 +51,9 @@ function drawGame (Mundo) {
         rect(150,160,100,15);
         rect(150,240,100,15);
         fill(255);
+        textFont(fuente,18);
+        text("Selecciona la dificultad:",95,120);
         textFont(fuente,14);
-        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
         text("Medio",182.5,212);
         text("Difícil",182,252);
@@ -66,8 +68,9 @@ function drawGame (Mundo) {
         rect(150,160,100,15);
         rect(150,200,100,15);
         fill(255);
+        textFont(fuente,18);
+        text("Selecciona la dificultad:",95,120);
         textFont(fuente,14);
-        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
         text("Medio",182.5,212);
         text("Difícil",182,252);
@@ -82,8 +85,9 @@ function drawGame (Mundo) {
         rect(150,200,100,15);
         rect(150,240,100,15);
         fill(255);
+        textFont(fuente,18);
+        text("Selecciona la dificultad:",95,120);
         textFont(fuente,14);
-        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
         text("Medio",182.5,212);
         text("Difícil",182,252);
