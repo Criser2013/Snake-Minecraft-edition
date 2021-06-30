@@ -95,8 +95,6 @@ function drawGame(Mundo){
       background(mapa);
       //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
-      //Esta linea llama a la función drawScore para dibujar el puntaje.
-      drawScore(Mundo.score);
       //Estas lineas llama a la función drawCheat para dibujar las trampas.
       drawCheat(Mundo.trampas);
       //Estas lineas llaman a las funciones drawObstacles(s&M) para dibujar los obstaculos.
@@ -110,11 +108,12 @@ function drawGame(Mundo){
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
       fill(0,168,168);
       rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
+      //Esta linea llama a la función drawScore para dibujar el puntaje.
+      drawScore(Mundo.score);
     }
     else {
       background(mapa);
       drawFood(Mundo.food);
-      drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
       fill(70,59,164);
       forEach(Mundo.snake, s => {
@@ -122,12 +121,12 @@ function drawGame(Mundo){
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
       fill(0,168,168);
       rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
+      drawScore(Mundo.score);
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
     background(mapa);
     drawFood(Mundo.food);
-    drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
     drawObstaclesS(Mundo.obstaculos.estatico);
     fill(70,59,164);
@@ -136,18 +135,18 @@ function drawGame(Mundo){
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
     fill(0,168,168);
     rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
-
+    drawScore(Mundo.score);
   }
   else {
     background(mapa);
     drawFood(Mundo.food);
-    drawScore(Mundo.score);
     fill(70,59,164);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
     image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
     fill(0,168,168);
     rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
+    drawScore(Mundo.score);
   }
 }
 /*
