@@ -663,7 +663,12 @@ function onTic(Mundo){
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
-  return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1})
+    if (Mundo.score>=5) {
+      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,contador:Mundo.contador+1});
+    }
+    else {
+      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1});
+    }
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
