@@ -45,7 +45,6 @@ let mapa = null;
 let comida = null;
 let powerup = null;
 let trampa = null;
-let obstaculoS = null;
 
 ////////////////////////
 /*

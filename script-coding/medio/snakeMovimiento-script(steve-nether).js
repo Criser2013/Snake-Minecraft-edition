@@ -196,6 +196,7 @@ Ejemplos: drawScore (25) -> text("Score: 25");
           drawScore (3) -> text("Score: 3");
 */
 function drawScore (score) {
+  stroke(1);
   textFont(fuente,14);
   fill(255);
   text("Puntuación: "+score,10,380);
@@ -566,6 +567,7 @@ function onTic(Mundo){
   //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true) {
+    stroke(1);
     fill(255);
     textFont(fuente,16);
     text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
@@ -574,6 +576,7 @@ function onTic(Mundo){
   }
   //Realiza lo mismo que la condición anterior, solo que ahora es con la colisión de la cabeza del snake con alguna parte de su cuerpo.
   else if (colisionCabeza(Mundo.snake)==true) {
+    stroke(1);
     fill(255);
     textFont(fuente,16);
     text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
