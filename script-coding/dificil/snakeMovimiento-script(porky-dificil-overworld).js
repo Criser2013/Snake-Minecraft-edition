@@ -11,10 +11,10 @@ Ejemplos: foodposx,foodposy () -> {x:4,y:7}
           foodposx,foodposy () -> {x:1,y;1}
 */
 function foodposx () {
-  return Math.ceil(Math.random() * (19 + 1)) - 1;
+  return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
 };
 function foodposy () {
-  return Math.ceil(Math.random() * (19 + 1)) - 1;
+  return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
 };
 /*
 Contrato: crecimiento lista -> lista
@@ -472,15 +472,17 @@ function colisionparedes () {
   else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
     return false
   }
-  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x&&first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&Mundo.trampas.estado==true)) {
-    return true
-  }
-  //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador<=1)))&&Mundo.trampas.estado==false) {
-    return false
-  }
   else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
-    return true
+    if (Mundo.trampas.estado==true) {
+      return true
+    }
+    //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
+    else if (Mundo.contador<=1&&Mundo.trampas.estado==false) {
+      return false
+    }
+    else {
+      return true
+    }
   }
   else {
     return false
@@ -564,8 +566,8 @@ function onTic(Mundo){
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
-   //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
-  else if ((Mundo.contador>=0&&Mundo.contador<40)&&Mundo.trampas.estado==false) {
+  //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
+  else if ((Mundo.contador>=0&&Mundo.contador<40)&&(Mundo.trampas.estado==false&&Mundo.score>=5)) {
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }

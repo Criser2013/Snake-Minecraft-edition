@@ -11,10 +11,10 @@ Ejemplos: foodposx,foodposy () -> {x:4,y:7}
           foodposx,foodposy () -> {x:1,y;1}
 */
 function foodposx () {
-  return Math.ceil(Math.random() * (19 + 1)) - 1;
+  return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
 };
 function foodposy () {
-  return Math.ceil(Math.random() * (19 + 1)) - 1;
+  return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
 };
 /*
 Contrato: crecimiento lista -> lista
@@ -86,7 +86,7 @@ function setup() {
   frameRate(12.5);
   createCanvas(400, 400);
   background(mapa);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
@@ -462,7 +462,7 @@ Ejemplos: colisionparedes ({snake:[{x:1,y:19},{x:2,y:18},{x:1,y:17}],dir:{x:0,y:
 */
 function colisionparedes () {
   if (Mundo.colision==true) {
-    return true
+    return true;
   }
   else if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
     return true
@@ -480,15 +480,17 @@ function colisionparedes () {
   else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
     return false
   }
-  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x&&first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&Mundo.trampas.estado==true)) {
-    return true
-  }
-  //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador<=1)))&&Mundo.trampas.estado==false) {
-    return false
-  }
   else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
-    return true
+    if (Mundo.trampas.estado==true) {
+      return true
+    }
+    //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
+    else if (Mundo.contador<=1&&Mundo.trampas.estado==false) {
+      return false
+    }
+    else {
+      return true
+    }
   }
   else {
     return false
@@ -572,8 +574,8 @@ function onTic(Mundo){
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
-   //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
-  else if ((Mundo.contador>=0&&Mundo.contador<40)&&Mundo.trampas.estado==false) {
+  //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
+  else if ((Mundo.contador>=0&&Mundo.contador<40)&&(Mundo.trampas.estado==false&&Mundo.score>=5)) {
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
