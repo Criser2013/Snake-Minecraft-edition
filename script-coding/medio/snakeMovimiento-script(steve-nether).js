@@ -595,7 +595,7 @@ function onTic(Mundo){
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
   else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
-    return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,trampas:{estado:true},contador:Mundo.contador+1})
+    return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,trampas:{estado:true},contador:0})
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
@@ -609,10 +609,10 @@ function onTic(Mundo){
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:Mundo.contador+1})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:0})
   }
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
-  else if (Mundo.contador==80&&Mundo.trampas.estado==true) {
+  else if (Mundo.contador>=80&&Mundo.trampas.estado==true) {
     frameRate(fpscheat())
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},contador:0})
   }
@@ -630,7 +630,7 @@ function onTic(Mundo){
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
-  else if (Mundo.contador==40&&Mundo.trampas.estado==false) {
+  else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},obstaculos:{movil:{x:obsposx(),y:obsposy()},estatico:{x:cheatposx(),y:cheatposy()}},contador:0})
   }
@@ -661,7 +661,8 @@ function onKeyEvent (Mundo, keyCode) {
       return update(Mundo, {dir: {y: 0, x: 1}});
   }
   else if (Mundo.colision==true) {
-    window.open("perdido(steve-medio-nether).html","_self")
+    window.open("perdido(steve-medio-nether).html","_self");
+    return update(Mundo,{});
   }
   else {
       console.log(keyCode);
