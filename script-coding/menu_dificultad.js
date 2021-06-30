@@ -1,64 +1,93 @@
 let Mundo = {}
+let fuente = null;
+let fondo = null;
+/*
+Contrato: preload variable -> FoI
+FoI = Font or image.
+Image = Imagen dentro de los archivos del juego.
+Font = Fuente tipográfica no incluida en CSS ni P5.JS.
+variable = variable local (let)
+Proposito: Carga la fuente estilo Minecraft que utiliza este menú del juego y la imagen de fondo.
+Prototipo: preload () {}
+Ejemplos: preload (fuente,loadImage("minecraft.otf")) -> fuente = loadFont("minecraft.otf") // La fuente se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (fondo,loadImage("images/m2.png")) -> fondo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
+function preload () {
+    fuente = loadFont("minecraft.otf");
+    fondo = loadImage("images/fondo_dificultad.png");
+}
 function setup () {
     createCanvas(400,400);
+    background(fondo);
     Mundo = {boton:2}
 }
 function drawGame (Mundo) {
     //Dibuja el menú, solo con variaciones dependiendo de que botón se encuentra seleccionado.
     if (Mundo.boton==2) {
-        //Dibuja un rectangulo por fuera del botón 1 cuando este se encuentra seleccionado (para indicar que es la selección actual).
-        rect(147,157,106,21);
-        //Dibuja los botones de la dificultad.
-        rect(10,30,50,20);
+        fill(100,109,109);
+        stroke(255);
         rect(150,160,100,15);
+        stroke(1);
+        //Dibuja los botones de la dificultad.
+        rect(10,30,55,20);
         rect(150,200,100,15);
         rect(150,240,100,15);
         //Muestra en pantalla los textos que se encuentran en el menú.
-        textFont("Arial",14);
-        text("Selecciona la dificultad:",130,120);
+        fill(255);
+        textFont(fuente,14);
+        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
-        text("Medio",180,212);
-        text("Difícil",182.5,252);
-        text("Volver",15,45);
+        text("Medio",182.5,212);
+        text("Difícil",182,252);
+        text("Volver",16,45);
     }
     else if (Mundo.boton==3) {
-        rect(10,30,50,20);
-        rect(147,197,106,21);
-        rect(150,160,100,15);
+        fill(100,109,109);
+        stroke(255);
         rect(150,200,100,15);
+        stroke(1);
+        rect(10,30,55,20);
+        rect(150,160,100,15);
         rect(150,240,100,15);
-        textFont("Arial",14);
-        text("Selecciona la dificultad:",130,120);
+        fill(255);
+        textFont(fuente,14);
+        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
-        text("Medio",180,212);
-        text("Difícil",182.5,252);
-        text("Volver",15,45);
+        text("Medio",182.5,212);
+        text("Difícil",182,252);
+        text("Volver",16,45);
     }
     else if (Mundo.boton==4) {
-        rect(10,30,50,20);
-        rect(147,237,106,21);
+        fill(100,109,109);
+        stroke(255);
+        rect(150,240,100,15);
+        stroke(1);
+        rect(10,30,55,20);
         rect(150,160,100,15);
         rect(150,200,100,15);
-        rect(150,240,100,15);
-        textFont("Arial",14);
-        text("Selecciona la dificultad:",130,120);
+        fill(255);
+        textFont(fuente,14);
+        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
-        text("Medio",180,212);
-        text("Difícil",182.5,252);
-        text("Volver",15,45);
+        text("Medio",182.5,212);
+        text("Difícil",182,252);
+        text("Volver",16,45);
     }
     else if (Mundo.boton==1) {
-        rect(7,27,56,26);
-        rect(10,30,50,20);
+        fill(100,109,109);
+        stroke(255);
+        rect(10,30,55,20);
+        stroke(1);
         rect(150,160,100,15);
         rect(150,200,100,15);
         rect(150,240,100,15);
-        textFont("Arial",14);
-        text("Selecciona la dificultad:",130,120);
+        fill(255);
+        textFont(fuente,14);
+        text("Selecciona la dificultad:",120,120);
         text("Fácil",185,172);
-        text("Medio",180,212);
-        text("Difícil",182.5,252);
-        text("Volver",15,45);
+        text("Medio",182.5,212);
+        text("Difícil",182,252);
+        text("Volver",16,45);
     }
 }
 function onMouseEvent (Mundo,event) {
