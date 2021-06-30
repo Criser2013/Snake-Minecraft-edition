@@ -67,7 +67,7 @@ function preload () {
   powerup = loadImage("images/manzana_dorada.png");
   trampa = loadImage("images/papa_venenosa.png");
   mapa = loadImage("images/overworld.png");
-  fuente = loadFont("minecraft.ttf");
+  fuente = loadFont("minecraft.otf");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
