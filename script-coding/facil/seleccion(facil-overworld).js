@@ -149,17 +149,21 @@ function onTic (Mundo) {
 function onKeyEvent (Mundo,keyCode) {
     //Abre el archivo del menú cuando se presiona el botón de volver.
     if (keyCode==ENTER&&Mundo.boton==1) {
-        window.open("menu_mapas(facil).html","_self")
+        window.open("menu_mapas(facil).html","_self");
+        return update(Mundo,{});
     }
     //Estas 3 condiciones abre los archivos del juego con la apariencia seleccionada en su dificultad.
     else if (keyCode==ENTER&&Mundo.boton==2) {
-        window.open("snakeMovimiento(steve-facil-overworld).html","_self")
+        window.open("snakeMovimiento(steve-facil-overworld).html","_self");
+        return update(Mundo,{});
     }
     else if (keyCode==ENTER&&Mundo.boton==3) {
-        window.open("snakeMovimiento(porky-facil-overworld).html","_self")
+        window.open("snakeMovimiento(porky-facil-overworld).html","_self");
+        return update(Mundo,{});
     }
     else if (keyCode==ENTER&&Mundo.boton==4) {
-        window.open("snakeMovimiento(alex-facil-overworld).html","_self")
+        window.open("snakeMovimiento(alex-facil-overworld).html","_self");
+        return update(Mundo,{});
     }
     //Estas funciones son las que permiten el movimiento de la selección de botones en pantalla (notese que se llama a la función "setup ()" en cada una, de ahí la razón de la función "preload ()").
     else if ((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton!==1) {

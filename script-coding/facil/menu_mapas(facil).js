@@ -150,15 +150,19 @@ function onKeyEvent (Mundo, keyCode) {
     //Estas condiciones abren el archivo correspondiente a la selección del botón en el que se encuentre.
     if (Mundo.boton==1&&keyCode==ENTER) {
         window.open("menu.html","_self");
+        return update(Mundo,{});
     }
     else if (Mundo.boton==2&&keyCode==ENTER) {
         window.open("seleccion(facil-overworld).html","_self");
+        return update(Mundo,{});
     }
     else if (Mundo.boton==3&&keyCode==ENTER) {
         window.open("seleccion(facil-nether).html","_self");
+        return update(Mundo,{});
     }
     else if (Mundo.boton==4&&keyCode==ENTER) {
-        window.open("seleccion(facil-end).html","_self")
+        window.open("seleccion(facil-end).html","_self");
+        return update(Mundo,{});
     }
     //Esas condiciones permiten el movimiento entre botones.
     else if (Mundo.boton!==4&&(keyCode==RIGHT_ARROW||keyCode==68)) {
