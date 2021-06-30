@@ -134,22 +134,22 @@ function onKeyEvent (Mundo,keyCode) {
         window.open("menu.html","_self");
     }
     //Permite el movimiento entre botones con el teclado en dirección superior, a excepción del primer botón.
-    else if (Mundo.boton!==1&&keyCode==UP_ARROW) {
+    else if (Mundo.boton!==1&&(keyCode==UP_ARROW||keyCode==87)) {
         setup();
         return update(Mundo,{boton:Mundo.boton-1});
     }
     //Si se presiona la tecla "arriba" del teclado y se encuentra seleccionado el 1º botón, esta condición realiza el traslado hacia el último botón (3º).
-    else if (Mundo.boton==1&&keyCode==UP_ARROW) {
+    else if (Mundo.boton==1&&(keyCode==UP_ARROW||keyCode==87)) {
         setup();
         return update(Mundo,{boton:4});
     }
     //Permite el movimiento entre botones con el teclado en dirección inferior, a excepción del último botón.
-    else if (Mundo.boton!==4&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton!==4&&(keyCode==DOWN_ARROW||keyCode==83)) {
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
     //Si se presiona la tecla "abajo" del teclado y se encuentra seleccionado el 3º botón, esta condición realiza el traslado hacia el primer botón (1º).
-    else if (Mundo.boton==4&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton==4&&(keyCode==DOWN_ARROW||keyCode==83)) {
         setup();
         return update(Mundo,{boton:1});
     }
