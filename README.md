@@ -1,2 +1,2 @@
 # Snake-Minecraft-edition
-Archivos de diferentes pruebas utilizados para testear mecanicas a añadir sin perjudicar los archivos originales.
+Archivos para crear todos los mapas con P5, en caso de ser necesario.
