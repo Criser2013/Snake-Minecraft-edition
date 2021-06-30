@@ -2,6 +2,8 @@ let Mundo = {}
 let personaje1 = null;
 let personaje2 = null;
 let personaje3 = null;
+let fuente = null;
+let fondo = null;
 /*
 Contrato: preload variable -> image
 image = Carga una imagen.
@@ -13,109 +15,123 @@ Ejemplos: preload (personaje1,loadImage("images/m1.png")) -> personaje1 = loadIm
           preload (personaje2,loadImage("images/m2.png")) -> personaje2 = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
 */
 function preload () {
-    personaje1 = loadImage("images/steve_menu.png")
-    personaje2 = loadImage("images/cerdo_menu.png")
-    personaje3 = loadImage("images/alex_menu.png")
+    personaje1 = loadImage("images/steve_menu.png");
+    personaje2 = loadImage("images/cerdo_menu.png");
+    personaje3 = loadImage("images/alex_menu.png");
+    fuente = loadFont("minecraft.otf");
+    fondo = loadImage("images/fondo_mapas.png");
 }
 function setup() {
     createCanvas(400,400);
-    background(255);
+    background(fondo);
     Mundo = {boton:2}
 }
 function drawGame () {
     //Esta condición es la encargada de dibujar el menú cuando el "botón 2" se encuentra seleccionado.
     if (Mundo.boton==2) {
-        rect(50,277.5,45,25);
-        textFont('Arial',14);
-        text("Selecciona tu personaje:",124,95);
+        textFont(fuente,18);
+        text("Selecciona tu personaje:",87,112);
         //Esta pare dibuja los marcos que están por fuera de las imagenes de los personajes.
         rect(20,140,100,100);
         rect(150,140,100,100);
         rect(280,140,100,100);
         //Esta parte dibuja los rectangulos de los botones.
-        rect(52.5,280,40,20);
-        rect(182.5,280,40,20);
-        rect(310,280,40,20);
-        rect(10,30,50,20);
+        fill(109,109,109);
+        stroke(255);
+        rect(48.5,280,45,20);
+        stroke(1);
+        rect(177.5,280,45,20);
+        rect(308,280,45,20);
+        rect(10,30,55,20);
+        fill(255);
         //Esta parte se encarga de dibujar los textos en pantalla.
-        textFont("Arial",14);
-        text("Steve",55,260);
-        text("Porky",185,260);
-        text("Alex",315,260);
-        text("Jugar",55,295);
-        text("Jugar",185,295);
-        text("Jugar",312.5,295);
-        text("Volver",15,45);
+        textFont(fuente,14);
+        text("Steve",51,265);
+        text("Porky",180,265);
+        text("Alex",316,265);
+        text("Jugar",51,295);
+        text("Jugar",180,295);
+        text("Jugar",310.5,295);
+        text("Volver",16,45);
         //Estas 3 lineas son las encargadas de mostrar las imagenes ya cargadas con la función "preload ()" en pantalla.
         image(personaje1,20,140,100,100);
         image(personaje2,150,140,100,100);
         image(personaje3,280,140,100,100);
     }
     else if (Mundo.boton==3) {
-        rect(180,277.5,45,25);
-        textFont('Arial',14);
-        text("Selecciona tu personaje:",124,95);
+        textFont(fuente,18);
+        text("Selecciona tu personaje:",87,112);
         rect(20,140,100,100);
         rect(150,140,100,100);
         rect(280,140,100,100);
-        rect(52.5,280,40,20);
-        rect(182.5,280,40,20);
-        rect(310,280,40,20);
-        rect(10,30,50,20);
-        textFont("Arial",14);
-        text("Steve",55,260);
-        text("Porky",185,260);
-        text("Alex",315,260);
-        text("Jugar",55,295);
-        text("Jugar",185,295);
-        text("Jugar",312.5,295);
-        text("Volver",15,45);
+        fill(109,109,109);
+        stroke(255);
+        rect(177.5,280,45,20);
+        stroke(1);
+        rect(48.5,280,45,20);
+        rect(308,280,45,20);
+        rect(10,30,55,20);
+        fill(255);
+        textFont(fuente,14);
+        text("Steve",51,265);
+        text("Porky",180,265);
+        text("Alex",316,265);
+        text("Jugar",51,295);
+        text("Jugar",180,295);
+        text("Jugar",310.5,295);
+        text("Volver",16,45);
         image(personaje1,20,140,100,100);
         image(personaje2,150,140,100,100);
         image(personaje3,280,140,100,100);
     }
     else if (Mundo.boton==4) {
-        rect(307.5,277.5,45,25);
-        textFont('Arial',14);
-        text("Selecciona tu personaje:",124,95);
+        textFont(fuente,18);
+        text("Selecciona tu personaje:",87,112);
         rect(20,140,100,100);
         rect(150,140,100,100);
         rect(280,140,100,100);
-        rect(52.5,280,40,20);
-        rect(182.5,280,40,20);
-        rect(310,280,40,20);
-        rect(10,30,50,20);
-        textFont("Arial",14);
-        text("Steve",55,260);
-        text("Porky",185,260);
-        text("Alex",315,260);
-        text("Jugar",55,295);
-        text("Jugar",185,295);
-        text("Jugar",312.5,295);
-        text("Volver",15,45);
+        fill(109,109,109);
+        stroke(255);
+        rect(308,280,45,20);
+        stroke(1);
+        rect(48.5,280,45,20);
+        rect(177.5,280,45,20);
+        rect(10,30,55,20);
+        fill(255);
+        textFont(fuente,14);
+        text("Steve",51,265);
+        text("Porky",180,265);
+        text("Alex",316,265);
+        text("Jugar",51,295);
+        text("Jugar",180,295);
+        text("Jugar",310.5,295);
+        text("Volver",16,45);
         image(personaje1,20,140,100,100);
         image(personaje2,150,140,100,100);
         image(personaje3,280,140,100,100);
     }
     else if (Mundo.boton==1) {
-        rect(7.5,27.5,55,25);
-        textFont('Arial',14);
-        text("Selecciona tu personaje:",124,95);
+        textFont(fuente,18);
+        text("Selecciona tu personaje:",87,112);
         rect(20,140,100,100);
         rect(150,140,100,100);
         rect(280,140,100,100);
-        rect(52.5,280,40,20);
-        rect(182.5,280,40,20);
-        rect(310,280,40,20);
-        rect(10,30,50,20);
-        textFont("Arial",14);
-        text("Steve",55,260);
-        text("Porky",185,260);
-        text("Alex",315,260);
-        text("Jugar",55,295);
-        text("Jugar",185,295);
-        text("Jugar",312.5,295);
-        text("Volver",15,45);
+        fill(109,109,109);
+        stroke(255);
+        rect(10,30,55,20);
+        stroke(1);
+        rect(48.5,280,45,20);
+        rect(177.5,280,45,20);
+        rect(308,280,45,20);
+        fill(255);
+        textFont(fuente,14);
+        text("Steve",51,265);
+        text("Porky",180,265);
+        text("Alex",316,265);
+        text("Jugar",51,295);
+        text("Jugar",180,295);
+        text("Jugar",310.5,295);
+        text("Volver",16,45);
         image(personaje1,20,140,100,100);
         image(personaje2,150,140,100,100);
         image(personaje3,280,140,100,100);
