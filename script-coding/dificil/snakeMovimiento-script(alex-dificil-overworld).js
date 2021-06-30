@@ -461,7 +461,10 @@ Ejemplos: colisionparedes ({snake:[{x:1,y:19},{x:2,y:18},{x:1,y:17}],dir:{x:0,y:
           colisionparedes ({snake:[{x:1,y:1},{x:1,y:2},{x:1,y:3}],dir:{x:0,y:-1}) -> false
 */
 function colisionparedes () {
-  if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+  if (Mundo.colision==true) {
+    return true
+  }
+  else if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
     return true
   }
   else if ((((first(Mundo.snake).x>=19)&&(Mundo.dir).x==1)||((first(Mundo.snake).x<=0)&&(Mundo.dir.x==-1)))&&Mundo.colision==false) {
@@ -477,11 +480,14 @@ function colisionparedes () {
   else if ((first(Mundo.snake).x==Mundo.obstaculos.estatico.x)&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y)) {
     return false
   }
-  //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador>1)))&&(Mundo.trampas.estado==false||Mundo.trampas.estado==true))  {
+  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x&&first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&Mundo.trampas.estado==true)) {
     return true
   }
-  else if (Mundo.colision==true) {
+  //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
+  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador<=1)))&&Mundo.trampas.estado==false) {
+    return false
+  }
+  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
     return true
   }
   else {
