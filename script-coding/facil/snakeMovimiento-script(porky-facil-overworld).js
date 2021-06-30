@@ -480,11 +480,35 @@ function traslacion (lista) {
   if (isEmpty(rest(lista))) {
     return []
   }
+  else if ((first(lista).x>19&&first(lista).y<0)&&Mundo.dir.x==1) {
+    return cons({x:first(lista).x,y:19},rest(lista))
+  }
+  else if ((first(lista).x>=19&&first(lista).y<0)&&Mundo.dir.x==-1) {
+    return cons({x:19,y:19},rest(lista))
+  }
+  else if ((first(lista).x>19&&first(lista).y>19)&&Mundo.dir.x==1) {
+    return cons({x:0,y:0},rest(lista))
+  }
+  else if ((first(lista).x>=19&&first(lista).y>=19)&&Mundo.dir.x==-1) {
+    return cons({x:first(lista).x,y:0},rest(lista))
+  }
+  else if ((first(lista).x<=0&&first(lista).y<=0)&&Mundo.dir.x==1) {
+    return cons({x:first(lista).x,y:19},rest(lista))
+  }
+  else if ((first(lista).x<0&&first(lista).y<0)&&Mundo.dir.x==-1) {
+    return cons({x:19,y:1},rest(lista))
+  }
+  else if ((first(lista).x<=0&&first(lista).y>=19)&&Mundo.dir.x==1) {
+    return cons({x:first(lista).x,y:0},rest(lista))
+  }
+  else if ((first(lista).x<0&&first(lista).y>19)&&Mundo.dir.x==-1) {
+    return cons({x:19,y:0},rest(lista))
+  }
   else if ((first(lista).x>=19&&first(lista).y<=0)&&Mundo.dir.y==-1) {
     return cons({x:first(lista).x,y:20},rest(lista))
   }
   else if ((first(lista).x<=0&&first(lista).y<=0)&&Mundo.dir.y==-1) {
-    return cons({x:19,y:first(lista).y},rest(lista))
+    return cons({x:first(lista).x,y:20},rest(lista))
   }
   else if ((first(lista).x>=19&&first(lista).y>=19)&&Mundo.dir.y==1) {
     return cons({x:first(lista).x,y:-1},rest(lista))
@@ -551,7 +575,7 @@ function colisionparedes () {
     return false
   }
   //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10&&(Mundo.contador>1)) {
+  else if (((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&(Mundo.score>=10&&(Mundo.contador>1)))&&(Mundo.trampas.estado==false||Mundo.trampas.estado==true)) {
     return true
   }
   else if (Mundo.colision==true) {
