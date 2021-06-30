@@ -119,19 +119,19 @@ function onKeyEvent (Mundo,keyCode) {
         window.open("menu_mapas(dificil).html","_self");
     }
     //Estas condiciones permiten realizar el desplazamiento entre los diferentes botones, si se encuentra en los extremos realiza la selección en el botón del extremo contrario.
-    else if (keyCode==DOWN_ARROW&&Mundo.boton!==4) {
+    else if ((keyCode==DOWN_ARROW||keyCode==83)&&Mundo.boton!==4) {
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
-    else if (keyCode==DOWN_ARROW&&Mundo.boton==4) {
+    else if ((keyCode==DOWN_ARROW||keyCode==83)&&Mundo.boton==4) {
         setup();
         return update(Mundo,{boton:1});
     }
-    else if (keyCode==UP_ARROW&&Mundo.boton!==1) {
+    else if ((keyCode==UP_ARROW||keyCode==87)&&Mundo.boton!==1) {
         setup();
         return update(Mundo,{boton:Mundo.boton-1});
     }
-    else if (keyCode==UP_ARROW&&Mundo.boton==1) {
+    else if ((keyCode==UP_ARROW||keyCode==87)&&Mundo.boton==1) {
         setup();
         return update(Mundo,{boton:4});
     }

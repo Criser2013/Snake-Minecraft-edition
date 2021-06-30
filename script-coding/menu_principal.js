@@ -1,6 +1,28 @@
 let Mundo = {}
+let fondo = null;
+let fuente = null;
+let titulo = null;
+let titulo2 = null;
+/*
+Contrato: preload variable -> FoI
+FoI = Font or image.
+Image = Imagen dentro de los archivos del juego.
+Font = Fuente tipográfica no incluida en CSS ni P5.JS.
+variable = variable local (let)
+Proposito: Carga la fuente estilo Minecraft que utiliza este menú del juego y la imagen de fondo.
+Prototipo: preload () {}
+Ejemplos: preload (fuente,loadImage("minecraft.otf")) -> fuente = loadFont("minecraft.otf") // La fuente se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (fondo,loadImage("images/m2.png")) -> fondo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
+function preload () {
+    fuente = loadFont("minecraft.otf");
+    fondo = loadImage("images/fondo_principal.png");
+    titulo = loadImage("images/titulo_snake.png");
+    titulo2 = loadFont("minecrafter.ttf");
+}
 function setup () {
     createCanvas(400,400);
+    background(fondo);
     Mundo = {boton:1};
 }
 function update(data, attribute) {
@@ -9,43 +31,57 @@ function update(data, attribute) {
 function drawGame (Mundo) {
     //Dibuja el menú, las diferentes condiciones solo dibujan un rectangulo alrededor del botón seleccionado.
     if (Mundo.boton==1) {
-        //Dibuja el rectangulo que indica que el botón seleccionado es el 1º.
-        rect(149.5,197,101,26);
+        image(titulo,117,80,165,51);
         //Dibuja los botones.
-        rect(152.5,200,95,20);
-        rect(152.5,240,95,20);
-        rect(152.5,280,95,20);
+        fill(109,109,109);
+        stroke(255);
+        rect(140,200,119,20);
+        stroke(1);
+        rect(140,240,119,20);
+        rect(140,280,119,20);
+        fill(255);
         //Dibuja los textos de los botones en pantalla.
-        textFont("Arial",14);
+        textFont(fuente,14);
         text("¡Jugar!",177,215);
-        text("¿Cómo jugar?",155,255);
-        text("Créditos",173,295);
-        textFont("Arial",46);
-        text("Snake:'Anaconda'",15,120);
+        text("¿Cómo jugar?",151.5,255);
+        text("Agradecimientos",145,295);
+        fill(216,206,205);
+        textFont(titulo2,14);
+        text("Minecraft edition",125,150);
     }
     else if (Mundo.boton==2) {
-        rect(149.5,237,101,26);
-        rect(152.5,200,95,20);
-        rect(152.5,240,95,20);
-        rect(152.5,280,95,20);
-        textFont("Arial",14);
+        image(titulo,117,80,165,51);
+        fill(109,109,109);
+        stroke(255);
+        rect(140,240,119,20);
+        stroke(1);
+        rect(140,200,119,20);
+        rect(140,280,119,20);
+        fill(255);
+        textFont(fuente,14);
         text("¡Jugar!",177,215);
-        text("¿Cómo jugar?",155,255);
-        text("Créditos",173,295);
-        textFont("Arial",46);
-        text("Snake:'Anaconda'",15,120);
+        text("¿Cómo jugar?",151.5,255);
+        text("Agradecimientos",145,295);
+        fill(216,206,205);
+        textFont(titulo2,14);
+        text("Minecraft edition",125,150);
     }
     else if (Mundo.boton==3) {
-        rect(149.5,277,101,26);
-        rect(152.5,200,95,20);
-        rect(152.5,240,95,20);
-        rect(152.5,280,95,20);
-        textFont("Arial",14);
+        image(titulo,117,80,165,51);
+        fill(109,109,109);
+        stroke(255);
+        rect(140,280,119,20);
+        stroke(1);
+        rect(140,200,119,20);
+        rect(140,240,119,20);
+        fill(255);
+        textFont(fuente,14);
         text("¡Jugar!",177,215);
-        text("¿Cómo jugar?",155,255);
-        text("Créditos",173,295);
-        textFont("Arial",46);
-        text("Snake:'Anaconda'",15,120);
+        text("¿Cómo jugar?",151.5,255);
+        text("Agradecimientos",145,295);
+        fill(216,206,205);
+        textFont(titulo2,14);
+        text("Minecraft edition",125,150);
     }
 }
 function onTic (Mundo) {
@@ -66,19 +102,19 @@ function onKeyEvent (Mundo, keyCode) {
         window.open("creditos.html","_self");
     }
     //Esas condiciones permiten el movimiento entre botones.
-    else if (Mundo.boton!==3&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton!==3&&(keyCode==DOWN_ARROW||keyCode==83)) {
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
-    else if (Mundo.boton!==1&&keyCode==UP_ARROW) {
+    else if (Mundo.boton!==1&&(keyCode==UP_ARROW||keyCode==87)) {
         setup();
         return update(Mundo,{boton:Mundo.boton-1})
     }
-    else if (Mundo.boton==1&&keyCode==UP_ARROW) {
+    else if (Mundo.boton==1&&(keyCode==UP_ARROW||keyCode==87)) {
         setup();
         return update(Mundo,{boton:3})
     }
-    else if (Mundo.boton==3&&keyCode==DOWN_ARROW) {
+    else if (Mundo.boton==3&&(keyCode==DOWN_ARROW||keyCode==83)) {
         setup();
         return update(Mundo,{boton:1})
     }

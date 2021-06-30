@@ -225,19 +225,19 @@ function onMouseEvent (Mundo, event) {
 }
 function onKeyEvent (Mundo, keyCode) {
     //Estas condiciones son las encargadas de indicarle al programa en qué botón se encuentra seleccionado, a la vez que hacen posible el desplazamiento entre botones.
-    if ((keyCode==RIGHT_ARROW&&Mundo.boton==1)&&Mundo.menu!==3) {
+    if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton==1)&&Mundo.menu!==3) {
         setup();
         return update(Mundo,{boton:2});
     }
-    else if ((keyCode==RIGHT_ARROW&&Mundo.boton==2)&&Mundo.menu!==3) {
+    else if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton==2)&&Mundo.menu!==3) {
         setup();
         return update(Mundo,{boton:1});
     }
-    else if ((keyCode==LEFT_ARROW&&Mundo.boton==2)&&Mundo.menu!==3) {
+    else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton==2)&&Mundo.menu!==3) {
         setup();
         return update(Mundo,{boton:1});
     }
-    else if ((keyCode==LEFT_ARROW&&Mundo.boton==1)&&Mundo.menu!==3) {
+    else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton==1)&&Mundo.menu!==3) {
         setup();
         return update(Mundo,{boton:2});
     }
