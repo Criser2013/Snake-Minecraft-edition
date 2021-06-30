@@ -45,6 +45,7 @@ let mapa = null;
 let comida = null;
 let powerup = null;
 let trampa = null;
+let fuente;
 ////////////////////////
 /*
 Contrato: preload variable -> image
@@ -66,6 +67,7 @@ function preload () {
   powerup = loadImage("images/manzana_dorada.png");
   trampa = loadImage("images/fruta_coral.png");
   mapa = loadImage("images/end.png");
+  fuente = loadFont("minecraft.otf");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -81,7 +83,7 @@ const dy = 20;
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
-  frameRate(5);
+  frameRate(10);
   createCanvas(400, 400);
   background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
@@ -194,9 +196,9 @@ Ejemplos: drawScore (25) -> text("Score: 25");
           drawScore (3) -> text("Score: 3");
 */
 function drawScore (score) {
-  textFont("Arial",14);
+  textFont(fuente,14);
   fill(1);
-  text("Score: "+score,10,380);
+  text("Puntuación: "+score,10,380);
 }
 /*
 Contrato: cheatposx,cheatposy () -> number
@@ -520,17 +522,17 @@ function onTic(Mundo){
   //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true) {
     fill(1);
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
-    text("Presiona cualquier tecla para continuar.",70,240);
+    textFont(fuente,16);
+    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
+    text("Presiona cualquier tecla para continuar.",36,240);
     return update(Mundo,{colision:true});
   }
   //Realiza lo mismo que la condición anterior, solo que ahora es con la colisión de la cabeza del snake con alguna parte de su cuerpo.
   else if (colisionCabeza(Mundo.snake)==true) {
     fill(1);
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
-    text("Presiona cualquier tecla para continuar.",70,240);
+    textFont(fuente,16);
+    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
+    text("Presiona cualquier tecla para continuar.",36,240);
     return update(Mundo,{colision:true});
   }
   /* Esta condición actualiza la dirección en "X" del en el Mundo, si la serpiente se mueve hacia la derecha y se presiona la tecla para mover a la 
