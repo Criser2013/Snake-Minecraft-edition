@@ -44,6 +44,8 @@ let obstaculoS3 = null;
 let comida = null;
 let powerup = null;
 let trampa = null;
+let mapa = null;
+let fuente;
 ////////////////////////
 /*
 Contrato: preload variable -> image
@@ -64,6 +66,8 @@ function preload () {
   comida = loadImage("images/manzana.png");
   powerup = loadImage("images/manzana_dorada.png");
   trampa = loadImage("images/ojo_araña.png");
+  mapa = loadImage("images/nether.png");
+  fuente = loadFont("minecraft.otf");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -81,14 +85,14 @@ const dy = 20;
 function setup() {
   frameRate(7.5);
   createCanvas(400, 400);
-  background(15, 200, 50);
+  background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0},score:0,colision:false,trampas:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,estado:false},contador:0,obstaculos:{movil:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0,},estatico:{x:Math.ceil(Math.random()*(19-0))+0,y:Math.ceil(Math.random()*(19-0))+0}}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
     if (Mundo.score>=10&&Mundo.trampas.estado==false) {
-      background(10, 200, 50);
+      background(mapa);
       //Esta linea llama a la función drawFood para dibujar la comida.
       drawFood(Mundo.food);
       //Esta linea llama a la función drawScore para dibujar el puntaje.
@@ -106,7 +110,7 @@ function drawGame(Mundo){
       image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
     }
     else {
-      background(10, 200, 50);
+      background(mapa);
       drawFood(Mundo.food);
       drawScore(Mundo.score);
       drawCheat(Mundo.trampas);
@@ -117,7 +121,7 @@ function drawGame(Mundo){
     }
   }
   else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
-    background(10, 200, 50);
+    background(mapa);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     drawObstaclesm(Mundo.obstaculos.movil);
@@ -129,7 +133,7 @@ function drawGame(Mundo){
 
   }
   else {
-    background(10, 200, 50);
+    background(mapa);
     drawFood(Mundo.food);
     drawScore(Mundo.score);
     fill(255,166,194);
@@ -185,9 +189,9 @@ Ejemplos: drawScore (25) -> text("Score: 25");
           drawScore (3) -> text("Score: 3");
 */
 function drawScore (score) {
-  textFont("Arial",14);
-  fill(1);
-  text("Score: "+score,10,380);
+  textFont(fuente,14);
+  fill(255);
+  text("Puntuación: "+score,10,380);
 }
 /*
 Contrato: cheatposx,cheatposy () -> number
@@ -554,18 +558,18 @@ function fpscheat () {
 function onTic(Mundo){
   //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true) {
-    fill(1);
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
-    text("Presiona cualquier tecla para continuar.",70,240);
+    fill(255);
+    textFont(fuente,16);
+    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
+    text("Presiona cualquier tecla para continuar.",36,240);
     return update(Mundo,{colision:true});
   }
   //Realiza lo mismo que la condición anterior, solo que ahora es con la colisión de la cabeza del snake con alguna parte de su cuerpo.
   else if (colisionCabeza(Mundo.snake)==true) {
-    fill(1);
-    textFont("Arial",16);
-    text("Haz perdido, tu puntuaci\xf3n es: "+Mundo.score,90,190);
-    text("Presiona cualquier tecla para continuar.",70,240);
+    fill(255);
+    textFont(fuente,16);
+    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
+    text("Presiona cualquier tecla para continuar.",36,240);
     return update(Mundo,{colision:true});
   }
   /* Esta condición actualiza la dirección en "X" del en el Mundo, si la serpiente se mueve hacia la derecha y se presiona la tecla para mover a la 
