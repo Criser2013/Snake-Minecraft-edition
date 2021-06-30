@@ -17,17 +17,17 @@ function foodposy () {
   return Math.ceil(Math.random() * (19 + 1)) - 1;
 };
 /*
-Contrato: plus lista -> lista
+Contrato: crecimiento lista -> lista
 Proposito: Crea una nueva parte del cuerpo del snake cada que la cabeza del snake colisiona con la comida, apoyandose de una de las condiciones de la función "onTic".
-Prototipo: plus (lista) {}
-Ejemplos: plus ([{x:1,y:1},{x:2,y:1},{x:1,y:1}]) -> [{x:3,y:1},{x:2,y:1},{x:1,y:1},{x:0,y:1}]
+Prototipo: crecimiento (lista) {}
+Ejemplos: crecimiento ([{x:1,y:1},{x:2,y:1},{x:1,y:1}]) -> [{x:3,y:1},{x:2,y:1},{x:1,y:1},{x:0,y:1}]
 */
-const crecimiento = function plus (lista) {
+function crecimiento (lista) {
   if (isEmpty(rest(lista))) {
     return cons(first(lista),cons({x:first(lista).x-1,y:first(lista).y},[]))
   }
   else {
-    return cons(first(lista),plus(rest(lista)))
+    return cons(first(lista),crecimiento(rest(lista)))
   }
 }
 // Actualiza los atributos del objeto y retorna una copia profunda
@@ -36,7 +36,7 @@ function update(data, attribute) {
 }
 //////////////////////// Mundo inicial
 let Mundo = {}
-let derp = null;
+let cara = null;
 let obstaculoS = null;
 let obstaculoS1 = null;
 let obstaculoS2 = null;
@@ -45,7 +45,7 @@ let mapa = null;
 let comida = null;
 let powerup = null;
 let trampa = null;
-let fuente;
+let fuente = null;
 ////////////////////////
 /*
 Contrato: preload variable -> image
@@ -54,11 +54,11 @@ variable = variable local (let)
 Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
 la carga de los elementos en pantalla.
 Prototipo: preload () {}
-Ejemplos: preload (derp,loadImage("images/m1.png")) -> derp = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+Ejemplos: preload (cara,loadImage("images/m1.png")) -> cara = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
           preload (obstaculo,loadImage("images/m2.png")) -> obstavulo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
 */
 function preload () {
-  derp = loadImage("images/cerdo.png");
+  cara = loadImage("images/cerdo.png");
   obstaculoS = loadImage("images/creeper.png");
   obstaculoS1 = loadImage("images/cabeza_zombie.png");
   obstaculoS2 = loadImage("images/cabeza_araña.png");
@@ -105,7 +105,7 @@ function drawGame(Mundo){
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
       //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
-      image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+      image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
       //Esta linea llama a la función drawScore para dibujar el puntaje.
       drawScore(Mundo.score);
     }
@@ -116,7 +116,7 @@ function drawGame(Mundo){
       fill(255,166,194);
       forEach(Mundo.snake, s => {
       rect(s.x * dx, s.y * dy, dx, dy);});
-      image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+      image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
       drawScore(Mundo.score);
     }
   }
@@ -128,7 +128,7 @@ function drawGame(Mundo){
     fill(255,166,194);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
-    image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
+    image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
     drawScore(Mundo.score);
   }
   else {
@@ -137,7 +137,7 @@ function drawGame(Mundo){
     fill(255,166,194);
     forEach(Mundo.snake, s => {
     rect(s.x * dx, s.y * dy, dx, dy);});
-    image(derp,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
+    image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
     drawScore(Mundo.score);
   }
 }
@@ -441,11 +441,11 @@ Ejemplos: colisionCabeza ([{x:1,y:1},{x:2,y:1},{x:1,y:1}]) -> true
           colisionCabeza ([{x:3,y:1},{x:2,y:1},{x:1,y:1}]) -> false
 */
 function colisionCabeza (lista) {
-  const kbeza = first(Mundo.snake)
+  const cabeza = first(Mundo.snake)
   if (isEmpty(rest(lista))) {
     return false;
   }
-  else if ((first(rest(lista)).x==kbeza.x)&&(first(rest(lista)).y==kbeza.y)) {
+  else if ((first(rest(lista)).x==cabeza.x)&&(first(rest(lista)).y==cabeza.y)) {
     return true;
   }
   else if ((first(lista).x==first(rest(lista)).x)&&(first(lista).y==first(rest(lista)).y)) {
@@ -500,6 +500,9 @@ Ejemplos: colisionparedes ({snake:[{x:1,y:19},{x:2,y:18},{x:1,y:17}],dir:{x:0,y:
           colisionparedes ({snake:[{x:1,y:1},{x:1,y:2},{x:1,y:3}],dir:{x:0,y:-1}) -> false
 */
 function colisionparedes () {
+  if (Mundo.colision==true) {
+    return true;
+  }
   if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
     return true
   }
@@ -521,9 +524,6 @@ function colisionparedes () {
     return false
   }
   else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
-    return true
-  }
-  else if (Mundo.colision==true) {
     return true
   }
   else {
@@ -561,16 +561,8 @@ function fpscheat () {
 }
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
-  //Si la funcion colisionp determina que si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
-  if (colisionparedes(Mundo.snake)==true) {
-    fill(1);
-    textFont(fuente,16);
-    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
-    text("Presiona cualquier tecla para continuar.",36,240);
-    return update(Mundo,{colision:true});
-  }
-  //Realiza lo mismo que la condición anterior, solo que ahora es con la colisión de la cabeza del snake con alguna parte de su cuerpo.
-  else if (colisionCabeza(Mundo.snake)==true) {
+  //Si la funcion colisionparedes y colisionCabeza determinan si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
+  if (colisionparedes(Mundo.snake)==true||colisionCabeza(Mundo.snake)==true) {
     fill(1);
     textFont(fuente,16);
     text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
@@ -593,14 +585,14 @@ function onTic(Mundo){
   else if (((first(Mundo.snake).y<first(rest(Mundo.snake)).y)&&Mundo.dir.y==1)&&colisionCabeza(Mundo.snake)==false) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:-1}),dir:{x:0,y:-1}})
   }
-  //Esta condición se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
+  //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
   else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
     return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,trampas:{estado:true},contador:Mundo.contador+1})
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
-    return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1})
+  return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1})
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
@@ -619,7 +611,7 @@ function onTic(Mundo){
   else if (first(Mundo.snake).x<=-1) {
     return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
   }
-   //Estas 2 condiciones determinan si hubo colisión entre la cabeza del snake y la comida.
+  //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
   }
@@ -632,23 +624,6 @@ function onTic(Mundo){
   else if (Mundo.contador==40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
     return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},obstaculos:{movil:{x:obsposx(),y:obsposy()},estatico:{x:cheatposx(),y:cheatposy()}},contador:0})
-  }
-  //Aumenta la velocidad del juego en función del puntaje.
-  else if (Mundo.score>=10&&Mundo.score<20&&(Mundo.trampas.estado==false&&Mundo.contador==0)) {
-    frameRate(10);
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)})
-  }
-  else if (Mundo.score>=20&&Mundo.score<30&&(Mundo.trampas.estado==false&&Mundo.contador==0)) {
-    frameRate(12.5);
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
-  }
-  else if (Mundo.score>=30&&Mundo.score<50&&(Mundo.trampas.estado==false&&Mundo.contador==0)) {
-    frameRate(15);
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
-  }
-  else if (Mundo.score>=50&&(Mundo.trampas.estado==false&&Mundo.contador==0)) {
-    frameRate(17.5);
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)});
   }
   else {
     //Actualiza la posición del snake usando la función "moveSnake".
