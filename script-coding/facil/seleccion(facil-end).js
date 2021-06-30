@@ -162,19 +162,19 @@ function onKeyEvent (Mundo,keyCode) {
         window.open("snakeMovimiento(alex-facil-end).html","_self")
     }
     //Estas funciones son las que permiten el movimiento de la selección de botones en pantalla (notese que se llama a la función "setup ()" en cada una, de ahí la razón de la función "preload ()").
-    else if (keyCode==LEFT_ARROW&&Mundo.boton!==1) {
+    else if ((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton!==1) {
         setup()
         return update(Mundo,{boton:Mundo.boton-1})
     }
-    else if (keyCode==RIGHT_ARROW&&Mundo.boton!==4) {
+    else if ((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton!==4) {
         setup()
         return update(Mundo,{boton:Mundo.boton+1})
     }
-    else if (keyCode==LEFT_ARROW&&Mundo.boton==1) {
+    else if ((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton==1) {
         setup()
-        return update(Mundo,{boton:4});
+        return update(Mundo,{boton:4})
     }
-    else if (keyCode==RIGHT_ARROW&&Mundo.boton==4) {
+    else if ((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton==4) {
         setup()
         return update(Mundo,{boton:1})
     }
