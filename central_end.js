@@ -1,0 +1,138 @@
+let Mundo = {}
+let img1 = null;
+let img2 = null;
+let img3 = null;
+let img4 = null;
+let img5 = null;
+function setup () {
+    createCanvas(180,180)
+    img1 = loadImage("images/purpur.png")
+    img2 = loadImage("images/mitad_piedraend_inferior.png")
+    img3 = loadImage("images/mitad_purpur_superior.png")
+    img4 = loadImage("images/mitad_piedraend.png")
+    img5 = loadImage("images/mitad_purpur.png")
+}
+function drawGame (Mundo) {
+    image(img1,0,0,20,20)
+    image(img1,140,0,20,20)
+    image(img1,160,0,20,20)
+    image(img1,20,0,20,20)
+    image(img1,0,80,20,20)
+    image(img1,20,80,20,20)
+    image(img1,40,80,20,20)
+    image(img1,60,80,20,20)
+    image(img1,80,80,20,20)
+    image(img1,100,80,20,20)
+    image(img1,120,80,20,20)
+    image(img1,140,80,20,20)
+    image(img1,160,80,20,20)
+    image(img1,0,140,20,20)
+    image(img1,20,140,20,20)
+    image(img1,40,140,20,20)
+    image(img1,60,140,20,20)
+    image(img1,80,140,20,20)
+    image(img1,100,140,20,20)
+    image(img1,120,140,20,20)
+    image(img1,140,140,20,20)
+    image(img1,160,140,20,20)
+    image(img1,0,160,20,20)
+    image(img1,20,160,20,20)
+    image(img1,140,160,20,20)
+    image(img1,160,160,20,20)
+    image(img1,80,160,20,20)
+    image(img1,20,40,20,20)
+    image(img1,40,40,20,20)
+    image(img1,60,40,20,20)
+    image(img1,80,40,20,20)
+    image(img1,100,40,20,20)
+    image(img1,120,40,20,20)
+    image(img1,140,40,20,20)
+    image(img1,20,60,20,20)
+    image(img1,40,60,20,20)
+    image(img1,60,60,20,20)
+    image(img1,80,60,20,20)
+    image(img1,100,60,20,20)
+    image(img1,120,60,20,20)
+    image(img1,140,60,20,20)
+    image(img1,20,100,20,20)
+    image(img1,40,100,20,20)
+    image(img1,60,100,20,20)
+    image(img1,80,100,20,20)
+    image(img1,100,100,20,20)
+    image(img1,120,100,20,20)
+    image(img1,140,100,20,20)
+    image(img1,20,120,20,20)
+    image(img1,40,120,20,20)
+    image(img1,60,120,20,20)
+    image(img1,80,120,20,20)
+    image(img1,100,120,20,20)
+    image(img1,120,120,20,20)
+    image(img1,140,120,20,20)
+    /////////////////////
+    image(img2,40,0,20,10)
+    image(img2,60,0,20,10)
+    image(img2,100,0,20,10)
+    image(img2,120,0,20,10)
+    image(img2,40,170,20,10)
+    image(img2,60,170,20,10)
+    image(img2,100,170,20,10)
+    image(img2,120,170,20,10)
+    /////////////////////
+    image(img3,40,10,20,10)
+    image(img3,60,10,20,10)
+    image(img3,100,10,20,10)
+    image(img3,120,10,20,10)
+    image(img3,40,160,20,10)
+    image(img3,60,160,20,10)
+    image(img3,100,160,20,10)
+    image(img3,120,160,20,10)
+    /////////////////////
+    image(img4,0,40,10,20)
+    image(img4,0,60,10,20)
+    image(img4,170,40,10,20)
+    image(img4,170,60,10,20)
+    image(img4,0,100,10,20)
+    image(img4,0,120,10,20)
+    image(img4,170,100,10,20)
+    image(img4,170,120,10,20)
+    /////////////////////
+    image(img5,10,40,10,20)
+    image(img5,10,60,10,20)
+    image(img5,160,40,10,20)
+    image(img5,160,60,10,20)
+    image(img5,10,100,10,20)
+    image(img5,10,120,10,20)
+    image(img5,160,100,10,20)
+    image(img5,160,120,10,20)
+    /////////////////////
+    image(img1,0,20,20,20)
+    image(img1,20,20,20,20)
+    image(img1,40,20,20,20)
+    image(img1,60,20,20,20)
+    image(img1,80,20,20,20)
+    image(img1,80,0,20,20)
+    image(img1,100,20,20,20)
+    image(img1,120,20,20,20)
+    image(img1,140,20,20,20)
+    image(img1,160,20,20,20)
+    /*
+    image(img1,220,0,20,20)
+    image(img1,240,0,20,20)
+    image(img1,260,0,20,20)
+    image(img1,280,0,20,20)
+    image(img1,300,0,20,20)
+    image(img1,320,0,20,20)
+    image(img1,340,0,20,20)*/
+}
+function update(data, attribute) {
+    return Object.assign({}, data, attribute);
+}
+function onTic (Mundo) {
+    return update(Mundo,{})
+}
+function onMouseEvent (Mundo,event) {
+    return update(Mundo,{})
+}
+function onKeyEvent (Mundo,keyCode) {
+    return update(Mundo,{})
+}
