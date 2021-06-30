@@ -120,18 +120,22 @@ function onKeyEvent (Mundo,keyCode) {
     //Vuelve a abrir el archivo del juego.
     if (Mundo.boton==1&&keyCode==ENTER) {
         window.open("snakeMovimiento(porky-dificil-overworld).html","_self");
+        return update(Mundo,{});
     }
     //Abre el menú de selección de personajes.
     else if (Mundo.boton==2&&keyCode==ENTER) {
         window.open("seleccion(dificil-overworld).html","_self");
+        return update(Mundo,{});
     }
     //Abre el menú de selección de mapas.
     else if (Mundo.boton==3&&keyCode==ENTER) {
         window.open("menu_mapas(dificil).html","_self");
+        return update(Mundo,{});
     }
     //Abre el menú de selección de dificultad.
     else if (Mundo.boton==4&&keyCode==ENTER) {
         window.open("menu.html","_self");
+        return update(Mundo,{});
     }
     //Permite el movimiento entre botones con el teclado en dirección superior, a excepción del primer botón.
     else if (Mundo.boton!==1&&(keyCode==UP_ARROW||keyCode==87)) {
