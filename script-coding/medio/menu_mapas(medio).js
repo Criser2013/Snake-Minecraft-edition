@@ -161,19 +161,19 @@ function onKeyEvent (Mundo, keyCode) {
         window.open("seleccion(medio-end).html","_self")
     }
     //Esas condiciones permiten el movimiento entre botones.
-    else if (Mundo.boton!==4&&keyCode==RIGHT_ARROW) {
+    else if (Mundo.boton!==4&&(keyCode==RIGHT_ARROW||keyCode==68)) {
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
-    else if (Mundo.boton!==1&&keyCode==LEFT_ARROW) {
+    else if (Mundo.boton!==1&&(keyCode==LEFT_ARROW||keyCode==65)) {
         setup();
         return update(Mundo,{boton:Mundo.boton-1})
     }
-    else if (Mundo.boton==1&&keyCode==LEFT_ARROW) {
+    else if (Mundo.boton==1&&(keyCode==LEFT_ARROW||keyCode==65)) {
         setup();
         return update(Mundo,{boton:4})
     }
-    else if (Mundo.boton==4&&keyCode==RIGHT_ARROW) {
+    else if (Mundo.boton==4&&(keyCode==RIGHT_ARROW||keyCode==68)) {
         setup();
         return update(Mundo,{boton:1})
     }
