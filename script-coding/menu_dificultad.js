@@ -107,16 +107,20 @@ function onKeyEvent (Mundo,keyCode) {
     //Esta condición retorna al menú principal en caso de ser presionado el botón de volver.
     if (keyCode==ENTER&&Mundo.boton==1) {
         window.open("menu_principal.html","_self");
+        return update(Mundo,{});
     }
     //Estas 3 condiciones abren los archivos de selección de eprsonaje correspondientes a la dificultad seleccionada.
     else if (keyCode==ENTER&&Mundo.boton==2) {
         window.open("menu_mapas(facil).html","_self");
+        return update(Mundo,{});
     }
     else if (keyCode==ENTER&&Mundo.boton==3) {
         window.open("menu_mapas(medio).html","_self");
+        return update(Mundo,{});
     }
     else if (keyCode==ENTER&&Mundo.boton==4) {
         window.open("menu_mapas(dificil).html","_self");
+        return update(Mundo,{});
     }
     //Estas condiciones permiten realizar el desplazamiento entre los diferentes botones, si se encuentra en los extremos realiza la selección en el botón del extremo contrario.
     else if ((keyCode==DOWN_ARROW||keyCode==83)&&Mundo.boton!==4) {

@@ -59,6 +59,7 @@ function onKeyEvent (Mundo,keyCode) {
     //Se ejecuta cuando se presiona la tecla "enter" para volver al menú principal.
     if(keyCode==ENTER) {
         window.open("menu_principal.html","_self");
+        return update(Mundo,{});
     }
     else {
         return update(Mundo,{});

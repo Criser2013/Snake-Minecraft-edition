@@ -244,6 +244,7 @@ function onKeyEvent (Mundo, keyCode) {
     //Abre el menú de selección de dificultad en el juego.
     else if ((keyCode==ENTER&&Mundo.boton==1)&&Mundo.menu==1) {
         window.open("menu_principal.html","_self");
+        return update(Mundo,{});
     }
     //Estas condiciones abren los archivos de permitir el movimiento entre los menús que hacen parte de las intrucciones (preseleccionan un botón dentro del siguiente menú por defecto).
     else if ((keyCode==ENTER&&Mundo.boton==2)&&Mundo.menu==1) {
