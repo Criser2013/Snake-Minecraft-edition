@@ -104,8 +104,9 @@ function drawGame (Mundo) {
         textFont(fuente,24);
         text("Juego terminado.",100,60);
         textFont(fuente,18);
-        text("Cambia la dificultad del juego, deberás",25,140);
-        text("seleccionar nuevamente tu personaje.",26,160);
+        text("Cambia la dificultad del juego, deberás",25,130);
+        text("seleccionar nuevamente el mapa y tu",33,150);
+        text("personaje.",150,170);
         textFont(fuente,14);
         text("Jugar de nuevo",145,235);
         text("Seleccionar otro personaje",100,275);
