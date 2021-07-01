@@ -2,7 +2,6 @@
 // o https://p5js.org/reference/
 // Importamos las librerias
 let { append, cons, first, isEmpty, isList, length, rest, map, forEach }  = functionalLight;
-debugger;
 /*
 Contrato: foodposx,foodposy () -> number
 Proposito: Determina la posición en "X" (posx) y "Y" (posy) de la comida del snake de forma aleatoria dentro del mapa.
@@ -725,7 +724,6 @@ function onKeyEvent (Mundo, keyCode) {
     return update(Mundo,{});
   }
   else {
-      console.log(keyCode);
-      return update(Mundo, {});
+    return update(Mundo,{});
   }
 }
