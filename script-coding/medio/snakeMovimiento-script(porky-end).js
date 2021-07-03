@@ -557,6 +557,60 @@ function fpscheat () {
     return 20
   }
 }
+/*
+Contrato: verificadorComida/Trampas/ObstaculosM/ObstaculosE list,number,number -> JSON
+Proposito: Verifican que las trampas,obstaculos y comida no spawneen en una posición en la que se encuentre el cuerpo de la serpiente. Si spawnean en esas
+posiciones vuelve a llamar a la función para que se cambie la posición, evitando al máximo spawnear en donde se encuentra la serpiente.
+Prototipo: verificadorComida/Trampas/ObstaculosM/ObstaculosE (serpiene,posx,posy) {}
+Ejemplos: verificadorComida ([{x:1,y:3},{x:2,y:3},{x:3,y:3}],3,3) -> {x:14,y:8}
+          verificadorTrampas ([{x:3,y:17},{x:3,y:16},{x:3,y:15}],3,16) -> {x:2,y:18,estado:false}
+          verificadorObstaculosE ([{x:3,y:17},{x:3,y:16},{x:3,y:15}],3,15) -> {x:0,y:16}
+          verificadorObstaculosM ([{x:3,y:19},{x:3,y:0},{x:3,y:1}],3,19) -> {x:3,y:18}
+*/
+function verificadorComida (serpiente,posx,posy) {
+  if (isEmpty(rest(serpiente))) {
+    return {x:posx,y:posy};
+  }
+  else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
+    return {x:foodposx(),y:foodposy()};
+  }
+  else {
+    return verificadorComida(rest(serpiente),posx,posy);
+  }
+}
+function verificadorTrampas (serpiente,posx,posy) {
+  if (isEmpty(rest(serpiente))) {
+    return {x:posx,y:posy,estado:false};
+  }
+  else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
+    return {x:cheatposx(),y:cheatposy(),estado:false};
+  }
+  else {
+    return verificadorTrampas(rest(serpiente),posx,posy);
+  }
+}
+function verificadorObstaculosM (serpiente,posx,posy) {
+  if (isEmpty(rest(serpiente))) {
+    return {x:posx,y:posy};
+  }
+  else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
+    return {x:obsposx(),y:obsposy()};
+  }
+  else {
+    return verificadorObstaculosM(rest(serpiente),posx,posy);
+  }
+}
+function verificadorObstaculosE (serpiente,posx,posy) {
+  if (isEmpty(rest(serpiente))) {
+    return {x:posx,y:posy};
+  }
+  else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
+    return {x:cheatposx(),y:cheatposy()};
+  }
+  else {
+    return verificadorObstaculosE(rest(serpiente),posx,posy);
+  }
+}
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
   //Si la funcion colisionparedes y colisionCabeza determinan si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
@@ -586,15 +640,15 @@ function onTic(Mundo){
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
   else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5)
-    return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,trampas:{estado:true},contador:0})
+    return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,trampas:{estado:true},contador:0})
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
     if (Mundo.score>=5) {
-      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1,contador:Mundo.contador+1});
+      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,contador:Mundo.contador+1});
     }
     else {
-      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:{x:foodposx(),y:foodposy()},score:Mundo.score+1});
+      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1});
     }
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
@@ -605,7 +659,7 @@ function onTic(Mundo){
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
   else if (Mundo.contador>=80&&Mundo.trampas.estado==true) {
     frameRate(fpscheat())
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),contador:0})
   }
   //Estas condiciones determinan si la cabeza del snake se encuentra en los límites laterales del mapa, para asi realizar el cambio de posición.
   else if (first(Mundo.snake).x>=20||first(Mundo.snake).x<=-1) {
@@ -623,7 +677,7 @@ function onTic(Mundo){
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{x:cheatposx(),y:cheatposy(),estado:false},obstaculos:{movil:{x:obsposx(),y:obsposy()},estatico:{x:cheatposx(),y:cheatposy()}},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy())},contador:0})
   }
   else {
     //Actualiza la posición del snake usando la función "moveSnake".
