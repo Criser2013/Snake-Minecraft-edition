@@ -85,7 +85,7 @@ function setup() {
   frameRate(12.5);
   createCanvas(400, 400);
   background(mapa);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()}}}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()},respawn:false}}
 }
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
@@ -482,7 +482,7 @@ function colisionparedes () {
       return true
     }
     //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
-    else if (Mundo.contador<=1&&Mundo.trampas.estado==false) {
+    else if ((Mundo.contador<=1&&Mundo.trampas.estado==false)&&Mundo.obstaculos.respawn==true) {
       return false
     }
     else {
@@ -582,7 +582,7 @@ function onTic(Mundo){
   if (colisionparedes(Mundo.snake)==true||colisionCabeza(Mundo.snake)==true) {
     fill(255);
     textFont(fuente,16);
-    text("Haz perdido, tu puntuación es: "+Mundo.score,70,190);
+    text("Puntuación: "+Mundo.score,143,190);
     text("Presiona cualquier tecla para continuar.",36,240);
     return update(Mundo,{colision:true});
   }
@@ -624,7 +624,7 @@ function onTic(Mundo){
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
   else if (Mundo.contador>=80&&Mundo.trampas.estado==true) {
     frameRate(fpscheat())
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:{x:Mundo.obstaculos.movil.x,y:Mundo.obstaculos.movil.y},estatico:{x:Mundo.obstaculos.estatico.x,y:Mundo.obstaculos.estatico.y},respawn:false},contador:0})
   }
   //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
@@ -638,7 +638,7 @@ function onTic(Mundo){
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy())},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy()),respawn:true},contador:0})
   }
   else {
     //Actualiza la posición del snake usando la función "moveSnake".
