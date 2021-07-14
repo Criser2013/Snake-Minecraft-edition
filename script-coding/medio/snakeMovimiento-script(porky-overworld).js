@@ -572,7 +572,7 @@ function verificadorComida (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return {x:foodposx(),y:foodposy()};
+    return verificadorComida(Mundo.snake,foodposx(),foodposy());
   }
   else {
     return verificadorComida(rest(serpiente),posx,posy);
@@ -583,7 +583,7 @@ function verificadorTrampas (serpiente,posx,posy) {
     return {x:posx,y:posy,estado:false};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return {x:cheatposx(),y:cheatposy(),estado:false};
+    return verificadorTrampas(Mundo.snake,cheatposx(),cheatposy());
   }
   else {
     return verificadorTrampas(rest(serpiente),posx,posy);
@@ -594,7 +594,7 @@ function verificadorObstaculosM (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return {x:obsposx(),y:obsposy()};
+    return verificadorObstaculosM(Mundo.snake,obsposx(),obsposy());
   }
   else {
     return verificadorObstaculosM(rest(serpiente),posx,posy);
@@ -605,7 +605,7 @@ function verificadorObstaculosE (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return {x:cheatposx(),y:cheatposy()};
+    return verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy());
   }
   else {
     return verificadorObstaculosE(rest(serpiente),posx,posy);
