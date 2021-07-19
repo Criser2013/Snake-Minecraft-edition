@@ -573,41 +573,61 @@ function colisionparedes () {
   else if (((((first(Mundo.snake).y+1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==1))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))||(((first(Mundo.snake).y-1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==-1)))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))&&Mundo.score>=10) {
     return true;
   }
-  else if ((first(Mundo.snake).x<=-1&&Mundo.obstaculos.estatico.x==19)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y)) {
-    return true;
+  else if (first(Mundo.snake).x<=-1&&Mundo.obstaculos.estatico.x==19) {
+    if (Mundo.obstaculos.estatico.y==first(Mundo.snake).y) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1)&&Mundo.dir.y==1) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y-1)&&Mundo.dir.y==-1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
-  else if ((first(Mundo.snake).x>=20&&Mundo.obstaculos.estatico.x==0)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y)) {
-    return true;
+  else if (first(Mundo.snake).y<=-1&&Mundo.obstaculos.estatico.y==19) {
+    if (Mundo.obstaculos.estatico.x==first(Mundo.snake).x) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1)&&Mundo.dir.x==1) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x-1)&&Mundo.dir.x==-1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
-  else if ((first(Mundo.snake).y<=-1&&Mundo.obstaculos.estatico.y==19)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x)) {
-    return true;
+  else if (first(Mundo.snake).x>=20&&Mundo.obstaculos.estatico.x==0) {
+    if (Mundo.obstaculos.estatico.y==first(Mundo.snake).y) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1)&&Mundo.dir.y==1) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1)&&Mundo.dir.x==1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
-  else if ((first(Mundo.snake).y>=20&&Mundo.obstaculos.estatico.y==0)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x)) {
-    return true;
-  }
-  else if (((first(Mundo.snake).x<=-1&&Mundo.obstaculos.estatico.x==19)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1))&&Mundo.dir.y==1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).x<=-1&&Mundo.obstaculos.estatico.x==19)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y-1))&&Mundo.dir.y==-1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).x<=20&&Mundo.obstaculos.estatico.x==0)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1))&&Mundo.dir.y==1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).x<=20&&Mundo.obstaculos.estatico.x==0)&&(Mundo.obstaculos.estatico.y==first(Mundo.snake).y-1))&&Mundo.dir.y==-1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).y<=-1&&Mundo.obstaculos.estatico.y==19)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1))&&Mundo.dir.x==1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).y<=-1&&Mundo.obstaculos.estatico.y==19)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x-1))&&Mundo.dir.x==-1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).y<=20&&Mundo.obstaculos.estatico.y==0)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1))&&Mundo.dir.x==1) {
-    return true;
-  }
-  else if (((first(Mundo.snake).y<=20&&Mundo.obstaculos.estatico.y==0)&&(Mundo.obstaculos.estatico.x==first(Mundo.snake).x-1))&&Mundo.dir.x==-1) {
-    return true;
+  else if (first(Mundo.snake).y>=20&&Mundo.obstaculos.estatico.y==0) {
+    if (Mundo.obstaculos.estatico.x==first(Mundo.snake).x) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1)&&Mundo.dir.x==1) {
+      return true;
+    }
+    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x-1)&&Mundo.dir.x==-1) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
   else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
     if (Mundo.trampas.estado==true) {
