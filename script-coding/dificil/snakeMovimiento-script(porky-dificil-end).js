@@ -697,17 +697,17 @@ function onTic(Mundo){
   }
   //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1,reproductor:false})
   }
   //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
   else if ((Mundo.contador>=0&&Mundo.contador<40)&&(Mundo.trampas.estado==false&&Mundo.score>=5)) {
     frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1,reproductor:false})
   }
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy()),respawn:true},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy()),respawn:true},contador:0,reproductor:true})
   }
   else {
     //Actualiza la posición del snake usando la función "moveSnake".
