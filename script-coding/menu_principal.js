@@ -23,7 +23,7 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {boton:1};
+    Mundo = {boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
@@ -106,18 +106,26 @@ function onKeyEvent (Mundo, keyCode) {
     }
     //Esas condiciones permiten el movimiento entre botones.
     else if (Mundo.boton!==3&&(keyCode==DOWN_ARROW||keyCode==83)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
     else if (Mundo.boton!==1&&(keyCode==UP_ARROW||keyCode==87)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:Mundo.boton-1})
     }
     else if (Mundo.boton==1&&(keyCode==UP_ARROW||keyCode==87)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:3})
     }
     else if (Mundo.boton==3&&(keyCode==DOWN_ARROW||keyCode==83)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:1})
     }

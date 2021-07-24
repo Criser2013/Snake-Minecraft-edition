@@ -54,7 +54,7 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {menu:1,boton:2};
+    Mundo = {menu:1,boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
@@ -226,18 +226,26 @@ function onMouseEvent (Mundo, event) {
 function onKeyEvent (Mundo, keyCode) {
     //Estas condiciones son las encargadas de indicarle al programa en qué botón se encuentra seleccionado, a la vez que hacen posible el desplazamiento entre botones.
     if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton==1)&&Mundo.menu!==3) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:2});
     }
     else if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.boton==2)&&Mundo.menu!==3) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:1});
     }
     else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton==2)&&Mundo.menu!==3) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:1});
     }
     else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.boton==1)&&Mundo.menu!==3) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:2});
     }
@@ -248,14 +256,20 @@ function onKeyEvent (Mundo, keyCode) {
     }
     //Estas condiciones abren los archivos de permitir el movimiento entre los menús que hacen parte de las intrucciones (preseleccionan un botón dentro del siguiente menú por defecto).
     else if ((keyCode==ENTER&&Mundo.boton==2)&&Mundo.menu==1) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{menu:Mundo.menu+1,boton:Mundo.boton});
     }
     else if ((keyCode==ENTER&&Mundo.boton==2)&&Mundo.menu==2) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{menu:Mundo.menu+1,boton:Mundo.boton-1});
     }
     else if ((keyCode==ENTER&&Mundo.boton==1)&&Mundo.menu!==1) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{menu:Mundo.menu-1,boton:Mundo.boton});
     }
