@@ -85,8 +85,7 @@ function setup() {
   frameRate(12.5);
   createCanvas(400, 400);
   background(mapa);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})}}
-}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})},enemigos:{primero:new buzz.sound("audio/araña",{formats:["mp3"],volume: 40,preload:true}),segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),tercero:new buzz.sound("audio/zombie",{formats:["mp3"],volume: 40,preload:true}),cuarto:new buzz.sound("audio/creeper",{formats:["mp3"],volume: 40,preload:true})},reproductor:true}}
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
@@ -175,16 +174,40 @@ function drawObstaclesm (obstaculo) {
 }
 function drawObstaclesS (obstaculo) {
   if (Mundo.score>=10&&Mundo.score<20) {
-    image(obstaculoS2,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    if (Mundo.reproductor==true&&Mundo.colision==false) {
+      Mundo.enemigos.primero.play();
+      image(obstaculoS2,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
+    else {
+      image(obstaculoS2,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
   }
   else if (Mundo.score>=20&&Mundo.score<30) {
-    image(obstaculoS3,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    if (Mundo.reproductor==true&&Mundo.colision==false) {
+      Mundo.enemigos.segundo.play();
+      image(obstaculoS3,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
+    else {
+      image(obstaculoS3,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
   }
   else if (Mundo.score>=30&&Mundo.score<50) {
-    image(obstaculoS1,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    if (Mundo.reproductor==true&&Mundo.colision==false) {
+      Mundo.enemigos.tercero.play();
+      image(obstaculoS1,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
+    else {      
+      image(obstaculoS1,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
   }
   else if (Mundo.score>=50) {
-    image(obstaculoS,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    if (Mundo.reproductor==true&&Mundo.colision==false) {
+      Mundo.enemigos.cuarto.play();
+      image(obstaculoS,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
+    else {      
+      image(obstaculoS,obstaculo.x*dx,obstaculo.y*dy,dx,dy);
+    }
   }
 }
 /*
@@ -439,10 +462,20 @@ function colisionCabeza (lista) {
     return false;
   }
   else if ((first(rest(lista)).x==cabeza.x)&&(first(rest(lista)).y==cabeza.y)) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true;
   }
   else if ((first(lista).x==first(rest(lista)).x)&&(first(lista).y==first(rest(lista)).y)) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true;
   }
@@ -466,24 +499,49 @@ function colisionparedes () {
     return true;
   }
   else if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true
   }
   else if ((((first(Mundo.snake).x>=19)&&(Mundo.dir).x==1)||((first(Mundo.snake).x<=0)&&(Mundo.dir.x==-1)))&&Mundo.colision==false) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true
   }
   //Estas 3 condiciones determinan si hubo colisión con una de las trampas estaticas que spawnean de forma aleatoria a partir de los 10 puntos.
   else if (((((first(Mundo.snake).x+1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==1))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))||(((first(Mundo.snake).x-1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==-1)))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))&&Mundo.score>=10) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true
   }
   else if (((((first(Mundo.snake).y+1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==1))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))||(((first(Mundo.snake).y-1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==-1)))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))&&Mundo.score>=10) {
+    Mundo.enemigos.primero.stop();
+    Mundo.enemigos.segundo.stop();
+    Mundo.enemigos.tercero.stop();
+    Mundo.enemigos.cuarto.stop();
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.muerte.play();
     return true
   }
   else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
     if (Mundo.trampas.estado==true) {
+      Mundo.enemigos.primero.stop();
+      Mundo.enemigos.segundo.stop();
+      Mundo.enemigos.tercero.stop();
+      Mundo.enemigos.cuarto.stop();
+      Mundo.sonidos.comer.stop();
       Mundo.sonidos.muerte.play();
       return true
     }
@@ -492,6 +550,11 @@ function colisionparedes () {
       return false
     }
     else {
+      Mundo.enemigos.primero.stop();
+      Mundo.enemigos.segundo.stop();
+      Mundo.enemigos.tercero.stop();
+      Mundo.enemigos.cuarto.stop();
+      Mundo.sonidos.comer.stop();
       Mundo.sonidos.muerte.play();
       return true
     }
@@ -598,7 +661,6 @@ function onTic(Mundo){
   else if (((first(Mundo.snake).x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1)&&colisionCabeza(Mundo.snake)==false) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:1,y:0}),dir:{x:1,y:0}});
   }
-  //Realiza la misma labor que la condición anterior solo que en la dirección contaria y presionando la tecla contraria.
   else if (((first(Mundo.snake).x<first(rest(Mundo.snake)).x)&&Mundo.dir.x==1)&&colisionCabeza(Mundo.snake)==false) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:-1,y:0}),dir:{x:-1,y:0}})
   }
@@ -612,15 +674,19 @@ function onTic(Mundo){
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
   else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.comer.play();
     return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,trampas:{estado:true},contador:0})
   }
+  //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
     if (Mundo.score>=5) {
+      Mundo.sonidos.comer.stop();
       Mundo.sonidos.comer.play();
       return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,contador:Mundo.contador+1});
     }
     else {
+      Mundo.sonidos.comer.stop();
       Mundo.sonidos.comer.play();
       return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1});
     }
@@ -628,13 +694,14 @@ function onTic(Mundo){
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
+    Mundo.sonidos.comer.stop();
     Mundo.sonidos.comer.play();
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:0})
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:0});
   }
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
   else if (Mundo.contador>=80&&Mundo.trampas.estado==true) {
-    frameRate(fpscheat())
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:{x:Mundo.obstaculos.movil.x,y:Mundo.obstaculos.movil.y},estatico:{x:Mundo.obstaculos.estatico.x,y:Mundo.obstaculos.estatico.y},respawn:false},contador:0})    
+    frameRate(fpscheat());
+    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:{x:Mundo.obstaculos.movil.x,y:Mundo.obstaculos.movil.y},estatico:{x:Mundo.obstaculos.estatico.x,y:Mundo.obstaculos.estatico.y},respawn:false},contador:0})
   }
   //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
