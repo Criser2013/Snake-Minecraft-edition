@@ -733,7 +733,7 @@ function colisionparedes () {
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
       Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop.stop();
+      Mundo.sonidos.comer.stop();
       Mundo.sonidos.muerte.play();
       return true;
     }
