@@ -24,7 +24,7 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {boton:2}
+    Mundo = {boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})}
 }
 function drawGame () {
     //Esta condición es la encargada de dibujar el menú cuando el "botón 2" se encuentra seleccionado.
@@ -166,18 +166,26 @@ function onKeyEvent (Mundo, keyCode) {
     }
     //Esas condiciones permiten el movimiento entre botones.
     else if (Mundo.boton!==4&&(keyCode==RIGHT_ARROW||keyCode==68)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:Mundo.boton+1});
     }
     else if (Mundo.boton!==1&&(keyCode==LEFT_ARROW||keyCode==65)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:Mundo.boton-1})
     }
     else if (Mundo.boton==1&&(keyCode==LEFT_ARROW||keyCode==65)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:4})
     }
     else if (Mundo.boton==4&&(keyCode==RIGHT_ARROW||keyCode==68)) {
+        Mundo.sonido.stop();
+        Mundo.sonido.play();
         setup();
         return update(Mundo,{boton:1})
     }
