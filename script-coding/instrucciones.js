@@ -19,17 +19,8 @@ let enemigos2 = null;
 let fruta_coral = null;
 let papa_venenosa = null;
 let ojo_araña = null;
-/*
-Contrato: preload variable -> image
-image = Carga una imagen.
-variable = variable local (let)
-Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
-la carga de estos elementos en pantalla.
-Prototipo: preload () {}
-Ejemplos: preload (flecha1,loadImage("images/m1.png")) -> flecha1 = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-          preload (flecha2,loadImage("images/m2.png")) -> flecha2 = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-*/
-function preload () {
+function setup () {
+    createCanvas(400,400);
     fuente = loadFont("minecraft.otf");
     fondo = loadImage("images/fondo_dificultad.png");
     flecha1 = loadImage("images/flec_arriba.png");
@@ -50,9 +41,6 @@ function preload () {
     fruta_coral = loadImage("images/fruta_coral.png");
     papa_venenosa = loadImage("images/papa_venenosa.png");
     ojo_araña = loadImage("images/ojo_araña.png");
-}
-function setup () {
-    createCanvas(400,400);
     background(fondo);
     Mundo = {menu:1,boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
 }
