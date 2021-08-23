@@ -46,28 +46,6 @@ let trampa = null;
 let mapa = null;
 let fuente = null;
 ////////////////////////
-/*
-Contrato: preload variable -> image
-image = Carga una imagen.
-variable = variable local (let)
-Proposito: Carga las imagenes (también funciona con archivos JSON) que se muestran en los menus, antes del "setup ()" para acerlerar 
-la carga de los elementos en pantalla.
-Prototipo: preload () {}
-Ejemplos: preload (cara,loadImage("images/m1.png")) -> cara = loadImage("images/m1.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-          preload (obstaculo,loadImage("images/m2.png")) -> obstavulo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-*/
-function preload () {
-  cara = loadImage("images/cerdo.png");
-  obstaculoS = loadImage("images/cabeza_enderdragon.png");
-  obstaculoS1 = loadImage("images/cabeza_enderman.png");
-  obstaculoS2 = loadImage("images/cabeza_endermite.png");
-  obstaculoS3 = loadImage("images/cabeza_shulker.png");
-  comida = loadImage("images/manzana.png");
-  powerup = loadImage("images/manzana_dorada.png");
-  trampa = loadImage("images/fruta_coral.png");
-  mapa = loadImage("images/end.png");
-  fuente = loadFont("minecraft.otf");
-}
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
  */
@@ -84,6 +62,16 @@ const dy = 20;
 function setup() {
   frameRate(12.5);
   createCanvas(400, 400);
+  cara = loadImage("images/cerdo.png");
+  obstaculoS = loadImage("images/cabeza_enderdragon.png");
+  obstaculoS1 = loadImage("images/cabeza_enderman.png");
+  obstaculoS2 = loadImage("images/cabeza_endermite.png");
+  obstaculoS3 = loadImage("images/cabeza_shulker.png");
+  comida = loadImage("images/manzana.png");
+  powerup = loadImage("images/manzana_dorada.png");
+  trampa = loadImage("images/fruta_coral.png");
+  mapa = loadImage("images/end.png");
+  fuente = loadFont("minecraft.otf");
   background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})},enemigos:{primero:new buzz.sound("audio/endermite",{formats:["mp3"],volume: 40,preload:true}),segundo:new buzz.sound("audio/shulker",{formats:["mp3"],volume: 40,preload:true}),tercero:new buzz.sound("audio/enderman",{formats:["mp3"],volume: 40,preload:true}),cuarto:new buzz.sound("audio/enderdragon",{formats:["mp3"],volume: 40,preload:true})},reproductor:true}}
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
