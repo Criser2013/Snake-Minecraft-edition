@@ -1,10 +1,23 @@
 let Mundo = {}
 let fuente = null;
 let fondo = null;
-function setup () {
-    createCanvas(400,400);
+/*
+Contrato: preload variable -> FoI
+FoI = Font or image.
+Image = Imagen dentro de los archivos del juego.
+Font = Fuente tipográfica no incluida en CSS ni P5.JS.
+variable = variable local (let)
+Proposito: Carga la fuente estilo Minecraft que utiliza este menú del juego y la imagen de fondo.
+Prototipo: preload () {}
+Ejemplos: preload (fuente,loadImage("minecraft.otf")) -> fuente = loadFont("minecraft.otf") // La fuente se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+          preload (fondo,loadImage("images/m2.png")) -> fondo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
+*/
+function preload () {
     fuente = loadFont("minecraft.otf");
     fondo = loadImage("images/fondo_perdido.png");
+}
+function setup () {
+    createCanvas(400,400);
     background(fondo);
     Mundo = {boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
 }
