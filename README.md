@@ -1,4 +1,2 @@
-# Snake-Minecraft-edition
-Juego del snake con estética basada en Minecraft, hecho con programación funcional con la API P5.JS y Functional Light.
-El historial completo de versiones y elementos dentro del juego se encuentra en Google drive, de ahí vienen todos los cambios
-y versiones aquí subidas. Solo disponible en PC.
+# Snake-Minecraft-edition - versión en replt.
+Esta versión no se diferencia en nada a nivel contenido a comparación de la otra, es diferente en una única función para la carga de archivos (fuentes e iconos/imágenes). Si se ejecuta en Github los problemas de carga volveran.
