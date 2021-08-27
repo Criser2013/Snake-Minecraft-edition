@@ -980,3 +980,5 @@ function onKeyEvent (Mundo, keyCode) {
     return update(Mundo,{});
   }
 }
+//Esta línea carga el fondo de la página a la par del script del juego para que no se vea retraso al cargar la página.
+document.body.style.backgroundImage = "url('images/fondo_nether.png')";
