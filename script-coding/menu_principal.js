@@ -3,23 +3,6 @@ let fondo = loadImage("images/fondo_principal.png");
 let fuente = loadFont("minecraft.otf");
 let titulo = loadImage("images/titulo_snake.png");
 let titulo2 = loadFont("minecrafter.ttf");
-/*
-Contrato: preload variable -> FoI
-FoI = Font or image.
-Image = Imagen dentro de los archivos del juego.
-Font = Fuente tipográfica no incluida en CSS ni P5.JS.
-variable = variable local (let)
-Proposito: Carga la fuente estilo Minecraft que utiliza este menú del juego y la imagen de fondo.
-Prototipo: preload () {}
-Ejemplos: preload (fuente,loadImage("minecraft.otf")) -> fuente = loadFont("minecraft.otf") // La fuente se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-          preload (fondo,loadImage("images/m2.png")) -> fondo = loadImage("images/m2.png") // La imagen se carga en la memoria de forma permanente aún hasta cuando se llame a la funcion setup ().
-*//*
-function preload () {
-    fuente = loadFont("minecraft.otf");
-    fondo = loadImage("images/fondo_principal.png");
-    titulo = loadImage("images/titulo_snake.png");
-    titulo2 = loadFont("minecrafter.ttf");
-}*/
 function setup () {
     createCanvas(400,400);
     background(fondo);
