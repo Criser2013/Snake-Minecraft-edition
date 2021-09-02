@@ -3,16 +3,13 @@
 // Importamos las librerias
 let { append, cons, first, isEmpty, isList, length, rest, map, forEach }  = functionalLight;
 /*
-Contrato: foodposx,foodposy () -> number
-Proposito: Determina la posición en "X" (posx) y "Y" (posy) de la comida del snake de forma aleatoria dentro del mapa.
-Prototipo: foodposx,foodposy () {}
-Ejemplos: foodposx,foodposy () -> {x:4,y:7}
-          foodposx,foodposy () -> {x:1,y;1}
+Contrato: foodpos () -> number
+Proposito: Determina la posición en "X" y "Y" de la comida del snake de forma aleatoria dentro del mapa.
+Prototipo: foodpos () {}
+Ejemplos: foodpos () -> {x:4,y:7}
+          foodpos () -> {x:1,y;1}
 */
-function foodposx () {
-  return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
-};
-function foodposy () {
+function foodpos () {
   return Math.abs(Math.ceil(Math.random() * (19 + 1)) - 1);
 };
 /*
@@ -85,7 +82,7 @@ function setup() {
   frameRate(10);
   createCanvas(400, 400);
   background(mapa);
-  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodposx(),y:foodposy()},score:0,colision:false,trampas:{x:foodposx(),y:foodposy(),estado:false},contador:0,obstaculos:{movil:{x:foodposx(),y:foodposy()},estatico:{x:foodposx(),y:foodposy()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})},enemigos:{primero:new buzz.sound("audio/araña",{formats:["mp3"],volume: 40,preload:true}),segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),tercero:new buzz.sound("audio/zombie",{formats:["mp3"],volume: 40,preload:true}),cuarto:new buzz.sound("audio/creeper",{formats:["mp3"],volume: 40,preload:true})},reproductor:true}}
+  Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodpos(),y:foodpos()},score:0,colision:false,trampas:{x:foodpos(),y:foodpos(),estado:false},contador:0,obstaculos:{movil:{x:foodpos(),y:foodpos()},estatico:{x:foodpos(),y:foodpos()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})},enemigos:{primero:new buzz.sound("audio/araña",{formats:["mp3"],volume: 40,preload:true}),segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),tercero:new buzz.sound("audio/zombie",{formats:["mp3"],volume: 40,preload:true}),cuarto:new buzz.sound("audio/creeper",{formats:["mp3"],volume: 40,preload:true})},reproductor:true}}
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
   if (Mundo.score>=5&&Mundo.trampas.estado==false) {
@@ -215,232 +212,140 @@ function drawScore (score) {
   text("Puntuación: "+score,10,380);
 }
 /*
-Contrato: cheatposx,cheatposy () -> number
-Proposito: Determina la posición en "X" (posx) y "Y" (posy) de la las trampas dependiendo de las coordenadas en las que se encuentre la cabeza del snake.
+Contrato: cheatpos number -> number
+Proposito: Determina la posición en "X" y "Y" de la las trampas dependiendo de las coordenadas en las que se encuentre la cabeza del snake.
 No depende de la dirección para spawnear. Spawnea en un rango de mas o menos 3 - 4 casillas de las que se encuentra la cabeza, aplicando condiciones especiales
 al llegar a las ultimas 3 casillas de los limites del mapa (se puede dar el caso de que spawnee en la misma posición de la cabeza).
-Prototipo: cheatposx,cheatposy () {}
-Ejemplos: cheatposx,cheatposy (6,5) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}]} -> 6,5 (Valores posibles en "X": 0 - 7, valores posibles en "Y": 0 - 4)
-          cheatposx,cheatposy (2,5) {snake:[{x:2,y:1},{x:11,y:1},{x:10,y:1}]} -> 2,5 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
-          cheatposx,cheatposy (1,4) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}]} -> 1,4 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
-          cheatposx,cheatposy (3,2) {snake:[{x:0,y:1},{x:2,y:1},{x:3,y:1}]} -> 3,2 (Valores posibles en "X": 0 - 3, valores posibles en "Y": 0 - 4)
+Prototipo: cheatposx,cheatpos () {}
+Ejemplos: cheatpos (4) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}]} -> 6 (Valores posibles en "X": 0 - 7, valores posibles en "Y": 0 - 4)
+          cheatpos (2) {snake:[{x:2,y:1},{x:11,y:1},{x:10,y:1}]} -> 2 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
+          cheatpos (1) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}]} -> 1 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
+          cheatpos (0) {snake:[{x:0,y:1},{x:2,y:1},{x:3,y:1}]} -> 3 (Valores posibles en "X": 0 - 3, valores posibles en "Y": 0 - 4)
 */
-function cheatposx () {
+function cheatpos (cabeza) {
   //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16.
-  if ((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
-    return Math.ceil(Math.random() * (((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-4))+(first(Mundo.snake).x)-4);
+  if ((cabeza<=16)&&(cabeza>=3)) {
+    return Math.ceil(Math.random() * (((cabeza)+3)-(cabeza-4))+(cabeza)-4);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=2, el rango es diferente al resto.
-  else if (first(Mundo.snake).x==2) {
+  else if (cabeza==2) {
     return Math.ceil(Math.random() * (4-0)+0);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=1, el rango es diferente al resto.
-  else if (first(Mundo.snake).x==1) {
+  else if (cabeza==1) {
     return Math.ceil(Math.random() * (2-0)+0);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=0, el rango es diferente al resto.
-  else if (first(Mundo.snake).x==0) {
+  else if (cabeza==0) {
     return Math.ceil(Math.random() * (3-0)+0);
   }
   //Condiciones dadas si la cabeza se encuentra en las ultimas 3 casillas del mapa (la diferencia es que varían en las posiciones en las que puede spawnear).
-  else if (first(Mundo.snake).x==17) {
+  else if (cabeza==17) {
     return Math.ceil(Math.random() * (19-15)+15);
   }
-  else if (first(Mundo.snake).x==18) {
+  else if ((cabeza==18)||(cabeza==19)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
-  else if (first(Mundo.snake).x==19) {
-    return Math.ceil(Math.random() * (19-16)+16);
-  }
-  //Condiciones dadas cuando se realiza el traslado de la cabeza en uno de los laterales del mapa.
-  else if (first(Mundo.snake).x>19) {
+else if (cabeza>19) {
     return Math.ceil(Math.random() * (2-0)+0);
   }
-  else if (first(Mundo.snake).x<0) {
-    return Math.ceil(Math.random() * (19-16)+16);
-  }
-};
-function cheatposy () {
-  if ((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
-    return Math.ceil(Math.random() * (((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-3))+first(Mundo.snake).y-3);
-  }
-  else if (first(Mundo.snake).y==2) {
-    return Math.ceil(Math.random() * (4-0)+0);
-  }
-  else if (first(Mundo.snake).y==1) {
-    return Math.ceil(Math.random() * (2-0)+0);
-  }
-  else if (first(Mundo.snake).y==0) {
-    return Math.ceil(Math.random() * (3-0)+0);
-  }
-  else if (first(Mundo.snake).y==17) {
-    return Math.ceil(Math.random() * (19-15)+15);
-  }
-  else if (first(Mundo.snake).y==18) {
-    return Math.ceil(Math.random() * (19-16)+16);
-  }
-  else if (first(Mundo.snake).y==19) {
+  else if (cabeza<0) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
 };
 /*
-Contrato: obsposx,obsposy () -> number
+Contrato: obspos number,number -> number
 Proposito: Determina la posición en "X" (posx) y "Y" (posy) del los obstaculos al llegar a una puntuación mayor o igual a 10 puntos, spawnea una
 trampa movil en un rango de 3 - 4 espacios de la cabeza de la serpiente (tanto en "X" como en "Y"), incluyendo la posición en donde está la cabeza
 de la serpiente, depende la dirección para elegir la coordenada. En los límites del mapa se aplican condiciones distintas (3 posiciones en los laterales).
-Prototipo: obsposx,obsposy () {}
-Ejemplos: obsposx,obsposy (4,5) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}],dir:{x:1,y:0}} -> 4,5 (Valores posibles en "X": 4 - 7, valores posibles en "Y": 0 - 4)
-          obsposx,obsposy (10,5) {snake:[{x:12,y:1},{x:11,y:1},{x:10,y:1}],dir:{x:-1,y:0}} -> 10,5 (Valores posibles en "X": 9 - 12, valores posibles en "Y": 0 - 4)
-          obsposx,obsposy (0,4) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:-1,y:0}} -> 0,4 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
-          obsposx,obsposy (1,2) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:1,y:0}} -> 1,2 (Valores posibles en "X": 1 - 5, valores posibles en "Y": 0 - 4)
-          obsposx,obsposy (0,0) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:-1,y:0}} -> 0,0 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
-          obsposx,obsposy (3,2) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:1,y:0}} -> 3,2 (Valores posibles en "X": 0 - 4, valores posibles en "Y": 0 - 4)
+Prototipo: obspos (cabeza,direccion) {}
+Ejemplos: obspos (4,1) {snake:[{x:4,y:2},{x:3,y:2},{x:2,y:2}],dir:{x:1,y:0}} -> 4,5 (Valores posibles en "X": 4 - 7, valores posibles en "Y": 0 - 4)
+          obspos (12,-1) {snake:[{x:12,y:1},{x:11,y:1},{x:10,y:1}],dir:{x:-1,y:0}} -> 10,5 (Valores posibles en "X": 9 - 12, valores posibles en "Y": 0 - 4)
+          obspos (1,-1) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:-1,y:0}} -> 0,4 (Valores posibles en "X": 0 - 1, valores posibles en "Y": 0 - 4)
+          obspos (1,1) {snake:[{x:1,y:1},{x:2,y:1},{x:3,y:1}],dir:{x:1,y:0}} -> 1,2 (Valores posibles en "X": 1 - 5, valores posibles en "Y": 0 - 4)
+          obspos (0,-1) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:-1,y:0}} -> 0,0 (Valores posibles en "X": 0 - 2, valores posibles en "Y": 0 - 4)
+          obspos (0,1) {snake:[{x:0,y:1},{x:1,y:1},{x:2,y:1}],dir:{x:1,y:0}} -> 3,2 (Valores posibles en "X": 0 - 4, valores posibles en "Y": 0 - 4)
 */
-function obsposx () {
+function obspos (cabeza,direccion) {
   //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la derecha. 
-  if (Mundo.dir.x==1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
-    return Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-1))+first(Mundo.snake).x-1);
+  if (direccion==1&&((cabeza<=16)&&(cabeza>=3))) {
+    return Math.ceil(Math.random()*(((cabeza+3)-(cabeza-1))+cabeza-1));
   }
   //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la izquierda. 
-  else if (Mundo.dir.x==-1&&(first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3)) {
-    return Math.ceil(Math.random()*((first(Mundo.snake).x+1)-(first(Mundo.snake).x-4))+first(Mundo.snake).x-4);
+  else if (direccion==-1&&((cabeza<=16)&&(cabeza>=3))) {
+    return Math.ceil(Math.random()*((cabeza)-(cabeza-4))+cabeza-4);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==1)) {
-    return Math.ceil(Math.random()*(5+0)-0);
+  else if ((cabeza==2)&&(direccion==1)) {
+    return Math.ceil(Math.random()*(4-2)+2);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==-1)) {
+  else if ((cabeza==2)&&(direccion==-1)) {
     return Math.ceil(Math.random()*(2-0)+0);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==1)) {
+  else if ((cabeza==1)&&(direccion==1)) {
     return Math.ceil(Math.random() * (4-0)+0);
   }
   //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==-1)) {
-    return Math.ceil(Math.random() * (1-0)+0);
-  }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==1)) {
-    return Math.ceil(Math.random() * (3-0)+0);
-  }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
-  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==-1)) {
+  else if ((cabeza==1)&&(direccion==-1)) {
     return Math.ceil(Math.random() * (2-0)+0);
   }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
+  else if ((cabeza==0)&&(direccion==1)) {
+    return Math.ceil(Math.random() * (4-0)+0);
+  }
+  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
+  else if ((cabeza==0)&&(direccion==-1)) {
+    return Math.ceil(Math.random() * (3-0)+0);
+  }
   //Condiciones dadas si la cabeza del snake se encuentra en las posiciones X:17 - 19, cambian los intervalos en función de la dirección de movimiento.
-  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==1)) {
+  else if ((cabeza==17)&&(direccion==1)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
-  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==-1)) {
+  else if ((cabeza==17)&&(direccion==-1)) {
     return Math.ceil(Math.random() * (17-13)+13);
   }
-  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==1)) {
+  else if ((cabeza==18)&&(direccion==1)) {
     return Math.ceil(Math.random() * (19-17)+17);
   }
-  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==-1)) {
+  else if ((cabeza==18)&&(direccion==-1)) {
     return Math.ceil(Math.random() * (18-15)+15);
   }
-  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==1)) {
+  else if ((cabeza==19)&&(direccion==1)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
-  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==-1)) {
+  else if ((cabeza==19)&&(direccion==-1)) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
   //Condiciones dadas cuando la dirección en "X"=0, son las mismas condiciones que las anteriores solo que cambiando los intervalos :c
-  else if (Mundo.dir.x==0&&((first(Mundo.snake).x<=16)&&(first(Mundo.snake).x>=3))) {
-    return Math.ceil(Math.random()*(((first(Mundo.snake).x)+3)-(first(Mundo.snake).x-3))+first(Mundo.snake).x-3);
+  else if (direccion==0&&(cabeza<=16)&&(cabeza>=3)) {
+    return Math.ceil(Math.random()*(((cabeza)+3)-(cabeza-3))+cabeza-3);
   }
-  else if ((first(Mundo.snake).x==19)&&(Mundo.dir.x==0)) {
+  else if ((cabeza==19)&&(direccion==0)) {
     return Math.ceil(Math.random()*(19-16)+16);
   }
-  else if ((first(Mundo.snake).x==18)&&(Mundo.dir.x==0)) {
+  else if ((cabeza==18)&&(direccion==0)) {
+    return Math.ceil(Math.random() * (19-15)+15);
+  }
+  else if ((cabeza==17)&&(direccion==0)) {
     return Math.ceil(Math.random() * (19-14)+14);
   }
-  else if ((first(Mundo.snake).x==17)&&(Mundo.dir.x==0)) {
-    return Math.ceil(Math.random() * (19-13)+13);
-  }
-  else if ((first(Mundo.snake).x==0)&&(Mundo.dir.x==0)) {
+  else if ((cabeza==0)&&(direccion==0)) {
     return Math.ceil(Math.random()*(3-0)+0);
   }
-  else if ((first(Mundo.snake).x==1)&&(Mundo.dir.x==0)) {
+  else if ((cabeza==1)&&(direccion==0)) {
     return Math.ceil(Math.random() * (4-0)+0)
   }
-  else if ((first(Mundo.snake).x==2)&&(Mundo.dir.x==0)) {
+  else if ((cabeza==2)&&(direccion==0)) {
     return Math.ceil(Math.random() * (5-0)+0);
   }
   //Condiciones dadas cuando se realiza el traslado de un lateral del mapa a otro.
-  else if ((first(Mundo.snake).x)<0) {
+  else if (cabeza<0) {
     return Math.ceil(Math.random() * (19-16)+16);
   }
-  else if ((first(Mundo.snake).x)>19) {
+  else if (cabeza>19) {
     return Math.ceil(Math.random() * (2-0)+0);
-  }
-}
-function obsposy () {
-  if (Mundo.dir.y==1&&(first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
-    return Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-1))+first(Mundo.snake).y-1);
-  }
-  else if (Mundo.dir.y==-1&&(first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3)) {
-    return Math.ceil(Math.random()*((first(Mundo.snake).y)-(first(Mundo.snake).y-4))+first(Mundo.snake).y-4);
-  }
-  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random()*(4-2)+2);
-  }
-  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random()*(2-0)+0);
-  }
-  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random() * (4-0)+0);
-  }
-  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random()*(2-0)+0);
-  }
-  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random() * (4-0)+0);
-  }
-  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random() * (3-0)+0);
-  }
-  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random() * (19-16)+16);
-  }
-  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random() * (17-13)+13);
-  }
-  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random() * (19-17)+17);
-  }
-  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random() * (18-15)+15);
-  }
-  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==1)) {
-    return Math.ceil(Math.random()*(19-16)+16);
-  }
-  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==-1)) {
-    return Math.ceil(Math.random()*(19-16)+16);
-  }
-  else if (Mundo.dir.y==0&&((first(Mundo.snake).y<=16)&&(first(Mundo.snake).y>=3))) {
-    return Math.ceil(Math.random()*(((first(Mundo.snake).y)+3)-(first(Mundo.snake).y-3))+first(Mundo.snake).y-3);
-  }
-  else if ((first(Mundo.snake).y==19)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random()*(19-16)+16);
-  }
-  else if ((first(Mundo.snake).y==18)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random() * (19-15)+15);
-  }
-  else if ((first(Mundo.snake).y==17)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random() * (19-14)+14);
-  }
-  else if ((first(Mundo.snake).y==0)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random()*(3-0)+0);
-  }
-  else if ((first(Mundo.snake).y==1)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random() * (4-0)+0)
-  }
-  else if ((first(Mundo.snake).y==2)&&(Mundo.dir.y==0)) {
-    return Math.ceil(Math.random() * (5-0)+0);
   }
 }
 /*
@@ -499,27 +404,28 @@ Ejemplos: traslacion ([{x:20,y:1},{x:19,y:1},{x:18,y:1}]) -> [{x:0,y:1},{x:20,y:
           traslacion ([{x:1,y:1},{x:0,y:1},{x:20,y:1}]) -> [{x:2,y:1},{x:1,y:1},{x:0,y:1}]
 */
 function traslacion (lista) {
+  const primeraParte = first(lista);
   if (isEmpty(rest(lista))) {
     return []
   }
-  else if (first(lista).x>=19) {
+  else if (primeraParte.x>=19) {
     if (Mundo.dir.x==1) {
-      return cons({x:-1,y:first(lista).y},rest(lista));
+      return cons({x:-1,y:primeraParte.y},rest(lista));
     }
     else {
-      return cons({x:0,y:first(lista).y},rest(lista));
+      return cons({x:0,y:primeraParte.y},rest(lista));
     }
   }
   else if (first(lista).x<=0) {
     if (Mundo.dir.x==-1) {
-      return cons({x:20,y:first(lista).y},rest(lista));
+      return cons({x:20,y:primeraParte.y},rest(lista));
     }
     else {
-      return cons({x:19,y:first(lista).y},rest(lista));
+      return cons({x:19,y:primeraParte.y},rest(lista));
     }
   }
   else {
-    return cons(first(lista),traslacion(rest(lista)));
+    return cons(primeraParte,traslacion(rest(lista)));
   }
 }
 /*
@@ -534,10 +440,13 @@ Ejemplos: colisionparedes ({snake:[{x:1,y:19},{x:2,y:18},{x:1,y:17}],dir:{x:0,y:
           colisionparedes ({snake:[{x:1,y:1},{x:1,y:2},{x:1,y:3}],dir:{x:0,y:-1}) -> false
 */
 function colisionparedes () {
+  const cabeza = first(Mundo.snake);
+  const obstaculoEstatico = Mundo.obstaculos.estatico;
+  const direccion = Mundo.dir;
   if (Mundo.colision==true) {
     return true;
   }
-  else if ((((first(Mundo.snake).y<=0)&&(Mundo.dir.y==-1))||(first(Mundo.snake).y>=19)&&(Mundo.dir.y==1))&&Mundo.colision==false) {
+  else if ((((cabeza.y<=0)&&(direccion.y==-1))||(cabeza.y>=19)&&(direccion.y==1))&&Mundo.colision==false) {
     Mundo.enemigos.primero.stop();
     Mundo.enemigos.segundo.stop();
     Mundo.enemigos.tercero.stop();
@@ -547,7 +456,7 @@ function colisionparedes () {
     return true;
   }
   //Estas 3 condiciones determinan si hubo colisión con una de las trampas estaticas que spawnean de forma aleatoria a partir de los 10 puntos.
-  else if (((((first(Mundo.snake).x+1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==1))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))||(((first(Mundo.snake).x-1==Mundo.obstaculos.estatico.x)&&(Mundo.dir.x==-1)))&&(first(Mundo.snake).y==Mundo.obstaculos.estatico.y))&&Mundo.score>=10) {
+  else if (((((cabeza.x+1==obstaculoEstatico.x)&&(direccion.x==1))&&(cabeza.y==obstaculoEstatico.y))||(((cabeza.x-1==obstaculoEstatico.x)&&(direccion.x==-1)))&&(cabeza.y==obstaculoEstatico.y))&&Mundo.score>=10) {
     Mundo.enemigos.primero.stop();
     Mundo.enemigos.segundo.stop();
     Mundo.enemigos.tercero.stop();
@@ -556,7 +465,7 @@ function colisionparedes () {
     Mundo.sonidos.muerte.play();
     return true;
   }
-  else if (((((first(Mundo.snake).y+1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==1))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))||(((first(Mundo.snake).y-1==Mundo.obstaculos.estatico.y)&&(Mundo.dir.y==-1)))&&(first(Mundo.snake).x==Mundo.obstaculos.estatico.x))&&Mundo.score>=10) {
+  else if (((((cabeza.y+1==obstaculoEstatico.y)&&(direccion.y==1))&&(cabeza.x==obstaculoEstatico.x))||(((cabeza.y-1==obstaculoEstatico.y)&&(direccion.y==-1)))&&(cabeza.x==obstaculoEstatico.x))&&Mundo.score>=10) {
     Mundo.enemigos.primero.stop();
     Mundo.enemigos.segundo.stop();
     Mundo.enemigos.tercero.stop();
@@ -565,8 +474,8 @@ function colisionparedes () {
     Mundo.sonidos.muerte.play();
     return true;
   }
-  else if (first(Mundo.snake).x>=20&&Mundo.obstaculos.estatico.x==0) {
-    if (Mundo.obstaculos.estatico.y==first(Mundo.snake).y) {
+  else if (cabeza.x>=20&&obstaculoEstatico.x==0) {
+    if (obstaculoEstatico.y==cabeza.y) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -575,7 +484,7 @@ function colisionparedes () {
       Mundo.sonidos.muerte.play();
       return true;
     }
-    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1)&&Mundo.dir.y==1) {
+    else if ((obstaculoEstatico.y==cabeza.y+1)&&direccion.y==1) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -584,7 +493,7 @@ function colisionparedes () {
       Mundo.sonidos.muerte.play();
       return true;
     }
-    else if ((Mundo.obstaculos.estatico.x==first(Mundo.snake).x+1)&&Mundo.dir.x==1) {
+    else if ((obstaculoEstatico.x==cabeza.x+1)&&direccion.x==1) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -597,8 +506,8 @@ function colisionparedes () {
       return false;
     }
   }
-  else if (first(Mundo.snake).x<=-1&&Mundo.obstaculos.estatico.x==19) {
-    if (Mundo.obstaculos.estatico.y==first(Mundo.snake).y) {
+  else if (cabeza.x<=-1&&obstaculoEstatico.x==19) {
+    if (obstaculoEstatico.y==cabeza.y) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -607,7 +516,7 @@ function colisionparedes () {
       Mundo.sonidos.muerte.play();
       return true;
     }
-    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y+1)&&Mundo.dir.y==1) {
+    else if ((obstaculoEstatico.y==cabeza.y+1)&&direccion.y==1) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -616,7 +525,7 @@ function colisionparedes () {
       Mundo.sonidos.muerte.play();
       return true;
     }
-    else if ((Mundo.obstaculos.estatico.y==first(Mundo.snake).y-1)&&Mundo.dir.y==-1) {
+    else if ((obstaculoEstatico.y==cabeza.y-1)&&direccion.y==-1) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
       Mundo.enemigos.tercero.stop();
@@ -629,7 +538,7 @@ function colisionparedes () {
       return false;
     }
   }
-  else if ((first(Mundo.snake).x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
+  else if ((cabeza.x==Mundo.obstaculos.movil.x)&&(cabeza.y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
     if (Mundo.trampas.estado==true) {
       Mundo.enemigos.primero.stop();
       Mundo.enemigos.segundo.stop();
@@ -701,7 +610,7 @@ function verificadorComida (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorComida(Mundo.snake,foodposx(),foodposy());
+    return verificadorComida(Mundo.snake,foodpos(),foodpos());
   }
   else {
     return verificadorComida(rest(serpiente),posx,posy);
@@ -712,7 +621,7 @@ function verificadorTrampas (serpiente,posx,posy) {
     return {x:posx,y:posy,estado:false};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorTrampas(Mundo.snake,cheatposx(),cheatposy());
+    return verificadorTrampas(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   }
   else {
     return verificadorTrampas(rest(serpiente),posx,posy);
@@ -723,7 +632,7 @@ function verificadorObstaculosM (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorObstaculosM(Mundo.snake,obsposx(),obsposy());
+    return verificadorObstaculosM(Mundo.snake,obspos(first(Mundo.snake).x,Mundo.dir.x),obspos(first(Mundo.snake).y,Mundo.dir.y));
   }
   else {
     return verificadorObstaculosM(rest(serpiente),posx,posy);
@@ -734,7 +643,7 @@ function verificadorObstaculosE (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy());
+    return verificadorObstaculosE(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   }
   else {
     return verificadorObstaculosE(rest(serpiente),posx,posy);
@@ -742,6 +651,14 @@ function verificadorObstaculosE (serpiente,posx,posy) {
 }
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
 function onTic(Mundo){
+  const comida = verificadorComida(Mundo.snake,foodpos(),foodpos());
+  const movimiento = moveSnake(Mundo.snake,Mundo.dir);
+  const aumento = moveSnake(crecimiento(Mundo.snake),Mundo.dir);
+  const trampas = verificadorTrampas(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
+  const FPS = frameRate(fpscheat());
+  const sonido = Mundo.sonidos.comer;
+  const cabeza = first(Mundo.snake);
+  const direccion = Mundo.dir;
   //Si la funcion colisionparedes y colisionCabeza determinan si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true||colisionCabeza(Mundo.snake)==true) {
     fill(1);
@@ -752,73 +669,74 @@ function onTic(Mundo){
   }
   /* Esta condición actualiza la dirección en "X" del en el Mundo, si la serpiente se mueve hacia la derecha y se presiona la tecla para mover a la 
   izquierda, para que permanezca moviendose hacia la derecha. */
-  else if (((first(Mundo.snake).x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1)&&colisionCabeza(Mundo.snake)==false) {
+  else if ((cabeza.x>first(rest(Mundo.snake)).x)&&direccion.x==-1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:1,y:0}),dir:{x:1,y:0}});
   }
   //Realiza la misma labor que la condición anterior solo que en la dirección contaria y presionando la tecla contraria.
-  else if (((first(Mundo.snake).x<first(rest(Mundo.snake)).x)&&Mundo.dir.x==1)&&colisionCabeza(Mundo.snake)==false) {
+  else if ((cabeza.x<first(rest(Mundo.snake)).x)&&direccion.x==1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:-1,y:0}),dir:{x:-1,y:0}})
   }
   //Realiza la misma labor que las condiciones anteriores solo que en el eje "Y".
-  else if (((first(Mundo.snake).y>first(rest(Mundo.snake)).y)&&Mundo.dir.y==-1)&&colisionCabeza(Mundo.snake)==false) {
+  else if ((cabeza.y>first(rest(Mundo.snake)).y)&&direccion.y==-1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:1}),dir:{x:0,y:1}})
   }
-  else if (((first(Mundo.snake).y<first(rest(Mundo.snake)).y)&&Mundo.dir.y==1)&&colisionCabeza(Mundo.snake)==false) {
+  else if ((cabeza.y<first(rest(Mundo.snake)).y)&&direccion.y==1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:-1}),dir:{x:0,y:-1}})
   }
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
-  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
+  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
     Mundo.sonidos.comer.stop();
     Mundo.sonidos.comer.play();
-    return update(Mundo,{snake:moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,trampas:{estado:true},contador:0})
+    return update(Mundo,{snake:aumento,food:comida,score:Mundo.score+1,trampas:{estado:true},contador:0})
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
-  else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
+  else if ((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y)) {
     if (Mundo.score>=5) {
       Mundo.sonidos.comer.stop();
       Mundo.sonidos.comer.play();
-      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1,contador:Mundo.contador+1});
+      return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1,contador:Mundo.contador+1});
     }
     else {
       Mundo.sonidos.comer.stop();
       Mundo.sonidos.comer.play();
-      return update(Mundo,{snake: moveSnake(crecimiento(Mundo.snake),Mundo.dir),food:verificadorComida(Mundo.snake,foodposx(),foodposy()),score:Mundo.score+1});
+      return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1});
     }
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
-   else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
+   else if (((cabeza.x==Mundo.trampas.x)&&(cabeza.y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
     Mundo.sonidos.comer.stop();
     Mundo.sonidos.comer.play();
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:{estado:true},contador:0})
+    return update(Mundo,{snake: movimiento,trampas:{estado:true},contador:0})
   }
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
   else if (Mundo.contador>=80&&Mundo.trampas.estado==true) {
-    frameRate(fpscheat())
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:{x:Mundo.obstaculos.movil.x,y:Mundo.obstaculos.movil.y},estatico:{x:Mundo.obstaculos.estatico.x,y:Mundo.obstaculos.estatico.y},respawn:false},contador:0})
+    FPS;
+    return update(Mundo,{snake: movimiento,trampas:verificadorTrampas(Mundo.snake,cheatpos(),cheatpos()),obstaculos:{movil:{x:Mundo.obstaculos.movil.x,y:Mundo.obstaculos.movil.y},estatico:{x:Mundo.obstaculos.estatico.x,y:Mundo.obstaculos.estatico.y},respawn:false},contador:0})
   }
   //Estas condiciones determinan si la cabeza del snake se encuentra en los límites laterales del mapa, para asi realizar el cambio de posición.
-  else if (first(Mundo.snake).x>=20||first(Mundo.snake).x<=-1) {
+  else if (cabeza.x>=20||cabeza.x<=-1) {
     return update(Mundo,{snake:moveSnake(traslacion(Mundo.snake),Mundo.dir)})
   }
   //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1,reproductor:false})
+    return update(Mundo,{snake: movimiento,contador:Mundo.contador+1,reproductor:false})
   }
   //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
   else if ((Mundo.contador>=0&&Mundo.contador<40)&&(Mundo.trampas.estado==false&&Mundo.score>=5)) {
-    frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),contador:Mundo.contador+1,reproductor:false})
+    FPS;
+    return update(Mundo,{snake: movimiento,contador:Mundo.contador+1,reproductor:false})
   }
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
-    frameRate(fpscheat());
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir),trampas:verificadorTrampas(Mundo.snake,cheatposx(),cheatposy()),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obsposx(),obsposy()),estatico:verificadorObstaculosE(Mundo.snake,cheatposx(),cheatposy()),respawn:true},contador:0,reproductor:true})
+    FPS;
+    return update(Mundo,{snake: movimiento,trampas:verificadorTrampas(Mundo.snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obspos(cabeza.x,direccion.x),obspos(cabeza.y,direccion.y)),estatico:verificadorObstaculosE(Mundo.snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true})
   }
   else {
+    FPS;
     //Actualiza la posición del snake usando la función "moveSnake".
-    return update(Mundo,{snake: moveSnake(Mundo.snake,Mundo.dir)})
+    return update(Mundo,{snake: movimiento})
   }
 }
 //Implemente esta función si quiere que su programa reaccione a eventos del mouse
