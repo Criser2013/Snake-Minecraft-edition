@@ -513,7 +513,7 @@ function verificadorComida (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorComida(serpiente,foodpos(),foodpos());
+    return verificadorComida(Mundo.snake,foodpos(),foodpos());
   }
   else {
     return verificadorComida(rest(serpiente),posx,posy);
@@ -524,7 +524,7 @@ function verificadorTrampas (serpiente,posx,posy) {
     return {x:posx,y:posy,estado:false};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorTrampas(serpiente,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
+    return verificadorTrampas(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   }
   else {
     return verificadorTrampas(rest(serpiente),posx,posy);
@@ -535,7 +535,7 @@ function verificadorObstaculosM (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorObstaculosM(serpiente,obspos(first(Mundo.snake).x,Mundo.dir.x),obspos(first(Mundo.snake).y,Mundo.dir.y));
+    return verificadorObstaculosM(Mundo.snake,obspos(first(Mundo.snake).x,Mundo.dir.x),obspos(first(Mundo.snake).y,Mundo.dir.y));
   }
   else {
     return verificadorObstaculosM(rest(serpiente),posx,posy);
@@ -546,7 +546,7 @@ function verificadorObstaculosE (serpiente,posx,posy) {
     return {x:posx,y:posy};
   }
   else if ((first(serpiente).x==posx)&&(first(serpiente).y==posy)) {
-    return verificadorObstaculosE(serpiente,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
+    return verificadorObstaculosE(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   }
   else {
     return verificadorObstaculosE(rest(serpiente),posx,posy);
