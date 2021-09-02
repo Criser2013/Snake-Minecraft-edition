@@ -559,6 +559,8 @@ function onTic(Mundo){
   const aumento = moveSnake(crecimiento(Mundo.snake),Mundo.dir);
   const trampas = verificadorTrampas(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   const FPS = frameRate(fpscheat());
+  const sonido = Mundo.sonidos.comer;
+  const cabeza = first(Mundo.snake);
   //Si la funcion colisionparedes y colisionCabeza determinan si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true||colisionCabeza(Mundo.snake)==true) {
     fill(1);
@@ -569,44 +571,44 @@ function onTic(Mundo){
   }
   /* Esta condición actualiza la dirección en "X" del en el Mundo, si la serpiente se mueve hacia la derecha y se presiona la tecla para mover a la 
   izquierda, para que permanezca moviendose hacia la derecha. */
-  else if ((first(Mundo.snake).x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1) {
+  else if ((cabeza.x>first(rest(Mundo.snake)).x)&&Mundo.dir.x==-1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:1,y:0}),dir:{x:1,y:0}});
   }
-  else if ((first(Mundo.snake).x<first(rest(Mundo.snake)).x)&&Mundo.dir.x==1) {
+  else if ((cabeza.x<first(rest(Mundo.snake)).x)&&Mundo.dir.x==1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:-1,y:0}),dir:{x:-1,y:0}});
   }
   //Realiza la misma labor que las condiciones anteriores solo que en el eje "Y".
-  else if ((first(Mundo.snake).y>first(rest(Mundo.snake)).y)&&Mundo.dir.y==-1) {
+  else if ((cabeza.y>first(rest(Mundo.snake)).y)&&Mundo.dir.y==-1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:1}),dir:{x:0,y:1}});
   }
-  else if ((first(Mundo.snake).y<first(rest(Mundo.snake)).y)&&Mundo.dir.y==1) {
+  else if ((cabeza.y<first(rest(Mundo.snake)).y)&&Mundo.dir.y==1) {
     return update(Mundo,{snake: moveSnake(Mundo.snake,{x:0,y:-1}),dir:{x:0,y:-1}});
   }
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
-  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y))&&Mundo.score>=5) {
+  else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.comer.play();
+    sonido.stop();
+    sonido.play();
     return update(Mundo,{snake:aumento,food:comida,score:Mundo.score+1,trampas:{estado:true},contador:0});
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
-  else if ((first(Mundo.snake).x==Mundo.food.x)&&(first(Mundo.snake).y==Mundo.food.y)) {
+  else if ((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y)) {
     if (Mundo.score>=5) {
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.comer.play();
+      sonido.stop();
+      sonido.play();
       return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1,contador:Mundo.contador+1});
     }
     else {
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.comer.play();
+      sonido.stop();
+      sonido.play();
       return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1});
     }
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
-   else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
+   else if (((cabeza.x==Mundo.trampas.x)&&(cabeza.y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.comer.play();
+    sonido.stop();
+    sonido.play();
     return update(Mundo,{snake: movimiento,trampas:{estado:true},contador:0});
   }
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
@@ -627,7 +629,7 @@ function onTic(Mundo){
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     FPS;
-    return update(Mundo,{snake: movimiento,trampas:trampas,obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obspos(first(Mundo.snake).x,Mundo.dir.x),obspos(first(Mundo.snake).y,Mundo.dir.y)),estatico:verificadorObstaculosE(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y)),respawn:true},contador:0,reproductor:true});
+    return update(Mundo,{snake: movimiento,trampas:trampas,obstaculos:{movil:verificadorObstaculosM(Mundo.snake,obspos(cabeza.x,Mundo.dir.x),obspos(cabeza.y,Mundo.dir.y)),estatico:verificadorObstaculosE(Mundo.snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true});
   }
   else {
     //Actualiza la posición del snake usando la función "moveSnake".
