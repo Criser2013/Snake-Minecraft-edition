@@ -84,64 +84,37 @@ function setup() {
   background(mapa);
   Mundo = {snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],dir:{x:1,y:0},food:{x:foodpos(),y:foodpos()},score:0,colision:false,trampas:{x:foodpos(),y:foodpos(),estado:false},contador:0,obstaculos:{movil:{x:foodpos(),y:foodpos()},estatico:{x:foodpos(),y:foodpos()},respawn:false},sonidos:{muerte: new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true})},enemigos:{primero:new buzz.sound("audio/araña",{formats:["mp3"],volume: 40,preload:true}),segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),tercero:new buzz.sound("audio/zombie",{formats:["mp3"],volume: 40,preload:true}),cuarto:new buzz.sound("audio/creeper",{formats:["mp3"],volume: 40,preload:true})},reproductor:true}
 }
+/*
+Contrato: drawSnake coordenadas -> snake
+coordenadas = puntos en los ejes "X" y "Y" de cada parte del cuerpo de la serpiente
+serpiente = Lista de objects con coordenadas en "X" y "Y" que describen la posicion de una serpiente.
+Proposito: Dibuja la serpiente.
+Prototipo: drawSnake (snake) {}
+*/
+function drawSnake (snake) {
+  fill(70,59,164);
+  forEach(snake, s => {
+  rect(s.x * dx, s.y * dy, dx, dy);});
+  image(cara,(first(snake).x)*dx,(first(snake).y)*dy,dx,dy);
+  fill(0,168,168);
+  rect((first(rest(snake)).x)*dx,(first(rest(snake)).y)*dy,dx,dy);
+}
 // Dibuja algo en el canvas. Aqui se pone todo lo que quieras pintar.
 function drawGame(Mundo){
-  if (Mundo.score>=5&&Mundo.trampas.estado==false) {
-    if (Mundo.score>=10&&Mundo.trampas.estado==false) {
-      background(mapa);
-      //Esta linea llama a la función drawFood para dibujar la comida.
-      drawFood(Mundo.food);
-      //Estas lineas llama a la función drawCheat para dibujar las trampas.
-      drawCheat(Mundo.trampas);
-      //Estas lineas llaman a las funciones drawObstacles(s&M) para dibujar los obstaculos.
-      drawObstaclesm(Mundo.obstaculos.movil);
-      drawObstaclesS(Mundo.obstaculos.estatico);
-      fill(70,59,164);
-      //Esta función se encarga de dibujar cada elemento del snake, incluida la cabeza de la serpiente, todo se dibuja con la misma apariencia y características.
-      forEach(Mundo.snake, s => {
-      rect(s.x * dx, s.y * dy, dx, dy);});
-      //Esta parte del código es la encargada de dibujar lo que queramos en la cabeza del snake, se pueden modificar todas las coordenadas, excepto: "first(Mundo.snake).x".
-      image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
-      fill(0,168,168);
-      rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
-      //Esta linea llama a la función drawScore para dibujar el puntaje.
-      drawScore(Mundo.score);
-    }
-    else {
-      background(mapa);
-      drawFood(Mundo.food);
-      drawCheat(Mundo.trampas);
-      fill(70,59,164);
-      forEach(Mundo.snake, s => {
-      rect(s.x * dx, s.y * dy, dx, dy);});
-      image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
-      fill(0,168,168);
-      rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
-      drawScore(Mundo.score);
-    }
-  }
-  else if (Mundo.score>=10&&Mundo.trampas.estado==true) {
-    background(mapa);
-    drawFood(Mundo.food);
-    drawObstaclesm(Mundo.obstaculos.movil);
-    drawObstaclesS(Mundo.obstaculos.estatico);
-    fill(70,59,164);
-    forEach(Mundo.snake, s => {
-    rect(s.x * dx, s.y * dy, dx, dy);});
-    image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,20,20);
-    fill(0,168,168);
-    rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
+  background(mapa);
+  drawFood(Mundo.food);
+  drawScore(Mundo.score);
+  drawSnake(Mundo.snake);
+  if (Mundo.score>=5&&Mundo.score<10) {
+    drawCheat(Mundo.trampas);
+    drawSnake(Mundo.snake);
     drawScore(Mundo.score);
   }
-  else {
-    background(mapa);
-    drawFood(Mundo.food);
-    fill(70,59,164);
-    forEach(Mundo.snake, s => {
-    rect(s.x * dx, s.y * dy, dx, dy);});
-    image(cara,(first(Mundo.snake).x)*dx,(first(Mundo.snake).y)*dy,dx,dy);
-    fill(0,168,168);
-    rect((first(rest(Mundo.snake)).x)*dx,(first(rest(Mundo.snake)).y)*dy,dx,dy);
+  else if (Mundo.score>=10) {
+    drawCheat(Mundo.trampas);
+    drawObstaclesm(Mundo.obstaculos.movil);
+    drawObstaclesS(Mundo.obstaculos.estatico);
+    drawSnake(Mundo.snake);
     drawScore(Mundo.score);
   }
 }
@@ -382,21 +355,11 @@ function colisionCabeza (lista) {
     return false;
   }
   else if ((first(rest(lista)).x==cabeza.x)&&(first(rest(lista)).y==cabeza.y)) {
-    Mundo.enemigos.primero.stop();
-    Mundo.enemigos.segundo.stop();
-    Mundo.enemigos.tercero.stop();
-    Mundo.enemigos.cuarto.stop();
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.muerte.play();
+    sonidoMuerte();
     return true;
   }
   else if ((first(lista).x==first(rest(lista)).x)&&(first(lista).y==first(rest(lista)).y)) {
-    Mundo.enemigos.primero.stop();
-    Mundo.enemigos.segundo.stop();
-    Mundo.enemigos.tercero.stop();
-    Mundo.enemigos.cuarto.stop();
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.muerte.play();
+    sonidoMuerte();
     return true;
   }
   else {
@@ -489,6 +452,15 @@ function traslacion (lista) {
     return cons(primeraParte,traslacion(rest(lista)));
   }
 }
+//Esta función es la encargada de parar todos los sonidos y reproducir el sonidos de muerte.
+function sonidoMuerte () {
+  Mundo.enemigos.primero.stop();
+  Mundo.enemigos.segundo.stop();
+  Mundo.enemigos.tercero.stop();
+  Mundo.enemigos.cuarto.stop();
+  Mundo.sonidos.comer.stop();
+  Mundo.sonidos.muerte.play();
+}
 /*
 Contrato: colisionparedes Mundo -> boolean
 Mundo = Posicion del snake, la comida, el puntaje, colisiones, etc.
@@ -509,50 +481,25 @@ function colisionparedes () {
   }
   //Estas 3 condiciones determinan si hubo colisión con una de las trampas estaticas que spawnean de forma aleatoria a partir de los 10 puntos.
   else if (((((cabeza.x+1==obstaculoEstatico.x)&&(direccion.x==1))&&(cabeza.y==obstaculoEstatico.y))||(((cabeza.x-1==obstaculoEstatico.x)&&(direccion.x==-1)))&&(cabeza.y==obstaculoEstatico.y))&&Mundo.score>=10) {
-    Mundo.enemigos.primero.stop();
-    Mundo.enemigos.segundo.stop();
-    Mundo.enemigos.tercero.stop();
-    Mundo.enemigos.cuarto.stop();
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.muerte.play();
+    sonidoMuerte();
     return true;
   }
   else if (((((cabeza.y+1==obstaculoEstatico.y)&&(direccion.y==1))&&(cabeza.x==obstaculoEstatico.x))||(((cabeza.y-1==obstaculoEstatico.y)&&(direccion.y==-1)))&&(cabeza.x==obstaculoEstatico.x))&&Mundo.score>=10) {
-    Mundo.enemigos.primero.stop();
-    Mundo.enemigos.segundo.stop();
-    Mundo.enemigos.tercero.stop();
-    Mundo.enemigos.cuarto.stop();
-    Mundo.sonidos.comer.stop();
-    Mundo.sonidos.muerte.play();
+    sonidoMuerte();
     return true;
   }
   //Estas 4 condiciones evaluan si hay un obstaculo estatico en el lateral opuesto al que se encuentra la serpiente realizando el traslado.
   else if (cabeza.x<=-1&&obstaculoEstatico.x==19) {
     if (obstaculoEstatico.y==cabeza.y) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.y==cabeza.y+1)&&direccion.y==1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.y==cabeza.y-1)&&direccion.y==-1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else {
@@ -561,30 +508,15 @@ function colisionparedes () {
   }
   else if (cabeza.y<=-1&&obstaculoEstatico.y==19) {
     if (obstaculoEstatico.x==cabeza.x) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.x==cabeza.x+1)&&direccion.x==1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.x==cabeza.x-1)&&direccion.x==-1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else {
@@ -593,30 +525,15 @@ function colisionparedes () {
   }
   else if (cabeza.x>=20&&obstaculoEstatico.x==0) {
     if (obstaculoEstatico.y==cabeza.y) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.y==cabeza.y+1)&&direccion.y==1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.x==cabeza.x+1)&&direccion.x==1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else {
@@ -625,30 +542,15 @@ function colisionparedes () {
   }
   else if (cabeza.y>=20&&obstaculoEstatico.y==0) {
     if (obstaculoEstatico.x==cabeza.x) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.x==cabeza.x+1)&&direccion.x==1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else if ((obstaculoEstatico.x==cabeza.x-1)&&direccion.x==-1) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     else {
@@ -657,12 +559,7 @@ function colisionparedes () {
   }
   else if ((cabeza.x==Mundo.obstaculos.movil.x)&&(first(Mundo.snake).y==Mundo.obstaculos.movil.y)&&Mundo.score>=10) {
     if (Mundo.trampas.estado==true) {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
     //Esta condición determina si hubo colision con alguna de las trampas que spawnean cerca de la cabeza del snake (se incluye el contador para evitar que si una trampa spawnea justo en la posición de la cabeza del snake se pierda el juego de manera injusta).
@@ -670,12 +567,7 @@ function colisionparedes () {
       return false;
     }
     else {
-      Mundo.enemigos.primero.stop();
-      Mundo.enemigos.segundo.stop();
-      Mundo.enemigos.tercero.stop();
-      Mundo.enemigos.cuarto.stop();
-      Mundo.sonidos.comer.stop();
-      Mundo.sonidos.muerte.play();
+      sonidoMuerte();
       return true;
     }
   }
@@ -700,16 +592,16 @@ function fpscheat () {
     return 10
   }
   else if (Mundo.score>=10&&Mundo.score<20) {
-    return 12.5
-  }
-  else if (Mundo.score>=20&&Mundo.score<30) {
     return 15
   }
+  else if (Mundo.score>=20&&Mundo.score<30) {
+    return 20
+  }
   else if (Mundo.score>=30&&Mundo.score<50) {
-    return 17.5
+    return 25
   }
   else if (Mundo.score>=50) {
-    return 20
+    return 30
   }
 }
 /*
@@ -773,9 +665,12 @@ function onTic(Mundo){
   const aumento = moveSnake(crecimiento(Mundo.snake),Mundo.dir);
   const trampas = verificadorTrampas(Mundo.snake,cheatpos(first(Mundo.snake).x),cheatpos(first(Mundo.snake).y));
   const FPS = frameRate(fpscheat());
-  const sonido = Mundo.sonidos.comer;
   const cabeza = first(Mundo.snake);
   const direccion = Mundo.dir;
+  function sonidoComida () {
+    Mundo.sonidos.comer.stop();
+    Mundo.sonidos.comer.play();
+  }
   //Si la funcion colisionparedes y colisionCabeza determinan si hubo colisión (retornando un "true"), esto se ejecuta para mostrar el puntaje alcanzado.
   if (colisionparedes(Mundo.snake)==true||colisionCabeza(Mundo.snake)==true) {
     fill(1);
@@ -803,28 +698,24 @@ function onTic(Mundo){
   //Esta condicion se ejecuta cuando la serpiente toma la comida y la comida se encuentra en la misma posicion que un powerup de velocidad, esta condicion activa la suma del score y activa el efecto de aumento de velocidad.
   else if ((Mundo.food.x==Mundo.trampas.x&&Mundo.food.y==Mundo.trampas.y)&&((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
-    sonido.stop();
-    sonido.play();
+    sonidoComida();
     return update(Mundo,{snake:aumento,food:comida,score:Mundo.score+1,trampas:{estado:true},contador:0})
   }
   //Esta condición determina si hubo colisión entre la cabeza del snake y la comida.
   else if ((cabeza.x==Mundo.food.x)&&(cabeza.y==Mundo.food.y)) {
     if (Mundo.score>=5) {
-      sonido.stop();
-      sonido.play();
+      sonidoComida();
       return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1,contador:Mundo.contador+1});
     }
     else {
-      sonido.stop();
-      sonido.play();
+      sonidoComida();
       return update(Mundo,{snake: aumento,food:comida,score:Mundo.score+1});
     }
   }
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((first(Mundo.snake).x==Mundo.trampas.x)&&(first(Mundo.snake).y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
-    sonido.stop();
-    sonido.play();
+    sonidoComida();
     return update(Mundo,{snake: movimiento,trampas:{estado:true},contador:0})
   }
    //Esta condición es la encargada de hacer desaparecer el efecto de aumento de velocidad en la serpiente luego de 20 segundos 
@@ -838,6 +729,7 @@ function onTic(Mundo){
   }
   //Esta condición hace de cronometro cuando se toma una de las trampas.
   else if (Mundo.trampas.estado==true&&Mundo.contador<80) {
+    frameRate(fpscheat()+5)
     return update(Mundo,{snake: movimiento,contador:Mundo.contador+1,reproductor:false})
   }
   //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
