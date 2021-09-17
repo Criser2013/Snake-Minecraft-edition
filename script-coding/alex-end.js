@@ -43,7 +43,9 @@ let powerup = null;
 let trampa = null;
 let fuente = null;
 let vida = null;
+let comidaInversa = null;
 ////////////////////////
+const TIME_DEBUFF = 80;
 /*
 Contrato: preload variable -> image
 image = Carga una imagen.
@@ -66,6 +68,7 @@ function preload () {
   mapa = loadImage("images/end.png");
   vida = loadImage("images/vida.png");
   fuente = loadFont("minecraft.otf");
+  comidaInversa = loadImage("images/papa_venenosa.png");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
@@ -88,6 +91,7 @@ function setup() {
     snake: [{x:3,y:1}, {x:2,y:1}, {x:1,y:1 }],
     dir:{x:1,y:0},
     food:{x:foodpos(),y:foodpos()},
+    reverseFood: {x: foodpos(), y: foodpos(), debuff: false, timeDebuff: TIME_DEBUFF},
     score:0,
     trampas:{x:foodpos(),y:foodpos(),estado:false},
     contador:0,
@@ -127,12 +131,14 @@ function drawGame(Mundo){
     drawLives(Mundo.vidas);
   }
   else if (Mundo.score>=5&&Mundo.score<10) {
+    drawReverseFood(Mundo.reverseFood);
     drawCheat(Mundo.trampas);
     drawSnake(Mundo.snake);
     drawScore(Mundo.score);
     drawLives(Mundo.vidas);
   }
   else if (Mundo.score>=10) {
+    drawReverseFood(Mundo.reverseFood);
     drawCheat(Mundo.trampas);
     drawObstaclesm(Mundo.obstaculos.movil);
     drawObstaclesS(Mundo.obstaculos.estatico);
@@ -140,6 +146,9 @@ function drawGame(Mundo){
     drawScore(Mundo.score);
     drawLives(Mundo.vidas);
   }
+}
+function drawReverseFood(food){
+  image(comidaInversa, food.x * dx, food.y * dy, dx, dy);
 }
 /*
 Contrato: drawFood coordenadas -> food
@@ -715,6 +724,7 @@ function onTic(Mundo){
   const movimiento = moveSnake(snake,direccion);
   const aumento = moveSnake(crecimiento(snake),direccion);
   const trampas = verificadorTrampas(snake,cheatpos(first(snake).x),cheatpos(first(snake).y));
+  const reverseFood = verificadorTrampas(snake,cheatpos(first(snake).x),cheatpos(first(snake).y));
   const cabeza = first(snake);
   const invencibilidad = Mundo.contador_vidas<10&&Mundo.invencibilidad==true;
   const contadorVidas = Mundo.contador_vidas+1;
@@ -796,6 +806,71 @@ function onTic(Mundo){
       }
     }
   }
+
+
+
+
+
+
+
+
+  //Esta condicion determina si hubo colisión entre la cabeza del snake y la comida inversa. Ademas, habilita el efecto de cambio de direccion
+   else if (((cabeza.x==Mundo.reverseFood.x)&&(cabeza.y==Mundo.reverseFood.y))&&Mundo.score>=5) {
+    sonidoComida();
+    if (invencibilidad) {
+      return update(Mundo,{snake: movimiento,reverseFood:{debuff:true},contador:0,contador_vidas:contadorVidas});
+    }
+    else {
+      return update(Mundo,{snake: movimiento,reverseFood:{debuff:true},contador:0});
+    }
+  }
+
+  //Esta condición es la encargada de hacer desaparecer el efecto de movimiento inverso
+  else if (Mundo.contador>=80&&Mundo.reverseFood.debuff==true) {
+    if (invencibilidad) {
+      return update(Mundo,{snake: movimiento,reverseFood:reverseFood,obstaculos:{movil:{x:obsMovil.x,y:obsMovil.y},estatico:{x:obsEst.x,y:obsEst.y},respawn:false},contador:0,reproductor:false,contador_vidas:contadorVidas});
+    }
+    else {
+      return update(Mundo,{snake: movimiento,reverseFood:reverseFood,obstaculos:{movil:{x:obsMovil.x,y:obsMovil.y},estatico:{x:obsEst.x,y:obsEst.y},respawn:false},contador:0,reproductor:false});
+    }
+  }
+
+    //Estas condiciones determinan si la cabeza del snake se encuentra en los límites laterales del mapa, para asi realizar el cambio de posición.
+  else if ((cabeza.x>=20||cabeza.x<=-1)||((cabeza.y<=-1)||(cabeza.y>=20))) {
+    if (invencibilidad) {
+      return update(Mundo,{snake:moveSnake(traslacion(snake),Mundo.dir),contador_vidas:contadorVidas});
+    }
+    else {
+      return update(Mundo,{snake:moveSnake(traslacion(snake),Mundo.dir)});
+    }
+  }
+  
+  //Esta condición hace de cronometro cuando se toma una de las trampas.
+  else if (Mundo.reverseFood.debuff==true && Mundo.contador<80) {
+    if (invencibilidad) {
+      return update(Mundo,{snake: movimiento,contador:contador,reproductor:false,contador_vidas:contadorVidas});  
+    }
+    else {
+      return update(Mundo,{snake: movimiento,contador:contador,reproductor:false});
+    }
+  }
+
+  //Esta condición actua como cronometro para spawnear una nueva trampa siempre y cuando el usuario no la haya cogido.
+  else if ((Mundo.contador>=0&&Mundo.contador<40)&&(Mundo.reverseFood.debuff==false&&Mundo.score>=5)) {
+    if (invencibilidad) {
+      return update(Mundo,{snake: movimiento,contador:contador,reproductor:false,contador_vidas:contadorVidas});
+    }
+    else {   
+      return update(Mundo,{snake: movimiento,contador:contador,reproductor:false});
+    }
+  }
+
+
+
+
+
+
+
    //Esta condicion determina si hubo colisión entre la cabeza del snake y una trampa, aparte de habilitar el efecto de aumento de velocidad, aumentando los FPS del juego 5.
    else if (((cabeza.x==Mundo.trampas.x)&&(cabeza.y==Mundo.trampas.y))&&Mundo.score>=5) {
     frameRate(fpscheat()+5);
@@ -847,10 +922,10 @@ function onTic(Mundo){
    //Esta condicion spawnea una nueva trampa y nuevos obstaculos cada que la condicion anterior alcanza un valor de 40 en el parametro "contador" del mundo.
   else if (Mundo.contador>=40&&Mundo.trampas.estado==false) {
     if (invencibilidad) {
-      return update(Mundo,{snake: movimiento,trampas:trampas,obstaculos:{movil:verificadorObstaculosM(snake,obspos(cabeza.x,direccion.x),obspos(cabeza.y,direccion.y)),estatico:verificadorObstaculosE(snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true,contador_vidas:contadorVidas});
+      return update(Mundo,{snake: movimiento,trampas:trampas, reverseFood: reverseFood, obstaculos:{movil:verificadorObstaculosM(snake,obspos(cabeza.x,direccion.x),obspos(cabeza.y,direccion.y)),estatico:verificadorObstaculosE(snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true,contador_vidas:contadorVidas});
     }
     else {
-      return update(Mundo,{snake: movimiento,trampas:trampas,obstaculos:{movil:verificadorObstaculosM(snake,obspos(cabeza.x,direccion.x),obspos(cabeza.y,direccion.y)),estatico:verificadorObstaculosE(snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true});
+      return update(Mundo,{snake: movimiento,trampas:trampas, reverseFood: reverseFood, obstaculos:{movil:verificadorObstaculosM(snake,obspos(cabeza.x,direccion.x),obspos(cabeza.y,direccion.y)),estatico:verificadorObstaculosE(snake,cheatpos(cabeza.x),cheatpos(cabeza.y)),respawn:true},contador:0,reproductor:true});
     }
   }
   //Comprueba si la serpiente ha perdido una vida en un intervalo del 0 - 10 tics y aumenta el contador.
@@ -871,6 +946,13 @@ function onMouseEvent (Mundo, event) {
 */
 function onKeyEvent (Mundo, keyCode) {
   // Cambiamos la dirección de la serpiente. Noten que no movemos la serpiente. Solo la dirección
+  if(Mundo.reverseFood.debuff){
+    return reverseDirectionChange(Mundo, keyCode);
+  } else {
+    return normalDirectionChange(Mundo, keyCode);
+  }
+}
+function normalDirectionChange(Mundo, keyCode){
   if (((keyCode==UP_ARROW||keyCode==87)&&Mundo.dir.y!==1)&&Mundo.vidas>0){
       return update(Mundo, {dir: {y: -1, x: 0}});
   }
@@ -882,6 +964,27 @@ function onKeyEvent (Mundo, keyCode) {
   }
   else if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.dir.x!==-1)&&Mundo.vidas>0) {
       return update(Mundo, {dir: {y: 0, x: 1}});
+  }
+  else if (Mundo.vidas==0) {
+    window.open("game_over-alex-end.html","_self")
+    return update(Mundo,{});
+  }
+  else {
+    return update(Mundo,{});
+  }
+}
+function reverseDirectionChange(Mundo, keyCode){
+  if (((keyCode==UP_ARROW||keyCode==87)&&Mundo.dir.y!== -1)&&Mundo.vidas>0){
+      return update(Mundo, {dir: {y: 1, x: 0}});
+  }
+  else if (((keyCode==DOWN_ARROW||keyCode==83)&&Mundo.dir.y!== 1)&&Mundo.vidas>0) {
+      return update(Mundo, {dir: {y: -1, x: 0}});
+  }
+  else if (((keyCode==LEFT_ARROW||keyCode==65)&&Mundo.dir.x!== -1)&&Mundo.vidas>0) {
+      return update(Mundo, {dir: {y: 0, x: 1}});
+  }
+  else if (((keyCode==RIGHT_ARROW||keyCode==68)&&Mundo.dir.x!== 1)&&Mundo.vidas>0) {
+      return update(Mundo, {dir: {y: 0, x: -1}});
   }
   else if (Mundo.vidas==0) {
     window.open("game_over-alex-end.html","_self")
