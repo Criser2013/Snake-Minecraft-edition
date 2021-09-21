@@ -68,7 +68,7 @@ function preload () {
   mapa = loadImage("images/end.png");
   vida = loadImage("images/vida.png");
   fuente = loadFont("minecraft.otf");
-  comidaInversa = loadImage("images/papa_venenosa.png");
+  comidaInversa = loadImage("images/sopa_inversa.png");
 }
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
