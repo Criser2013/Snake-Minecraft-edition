@@ -19,6 +19,7 @@ let enemigos2 = null;
 let fruta_coral = null;
 let papa_venenosa = null;
 let ojo_araña = null;
+let comida_inversa = null;
 /*
 Contrato: preload variable -> image
 image = Carga una imagen.
@@ -50,11 +51,12 @@ function preload () {
     fruta_coral = loadImage("images/fruta_coral.png");
     papa_venenosa = loadImage("images/papa_venenosa.png");
     ojo_araña = loadImage("images/ojo_araña.png");
+    comida_inversa = loadImage("images/sopa_inversa.png");
 }
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {menu:1,boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
+    Mundo = {menu:1,boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
@@ -99,15 +101,15 @@ function drawGame (Mundo) {
         rect(120,360,65,20);
         fill(255);
         textFont(fuente,20);
-        text("Dificultades.",140,30);
+        text("Vidas.",175,30);
         text("Mapas.",170,155);
         text("Elementos dentro del juego.",67.5,285);
         textFont(fuente,14);
-        text("El juego posee 3 niveles de dificultad, fácil, medio",22.5,60);
-        text("y difícil, varían en la velocidad de movimiento y si",27.5,80);
-        text("los límites laterales y superiores son",67.5,100);
+        text("La partida comienza con 3 vidas que no pueden ser",18.5,60);
+        text("recuperadas de ninguna forma, cuando la serpiente",17.5,80);
+        text("se choca, se pierde una vida y comienza a parpade-",15,100);
         text("Puedes seleccionar entre 3 mapas distintos.",45,185);
-        text("traspasables.",150,120);
+        text("ar en color rojo, eres invencible a todo por 2 segs.",12.5,120);
         text("Ayudan a crecer a la serpi-",155,315);
         text("ente y aumentan tu puntuación.",90,335);
         text("Volver",132.5,375);
@@ -128,30 +130,34 @@ function drawGame (Mundo) {
         textFont(fuente,20);
         text("Elementos dentro del juego.",67.5,30)
         textFont(fuente,16);
-        text("Manzanas de oro:",70,70);
-        text("Enemigos:",70,140);
-        text("Objetos perjudiciales:",70,230);
+        text("Manzanas de oro:",70,60);
+        text("Enemigos:",70,130);
+        text("Objetos perjudiciales:",70,220);
+        text("Sopa inversa:",70,330);
         textFont(fuente,14);
-        text("Aumentan tu veloci-",215,70);
-        text("dad, detienen la reaparición de enemigos,",70,90);
-        text("aparece a partir de los 5 puntos.",80,110);
-        text("Aparecen a partir de los 10",150,140);
-        text("puntos, muy cerca de la cabeza de tu",70,160);
-        text("serpiente. Su apariencia varía dependi-",70,180);
-        text("endo del mapa y tu puntaje.",100,200);
-        text("Aparecen a",255,230);
-        text("partir de los 10 puntos, muy cerca de la",70,250);
-        text("cabeza de tu serpiente, al comerlos pi-",70,270);
-        text("erdes. Su apariencia varía dependiendo",70,290);
-        text("del mapa.",170,310);
+        text("Aumentan tu veloci-",215,60);
+        text("dad, detienen la reaparición de enemigos,",70,80);
+        text("aparece a partir de los 5 puntos.",80,100);
+        text("Aparecen a partir de los 10",150,130);
+        text("puntos, muy cerca de la cabeza de tu",70,150);
+        text("serpiente. Su apariencia varía dependi-",70,170);
+        text("endo del mapa y tu puntaje.",100,190);
+        text("Aparecen a",255,220);
+        text("partir de los 10 puntos, muy cerca de la",70,240);
+        text("cabeza de tu serpiente, al comerlos pi-",70,260);
+        text("erdes 1 vida. Su apariencia varía depen-",70,280);
+        text("diendo del mapa.",140,300);
+        text("Al comerla se invierte la",182,330);
+        text("dirección de las teclas.",128,350)
         text("Volver",176.5,375);
-        image(manzana_oro,40,75,20,20);
-        image(enemigos,40,130,20,20);
-        image(enemigos1,40,155,20,20);
-        image(enemigos2,40,180,20,20);
-        image(fruta_coral,40,220,20,20);
-        image(ojo_araña,40,255,20,20);
-        image(papa_venenosa,40,290,20,20);
+        image(manzana_oro,40,65,20,20);
+        image(enemigos,40,120,20,20);
+        image(enemigos1,40,145,20,20);
+        image(enemigos2,40,170,20,20);
+        image(fruta_coral,40,210,20,20);
+        image(ojo_araña,40,245,20,20);
+        image(papa_venenosa,40,280,20,20);
+        image(comida_inversa,40,325,20,20);
     }
     //Dibuja un rectangulo de fondo transparente sobre el botón que se encuentre seleccionado excepto en el menú 3.
     if (Mundo.boton==2&&Mundo.menu!==3) {
