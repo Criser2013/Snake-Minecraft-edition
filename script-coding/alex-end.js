@@ -154,7 +154,7 @@ function setup() {
 }
 
 /**
- * funcion creada para mantener el paradigma funcional. Actualiza los atributos del objeto y retorna una copia profunda
+ * Función creada para mantener el paradigma funcional. Actualiza los atributos del objeto y retorna una copia profunda
  * @param {Object} data
  * @param {Object} attribute
  * @returns {Object}
@@ -305,7 +305,7 @@ function sonidoComida () {
   Mundo.sonidos.comer.play();
 }
 /**
- * Dibuja el sprite "comidaEnvenenada" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "poisonFood".
+ * Dibuja el sprite "poisonFood" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "poisonFood".
  * @param {Object} poisonFood
  */
 function drawObstaclesm(poisonFood) {
@@ -342,6 +342,11 @@ function drawFood(food) {
   image(comida, food.x * CELL_SIZE, food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+/**
+ * Dibuja el efecto de parpadeo en color rojo cuando la serpiente pierde 1 vida.
+ * @param {List} snake
+ * @param {number} timeInvincibility
+ */
 function drawInvincibility(snake, timeInvincibility){
   if(timeInvincibility % 2 == 0){
     forEach(snake, s => {
@@ -356,7 +361,7 @@ function drawInvincibility(snake, timeInvincibility){
 /**
  * Dibuja las diferentes partes de la serpiente en el canvas. Esto, tomando en cuenta los objetos
  * dentro de la lista "snake", la cabeza del snake y la parte inmediamente siguiente tienen una coloración/dibujo diferente al del resto.
- * @param {Array} snake
+ * @param {List} snake
  */
 function drawSnake(snake) {
   fill(121,86,58);
@@ -677,7 +682,7 @@ function collision(snake, monster, poisonFood) {
 /**
  * Determina si la serpiente choco contra su cuerpo.
  * @param {Object} head
- * @param {Array} body
+ * @param {List} body
  * @returns {boolean}
  * @example collisionWithBody({x:1, y:2}, [{x:2, y:2},{x:3, y:2}]) // => false
  */
@@ -719,19 +724,17 @@ function collisionWithObstacle(headSnake, obstacle) {
  *          cheatpos(15); // => 17 (Valores posibles: 11 - 18).
  */
 function cheatpos(cabeza) {
-  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16.
+  //Determina la posición sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16.
   if (cabeza <= 16 && cabeza >= 3) {
     return Math.ceil(Math.random() * (cabeza + 3 - (cabeza - 4)) + cabeza - 4);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2, el rango es diferente al resto.
+  //Condiciones dadas si la cabeza se encuentra en las ultimas 3 casillas del mapa (la diferencia es que varían en las posiciones en las que puede spawnear).
   else if (cabeza == 2) {
     return Math.ceil(Math.random() * (4 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1, el rango es diferente al resto.
   else if (cabeza == 1) {
     return Math.ceil(Math.random() * (2 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0, el rango es diferente al resto.
   else if (cabeza == 0) {
     return Math.ceil(Math.random() * (3 - 0) + 0);
   }
@@ -834,7 +837,7 @@ function obspos(cabeza, direccion) {
 /**
  * Determina si la posicion de la cabeza de snake y food son iguales.
  * En tal caso, retorna verdadero
- * @param {Array} snake
+ * @param {List} snake
  * @param {Object} food
  * @returns {boolean}
  * @example eatFood([{x:1, y:1}, {x:2, y:1}], {x:1, y:1}) // => true
@@ -864,7 +867,7 @@ function increaseBody(snake, dir) {
 
 /**
  * Retorna el último elemento de la lista ingresada.
- * @param {Array} snake
+ * @param {List} snake
  * @returns {Object}
  * @example tailSnake([{x: 1 ,y: 3 },{x: 2 ,y: 3 },{x: 3 ,y: 3 }]); // => {x: 3 ,y: 3 }
  */
@@ -904,9 +907,9 @@ function increaseSpeed(score, speed) {
 
 /**
  * Crea un nuevo elemento al principio de la lista en una dirección dada dando el movimiento a la serpiente.
- * @param {Array} snake
+ * @param {List} snake
  * @param {Object} dir
- * @returns {Array}
+ * @returns {List}
  * @example moveSnake ([{x: -1 ,y: 3 },{x: 0 ,y: 3 },{x: 2 ,y: 3 }],{x: -1 ,y: 0 }); // => [{x: 19 ,y: 3 },{x: -1 ,y: 3 },{x: 0 ,y: 3 }]
  *          moveSnake ([{x: 19 ,y: 3 },{x: 18 ,y: 3 },{x: 17 ,y: 3 }],{x: 1 ,y: 0 }); // => [{x: 0 ,y: 3 },{x: 19 ,y: 3 },{x: 18 ,y: 3 }]
  *          moveSnake ([{x: 16 ,y: 3 },{x: 17 ,y: 3 },{x: 18 ,y: 3 }],{x: -1 ,y: 0 }); // => [{x: 15 ,y: 3 },{x: 16 ,y: 3 },{x: 17 ,y: 3 }]
