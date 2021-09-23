@@ -386,7 +386,7 @@ function drawScore(score) {
  * @param {number} score
  */
 function drawGameOver(score) {
-  fill(1);
+  fill(255);
   textFont(fuente, 16);
   text("Puntuación: " + score, 143, 190);
   text("Presiona cualquier tecla para continuar.", 36, 240);
