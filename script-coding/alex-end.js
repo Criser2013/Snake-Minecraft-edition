@@ -218,7 +218,10 @@ function drawCheat(upgradeFood) {
     CELL_SIZE
   );
 }
-
+/**
+ * Dibuja El sprite de la sopa inversa. Recibe las coordenadas del objecto "reverFood".
+ * @param {Object} reverseFood 
+ */
 function drawReverseFood(reverseFood) {
   image(
     comidaInversa,
@@ -230,8 +233,12 @@ function drawReverseFood(reverseFood) {
 }
 
 /**
- * dibuja los sprites "obstaculoS(n)" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "monster"
+ * Dibuja los sprites "obstaculoS(n)" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "monster" y la puntuación para varíar
+ * la apariencia.
  * @param {Object} monster
+ * @param {number} score
+ * @examples {x: 1, y: 3}, 10 -> image(obstaculoS2,1*CELL_SIZE,3*CELL_SIZE,CELL_SIZE,CELL_SIZE)
+ *           {x: 1, y: 3}, 25 -> image(obstaculoS3,1*CELL_SIZE,3*CELL_SIZE,CELL_SIZE,CELL_SIZE)
  */
 function drawObstaclesS(monster, score) {
   if (score >= 10 && score < 20) {
@@ -280,6 +287,7 @@ function drawObstaclesS(monster, score) {
     }
   }
 }
+//Detiene los sonidos de los enemigos y los de la comida y reproduce el sonido a perder una vida.
 function sonidoMuerte () {
   if (Mundo.lives.invincibility==false) {
     Mundo.sonidos.enemigos.primero.stop();
@@ -291,12 +299,13 @@ function sonidoMuerte () {
     Mundo.sonidos.muerte.play();
   }
 }
+//Reproduce el sonido al comer.
 function sonidoComida () {
   Mundo.sonidos.comer.stop();
   Mundo.sonidos.comer.play();
 }
 /**
- * dibuja el sprite "comidaEnvenenada" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "poisonFood"
+ * Dibuja el sprite "comidaEnvenenada" en el canvas. Esto, tomando encuenta las coordenadas del Objeto "poisonFood".
  * @param {Object} poisonFood
  */
 function drawObstaclesm(poisonFood) {
@@ -308,7 +317,10 @@ function drawObstaclesm(poisonFood) {
     CELL_SIZE
   );
 }
-
+/**
+ * Dibuja la cantidad de vidas que se tiene en el momento, sino se tienen vidas, no dibuja nada.
+ * @param {number} lives
+ */
 function drawLives(lives) {
   if (lives == 3) {
     image(vida, 360, 371, 10, 10);
@@ -323,7 +335,7 @@ function drawLives(lives) {
 }
 
 /**
- * dibuja el sprite "comida" en el canvas. Esto, tomando en cuenta las coodenadas del objeto "food"
+ * Dibuja el sprite "comida" en el canvas. Esto, tomando en cuenta las coodenadas del objeto "food".
  * @param {Object} food
  */
 function drawFood(food) {
@@ -342,8 +354,8 @@ function drawInvincibility(snake, timeInvincibility){
 }
 
 /**
- * dibuja las diferentes partes de la serpiente en el canvas. Esto, tomando en cuenta los objetos
- * dentro del Array "snake"
+ * Dibuja las diferentes partes de la serpiente en el canvas. Esto, tomando en cuenta los objetos
+ * dentro de la lista "snake", la cabeza del snake y la parte inmediamente siguiente tienen una coloración/dibujo diferente al del resto.
  * @param {Array} snake
  */
 function drawSnake(snake) {
@@ -357,7 +369,8 @@ function drawSnake(snake) {
 }
 
 /**
- *
+ * Dibuja la puntuación que se tiene en el canvas.
+ * @param {number} score
  */
 function drawScore(score) {
   fill(0);
@@ -366,7 +379,8 @@ function drawScore(score) {
 }
 
 /**
- * dibuja la pantalla de muerte del juego
+ * Dibuja la pantalla de muerte del juego colocando al puntuación alcanzada.
+ * @param {number} score
  */
 function drawGameOver(score) {
   fill(1);
@@ -380,12 +394,12 @@ function drawGameOver(score) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 function onTic(mundo) {
-  // determina la velocidad por cada vuelta de ciclo
+  // Determina la velocidad por cada vuelta de ciclo
   frameRate(mundo.speed);
   const cabeza = first(mundo.snake);
   const direccion = mundo.dir;
-  // cambia el estado de GameOver a true. Esto siempre y cuando
-  // la serpiente haya chocado
+  /* Cambia el estado de GameOver a true. Esto siempre y cuando
+  la serpiente haya chocado */
   if (Mundo.gameOver == true) {
     Mundo.sonidos.ambiente.stop();
     drawGameOver(Mundo.score);
@@ -441,8 +455,8 @@ function onTic(mundo) {
     });
   }
 
-  // activa el respawn de los monstruos y la comida envenenada
-  // una vez el escore sea 10
+  /* Activa el respawn de los monstruos y la comida envenenada
+   una vez el escore sea 10 */
   if (mundo.score == 10 && !mundo.monster.respawn) {
     mundo = update(mundo, {
       monster: update(mundo.monster, {
@@ -661,7 +675,7 @@ function collision(snake, monster, poisonFood) {
 }
 
 /**
- * determina si la serpiente choco contra su cuerpo
+ * Determina si la serpiente choco contra su cuerpo.
  * @param {Object} head
  * @param {Array} body
  * @returns {boolean}
@@ -676,7 +690,7 @@ function collisionWithBody(head, body) {
 }
 
 /**
- * determina si la serpiente choco contra algun obstaculo(monstruo o comida envenenada)
+ * Determina si la serpiente choco contra algún obstaculo (monstruo o comida envenenada).
  * @param {Object} headSnake
  * @param {Object} obstacle
  * @returns {boolean}
@@ -691,7 +705,19 @@ function collisionWithObstacle(headSnake, obstacle) {
     return false;
   }
 }
-
+/**
+ * Determina la coordenada en el eje ingresado de la "upgradeFood" y el objeto "monster", depende de la posición en la que se encuentre 
+ * la cabeza de la serpiente en un intervalo de 4 posiciones en ambos sentidos del eje, entre las posiciones 3 - 16, este intervalo es
+ * reducido cuando se encuentra cerca de los laterales del mapa (posiciones: 17,18,19,2,1,0) o está realizando el traslado de un extremo
+ * del mapa a otro. Puede darse el caso que retorne el mismo valor ingresado.
+ * @param {number} cabeza
+ * @returns {number}
+ * @example cheatpos(4); // => 6 (Valores posibles: 0 - 7).
+ *          cheatpos(0); // => 3 (Valores posibles: 0 - 3).
+ *          cheatpos(1); // => 1 (Valores posibles: 0 - 1).
+ *          cheatpos(2); // => 2 (Valores posibles: 0 - 3).
+ *          cheatpos(15); // => 17 (Valores posibles: 11 - 18).
+ */
 function cheatpos(cabeza) {
   //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16.
   if (cabeza <= 16 && cabeza >= 3) {
@@ -720,41 +746,54 @@ function cheatpos(cabeza) {
     return Math.ceil(Math.random() * (19 - 16) + 16);
   }
 }
-
+/**
+ * Determina la coordenada en el eje ingresado del objeto "poisonFood", dependiendo de la dirección en la que vaya en el eje ingresado en un intervalo
+ * de 3 - 4 espacios de la cabeza de la serpiente incluyendo el número ingresado, esto en el intervalo de coordenadas 3 - 16; en limites del mapa
+ * (posiciones: 0,1,2,17,18,19) aplica un intervalo diferente.
+ * @param {number} cabeza
+ * @param {number} direccion
+ * @returns {number}
+ * @example obspos(4,-1); // => 4 (Valores posibles: 4 - 7).
+ *          obspos(12,-1); // => 10 (Valores posibles: 9 - 12).
+ *          obspos(1,-1); // => 0 (Valores posibles: 0 - 1).
+ *          obspos(1,1); // => 1 (Valores posibles: 1 - 5).
+ *          obspos(0,-1); // => 3 (Valores posibles: 0 - 2).
+ *          obspos(0,1); // => 3 (Valores posibles: 0 - 4).
+ */
 function obspos(cabeza, direccion) {
-  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la derecha.
+  /* Determina la posición sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige 
+  hacia la derecha o hacia abajo (direccion = 1) ó hacia la izquierda o hacia arriba (direccion = -1). */
   if (direccion == 1 && cabeza <= 16 && cabeza >= 3) {
     return Math.ceil(Math.random() * (cabeza + 3 - (cabeza - 1) + cabeza - 1));
   }
-  //Determina la posición en "X" sumando o restando 4, mientras la cabeza se encuentre entre 3 - 16, cuando la serpiente se dirige hacia la izquierda.
   else if (direccion == -1 && cabeza <= 16 && cabeza >= 3) {
     return Math.ceil(Math.random() * (cabeza - (cabeza - 4)) + cabeza - 4);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
+  /* Condición dada si la cabeza del snake se encuenta en la posición 2 y la serpiente se dirige hacia la derecha o arriba (direccion = 1)
+  ó hacia la izquierda o hacia abajo (direccion = -1), el intervalo de números que puede devolver es diferente al del resto. */
   else if (cabeza == 2 && direccion == 1) {
     return Math.ceil(Math.random() * (4 - 2) + 2);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=2 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if (cabeza == 2 && direccion == -1) {
     return Math.ceil(Math.random() * (2 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
+  /* Condición dada si la cabeza del snake se encuenta en la posición 1 y la serpiente se dirige hacia la derecha o arriba (direccion = 1)
+  ó hacia la izquierda o hacia abajo (direccion = -1), el intervalo de números que puede devolver es diferente al del resto. */
   else if (cabeza == 1 && direccion == 1) {
     return Math.ceil(Math.random() * (4 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=1 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if (cabeza == 1 && direccion == -1) {
     return Math.ceil(Math.random() * (2 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la derecha, el rango es diferente al resto.
+  /* Condición dada si la cabeza del snake se encuenta en la posición 0 y la serpiente se dirige hacia la derecha o arriba (direccion = 1)
+  ó hacia la izquierda o hacia abajo (direccion = -1), el intervalo de números que puede devolver es diferente al del resto. */
   else if (cabeza == 0 && direccion == 1) {
     return Math.ceil(Math.random() * (4 - 0) + 0);
   }
-  //Condición dada si la cabeza del snake se encuenta en la posición "X"=0 y la serpiente se dirige hacia la izquierda, el rango es diferente al resto.
   else if (cabeza == 0 && direccion == -1) {
     return Math.ceil(Math.random() * (3 - 0) + 0);
   }
-  //Condiciones dadas si la cabeza del snake se encuentra en las posiciones X:17 - 19, cambian los intervalos en función de la dirección de movimiento.
+  //Condiciones dadas si la cabeza del snake se encuentra en las posiciones 17 - 19, cambian los intervalos en función de la dirección de movimiento.
   else if (cabeza == 17 && direccion == 1) {
     return Math.ceil(Math.random() * (19 - 16) + 16);
   } else if (cabeza == 17 && direccion == -1) {
@@ -768,7 +807,7 @@ function obspos(cabeza, direccion) {
   } else if (cabeza == 19 && direccion == -1) {
     return Math.ceil(Math.random() * (19 - 16) + 16);
   }
-  //Condiciones dadas cuando la dirección en "X"=0, son las mismas condiciones que las anteriores solo que cambiando los intervalos :c
+  //Condiciones dadas cuando la dirección es 0, son las mismas condiciones que las anteriores solo que cambiando los intervalos :c
   else if (direccion == 0 && cabeza <= 16 && cabeza >= 3) {
     return Math.ceil(Math.random() * (cabeza + 3 - (cabeza - 3)) + cabeza - 3);
   } else if (cabeza == 19 && direccion == 0) {
@@ -793,7 +832,7 @@ function obspos(cabeza, direccion) {
 }
 
 /**
- * determina si la posicion de la cabeza de snake y food son iguales.
+ * Determina si la posicion de la cabeza de snake y food son iguales.
  * En tal caso, retorna verdadero
  * @param {Array} snake
  * @param {Object} food
@@ -810,10 +849,11 @@ function eatFood(snake, food) {
 }
 
 /**
- * retorna el array dado, con una instancía nueva al final de este.
- * @param {Array} snake
+ * Retorna la lista ingresada, con un nuevo elemento final de la lista.
+ * @param {List} snake
  * @param {Object} dir
- * @returns {Array}
+ * @returns {List}
+ * @example increaseBody([{x: 1 ,y: 3 },{x: 2 ,y: 3 },{x: 3 ,y: 3 }],1); // => [{x: 1 ,y: 3 },{x: 2 ,y: 3 },{x: 3 ,y: 3 },{x: 4,y: 3}]
  */
 function increaseBody(snake, dir) {
   const tail = tailSnake(snake);
@@ -823,9 +863,10 @@ function increaseBody(snake, dir) {
 }
 
 /**
- * retorna la ultima instancia de un array
+ * Retorna el último elemento de la lista ingresada.
  * @param {Array} snake
  * @returns {Object}
+ * @example tailSnake([{x: 1 ,y: 3 },{x: 2 ,y: 3 },{x: 3 ,y: 3 }]); // => {x: 3 ,y: 3 }
  */
 function tailSnake(snake) {
   if (length(snake) == 1) return first(snake);
@@ -833,7 +874,7 @@ function tailSnake(snake) {
 }
 
 /**
- * retorna una direccion al azar
+ * Retorna un número al azar en el intervalo 0 - 19.
  * @returns {Object}
  * @example newDirection(); // => {x: 4, y: 12}
  */
@@ -842,11 +883,10 @@ function newCoordinate() {
 }
 
 /**
- * incrementa la velocidad en 2.5 cada vez que el puntaje
- * es multiplo de 10
+ * Incrementa la velocidad en 5 cada vez que el puntaje es multiplo de 10.
  * @param {Number} score
  * @returns {Number}
- * @example increaseSpeed(20, 12); // => 14.5
+ * @example increaseSpeed(20, 20); // => 25
  */
 function increaseSpeed(score, speed) {
   if (score == 9) {
@@ -863,17 +903,19 @@ function increaseSpeed(score, speed) {
 }
 
 /**
- * crea una nueva instancia al principio del array en una dirección dada.
- * dando el movimiento a la serpiente
+ * Crea un nuevo elemento al principio de la lista en una dirección dada dando el movimiento a la serpiente.
  * @param {Array} snake
  * @param {Object} dir
  * @returns {Array}
+ * @example moveSnake ([{x: -1 ,y: 3 },{x: 0 ,y: 3 },{x: 2 ,y: 3 }],{x: -1 ,y: 0 }); // => [{x: 19 ,y: 3 },{x: -1 ,y: 3 },{x: 0 ,y: 3 }]
+ *          moveSnake ([{x: 19 ,y: 3 },{x: 18 ,y: 3 },{x: 17 ,y: 3 }],{x: 1 ,y: 0 }); // => [{x: 0 ,y: 3 },{x: 19 ,y: 3 },{x: 18 ,y: 3 }]
+ *          moveSnake ([{x: 16 ,y: 3 },{x: 17 ,y: 3 },{x: 18 ,y: 3 }],{x: -1 ,y: 0 }); // => [{x: 15 ,y: 3 },{x: 16 ,y: 3 },{x: 17 ,y: 3 }]
  */
 function moveSnake(snake, dir) {
   const head = first(snake);
   const body = snake.slice(0, length(snake) - 1);
 
-  // mover en los bordes del escenarío
+  // Realiza el traslado de un límite del mapa a otro.
   if (head.x <= 0 && dir == LEFT) return cons({ x: COLUMNS, y: head.y }, body);
 
   if (head.x >= COLUMNS && dir == RIGHT) return cons({ x: 0, y: head.y }, body);
@@ -882,7 +924,7 @@ function moveSnake(snake, dir) {
 
   if (head.y >= ROWS && dir == DOWN) return cons({ x: head.x, y: 0 }, body);
 
-  // mover en el resto del escenarío
+  // Movimiento en el resto del mapa.
   return cons({ x: head.x + dir.x, y: head.y + dir.y }, body);
 }
 
@@ -900,6 +942,12 @@ function onKeyEvent(Mundo, keyCode) {
   }
 }
 
+/**
+ * Botones de dirección normales del teclado.
+ * @param {Object} Mundo
+ * @param {Object} keyCode
+ * @returns {Object}
+ */
 function normalDirectionChange(Mundo, keyCode) {
   if (Mundo.gameOver) {
     window.open("game_over-alex-end.html", "_self");
@@ -917,6 +965,14 @@ function normalDirectionChange(Mundo, keyCode) {
   }
 }
 
+/**
+ * Botones dirección de movimiento invertido (al tomar la "reverseFood").
+ * @param {Object} Mundo
+ * @param {Object} keyCode
+ * @returns {Object}
+ * @example reverseDirectionChange(Mundo,DOWN_ARROW); // => Mundo.dir = UP
+ *          reverseDirectionChange(Mundo,LEFT_ARROW); // => Mundo.dir = RIGHT
+ */
 function reverseDirectionChange(Mundo, keyCode) {
   if (Mundo.gameOver) {
     window.open("game_over-alex-end.html", "_self");
