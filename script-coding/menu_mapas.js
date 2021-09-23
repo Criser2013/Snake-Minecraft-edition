@@ -24,9 +24,10 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})}
+    Mundo = {boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true}),ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})}
 }
 function drawGame () {
+    Mundo.ambiente.play();
     //Dibuja el menú y todos sus elementos.
     stroke(1);
     fill(255);
@@ -91,7 +92,7 @@ function onTic (Mundo) {
 function onKeyEvent (Mundo, keyCode) {
     //Estas condiciones abren el archivo correspondiente a la selección del botón en el que se encuentre.
     if (Mundo.boton==1&&keyCode==ENTER) {
-        window.open("menu_principal.html","_self");
+        window.open("index.html","_self");
         return update(Mundo,{});
     }
     else if (Mundo.boton==2&&keyCode==ENTER) {

@@ -23,12 +23,13 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
+    Mundo = {boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true}),ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
 }
 function drawGame (Mundo) {
+    Mundo.ambiente.play();
     //Dibuja el menú.
     image(titulo,117,80,165,51);
     //Dibuja los botones.

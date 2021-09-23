@@ -19,8 +19,10 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
+    Mundo = {ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})}
 }
 function drawGame (Mundo) {
+    Mundo.ambiente.play();
     //Dibuja el botón.
     stroke(255);
     fill(109,109,109);
@@ -31,19 +33,19 @@ function drawGame (Mundo) {
     textFont(fuente,24);
     text("Equipo de desarrollo",75,30);
     textFont(fuente,18);
-    text("Beta-testers",142,60);
-    text("Ideas",177,185);
-    text("Programador",142,310);
+    text("Beta-Testers",142,60);
+    text("Ideas",177,135);
+    text("Programadores",130,235);
     textFont(fuente,14);
-    text("- Scott.",175,85);
-    text("- Ryder.",172.5,110);
-    text("- Branth.",169,135);
-    text("- Dayes (ocasionalmente).",109,160);
-    text("- Luisa.",175,210);
-    text("- Scott.",175,235);
-    text("- Branth.",169,260);
-    text("- Cristian.",167,285);
-    text("- Cristian.",167,335);
+    text("Sebastian Ordoñez.",135,85);
+    text("Arturo Zapata (Ryder :D) — amigo de Cris.",55,110);
+    text("Jhon Edison Suescun.",125,160);
+    text("Cristian Obando.",145,185);
+    text("Jean Steven Martinez.",124,210);
+    text("Sebastian Ordoñez.",135,260);
+    text("Jhon Edison Suescun.",125,285);
+    text("Cristian Obando.",145,335);
+    text("Jean Steven Martinez.",124,310);
     text("Volver",183,375);
 }
 function onMouseEvent (Mundo,event) {
@@ -58,7 +60,7 @@ function onTic (Mundo) {
 function onKeyEvent (Mundo,keyCode) {
     //Se ejecuta cuando se presiona la tecla "enter" para volver al menú principal.
     if(keyCode==ENTER) {
-        window.open("menu_principal.html","_self");
+        window.open("index.html","_self");
         return update(Mundo,{});
     }
     else {

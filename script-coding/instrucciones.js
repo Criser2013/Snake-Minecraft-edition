@@ -56,12 +56,13 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {menu:1,boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true})};
+    Mundo = {menu:1,boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true}),ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
 }
 function drawGame (Mundo) {
+    Mundo.ambiente.play();
     //Dibuja los menús.
     if (Mundo.menu==1) {
         //Dibuja los botones.
@@ -205,7 +206,7 @@ function onKeyEvent (Mundo, keyCode) {
     }
     //Abre el menú de selección de dificultad en el juego.
     else if ((keyCode==ENTER&&Mundo.boton==1)&&Mundo.menu==1) {
-        window.open("menu_principal.html","_self");
+        window.open("index.html","_self");
         return update(Mundo,{});
     }
     //Estas condiciones abren los archivos de permitir el movimiento entre los menús que hacen parte de las intrucciones (preseleccionan un botón dentro del siguiente menú por defecto).
