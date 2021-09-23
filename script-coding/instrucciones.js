@@ -56,7 +56,7 @@ function preload () {
 function setup () {
     createCanvas(400,400);
     background(fondo);
-    Mundo = {menu:1,boton:1,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true}),ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})};
+    Mundo = {menu:1,boton:2,sonido:new buzz.sound("audio/seleccion",{formats:["mp3"],volume: 50,preload:true}),ambiente:new buzz.sound("audio/sweden",{formats:["mp3"],volume: 60,preload:true,loop:true})};
 }
 function update(data, attribute) {
     return Object.assign({}, data, attribute);
@@ -132,33 +132,32 @@ function drawGame (Mundo) {
         text("Elementos dentro del juego.",67.5,30)
         textFont(fuente,16);
         text("Manzanas de oro:",70,60);
-        text("Enemigos:",70,130);
-        text("Objetos perjudiciales:",70,220);
-        text("Sopa inversa:",70,330);
+        text("Enemigos:",70,110);
+        text("Objetos perjudiciales:",70,200);
+        text("Sopa inversa:",70,310);
         textFont(fuente,14);
         text("Aumentan tu veloci-",215,60);
-        text("dad, detienen la reaparición de enemigos,",70,80);
-        text("aparece a partir de los 5 puntos.",80,100);
-        text("Aparecen a partir de los 10",150,130);
-        text("puntos, muy cerca de la cabeza de tu",70,150);
-        text("serpiente. Su apariencia varía dependi-",70,170);
-        text("endo del mapa y tu puntaje.",100,190);
-        text("Aparecen a",255,220);
-        text("partir de los 10 puntos, muy cerca de la",70,240);
-        text("cabeza de tu serpiente, al comerlos pi-",70,260);
-        text("erdes 1 vida. Su apariencia varía depen-",70,280);
-        text("diendo del mapa.",140,300);
-        text("Al comerla se invierte la",182,330);
-        text("dirección de las teclas.",128,350)
+        text("dad, aparece a partir de los 5 puntos.",75,80);
+        text("Aparecen a partir de los 10",150,110);
+        text("puntos, muy cerca de la cabeza de tu",70,130);
+        text("serpiente. Su apariencia varía dependi-",70,150);
+        text("endo del mapa y tu puntaje.",100,170);
+        text("Aparecen a",255,200);
+        text("partir de los 10 puntos, muy cerca de la",70,220);
+        text("cabeza de tu serpiente, al comerlos pi-",70,240);
+        text("erdes 1 vida. Su apariencia varía depen-",70,260);
+        text("diendo del mapa.",140,280);
+        text("Al comerla se invierte la",182,310);
+        text("dirección de las teclas.",128,330)
         text("Volver",176.5,375);
-        image(manzana_oro,40,65,20,20);
-        image(enemigos,40,120,20,20);
-        image(enemigos1,40,145,20,20);
-        image(enemigos2,40,170,20,20);
-        image(fruta_coral,40,210,20,20);
-        image(ojo_araña,40,245,20,20);
-        image(papa_venenosa,40,280,20,20);
-        image(comida_inversa,40,325,20,20);
+        image(manzana_oro,40,57,20,20);
+        image(enemigos,40,100,20,20);
+        image(enemigos1,40,125,20,20);
+        image(enemigos2,40,150,20,20);
+        image(fruta_coral,40,190,20,20);
+        image(ojo_araña,40,225,20,20);
+        image(papa_venenosa,40,260,20,20);
+        image(comida_inversa,40,305,20,20);
     }
     //Dibuja un rectangulo de fondo transparente sobre el botón que se encuentre seleccionado excepto en el menú 3.
     if (Mundo.boton==2&&Mundo.menu!==3) {
