@@ -93,15 +93,15 @@ let comidaInversa = null;
  */
 function preload() {
   cara = loadImage("images/cerdo.png");
-  obstaculoS = loadImage("images/cabeza_enderdragon.png");
-  obstaculoS1 = loadImage("images/cabeza_enderman.png");
-  obstaculoS2 = loadImage("images/cabeza_endermite.png");
-  obstaculoS3 = loadImage("images/cabeza_shulker.png");
+  obstaculoS = loadImage("images/creeper.png");
+  obstaculoS1 = loadImage("images/cabeza_zombie.png");
+  obstaculoS2 = loadImage("images/cabeza_araña.png");
+  obstaculoS3 = loadImage("images/cabeza_esqueleto.png");
   comida = loadImage("images/manzana.png");
   comidaInversa = loadImage("images/sopa_inversa.png");
   powerup = loadImage("images/manzana_dorada.png");
-  comidaEnvenenada = loadImage("images/fruta_coral.png");
-  mapa = loadImage("images/end.png");
+  comidaEnvenenada = loadImage("images/papa_venenosa.png");
+  mapa = loadImage("images/overworld.png");
   fuente = loadFont("minecraft.otf");
   vida = loadImage("images/vida.png");
 }
@@ -144,10 +144,10 @@ function setup() {
       comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true}),
       muerte:new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),
       enemigos:{
-        primero:new buzz.sound("audio/endermite",{formats:["mp3"],volume: 40,preload:true}),
-        segundo:new buzz.sound("audio/shulker",{formats:["mp3"],volume: 40,preload:true}),
-        tercero:new buzz.sound("audio/enderman",{formats:["mp3"],volume: 40,preload:true}),
-        cuarto:new buzz.sound("audio/enderdragon",{formats:["mp3"],volume: 40,preload:true})},
+        primero:new buzz.sound("audio/araña",{formats:["mp3"],volume: 40,preload:true}),
+        segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),
+        tercero:new buzz.sound("audio/zombie",{formats:["mp3"],volume: 40,preload:true}),
+        cuarto:new buzz.sound("audio/creeper",{formats:["mp3"],volume: 40,preload:true})},
     },
     reproductor:true
   };

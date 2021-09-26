@@ -93,15 +93,15 @@ let comidaInversa = null;
  */
 function preload() {
   cara = loadImage("images/cabeza_steve.png");
-  obstaculoS = loadImage("images/cabeza_enderdragon.png");
-  obstaculoS1 = loadImage("images/cabeza_enderman.png");
-  obstaculoS2 = loadImage("images/cabeza_endermite.png");
-  obstaculoS3 = loadImage("images/cabeza_shulker.png");
+  obstaculoS = loadImage("images/cabeza_wither.png");
+  obstaculoS1 = loadImage("images/cabeza_esqueletowither.png");
+  obstaculoS2 = loadImage("images/cabeza_cerdozombie.png");
+  obstaculoS3 = loadImage("images/cabeza_esqueleto.png");
   comida = loadImage("images/manzana.png");
   comidaInversa = loadImage("images/sopa_inversa.png");
   powerup = loadImage("images/manzana_dorada.png");
-  comidaEnvenenada = loadImage("images/fruta_coral.png");
-  mapa = loadImage("images/end.png");
+  comidaEnvenenada = loadImage("images/ojo_araña.png");
+  mapa = loadImage("images/nether.png");
   fuente = loadFont("minecraft.otf");
   vida = loadImage("images/vida.png");
 }
@@ -144,9 +144,9 @@ function setup() {
       comer:new buzz.sound("audio/comiendo",{formats:["mp3"],volume: 40,preload:true}),
       muerte:new buzz.sound("audio/muerte",{formats:["mp3"],volume: 40,preload:true}),
       enemigos:{
-        primero:new buzz.sound("audio/endermite",{formats:["mp3"],volume: 40,preload:true}),
-        segundo:new buzz.sound("audio/shulker",{formats:["mp3"],volume: 40,preload:true}),
-        tercero:new buzz.sound("audio/enderman",{formats:["mp3"],volume: 40,preload:true})},
+        primero:new buzz.sound("audio/cerdo_zombie",{formats:["mp3"],volume: 40,preload:true}),
+        segundo:new buzz.sound("audio/esqueleto",{formats:["mp3"],volume: 40,preload:true}),
+        tercero:new buzz.sound("audio/wither",{formats:["mp3"],volume: 40,preload:true})},
     },
     reproductor:true
   };
@@ -389,6 +389,7 @@ function drawScore(score) {
  * @param {number} score
  */
 function drawGameOver(score) {
+  stroke(1);
   fill(255);
   textFont(fuente, 16);
   text("Puntuación: " + score, 143, 190);

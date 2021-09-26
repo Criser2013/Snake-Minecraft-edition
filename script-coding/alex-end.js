@@ -378,7 +378,7 @@ function drawSnake(snake) {
  * @param {number} score
  */
 function drawScore(score) {
-  fill(0);
+  fill(1);
   textFont(fuente, 14); //18
   text("Puntuación: " + score, 10, 380);
 }

@@ -390,6 +390,7 @@ function drawScore(score) {
  * @param {number} score
  */
 function drawGameOver(score) {
+  stroke(1);
   fill(255);
   textFont(fuente, 16);
   text("Puntuación: " + score, 143, 190);
