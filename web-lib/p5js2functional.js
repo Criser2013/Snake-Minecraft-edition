@@ -1,15 +1,21 @@
 
+var canPress = true
+
 // Esta es la función que pinta todo. Se ejecuta 60 veces por segundo.
 // No cambie esta función. Su código debe ir en drawGame
 function draw() {
     drawGame(Mundo);
     Mundo = onTic(Mundo);
+    canPress = true;
 };
 
 // Esta función se ejecuta cada vez que presionamos una tecla.
 // No cambie esta función. Su código debe ir en onKeyEvent
 function keyPressed() {
-    Mundo = onKeyEvent(Mundo, keyCode);
+    if(canPress){
+      Mundo = onKeyEvent(Mundo, keyCode);
+    }
+    canPress = false
 }
 
 // Esta función se ejecuta cada vez movemos el mouse.
